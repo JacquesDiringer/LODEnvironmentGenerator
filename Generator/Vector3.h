@@ -1,0 +1,35 @@
+#pragma once
+
+#ifdef GENERATOR_EXPORTS
+#define GENERATOR_API __declspec(dllexport)
+#else
+#define GENERATOR_API __declspec(dllimport)
+#endif
+
+
+namespace Math
+{
+	class GENERATOR_API Vector3
+	{
+	public:
+		Vector3();
+		Vector3(float x, float y, float z);
+		~Vector3();
+
+		static float Distance(Vector3 a, Vector3 b);
+		static Vector3 Add(Vector3 a, Vector3 b);
+
+		// Properties
+		float X() const { return _x; }
+		void X(float value) { _x = value; }
+
+		float Y() const { return _y; }
+		void Y(float value) { _y = value; }
+
+		float Z() const { return _z; }
+		void Z(float value) { _z = value; }
+
+	private:
+		float _x, _y, _z;
+	};
+}
