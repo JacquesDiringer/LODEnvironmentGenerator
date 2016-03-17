@@ -17,6 +17,7 @@
 #include "ComplexObjectFactory.h"
 #include "RandomObjectFactory.h"
 #include "TransformationFactory.h"
+#include "VoxelFactory.h"
 
 using std::list;
 
@@ -296,6 +297,259 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 
 }
 
+void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
+{
+	SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
+	SimpleObjectFactory* testCubeB = new SimpleObjectFactory("B_Brick.mesh", "1d_debug.png", 0, NULL);
+
+
+	SimpleObjectFactory* building0_wall0 = new SimpleObjectFactory("building0_wall.mesh", "building0_wall_tex1.PNG", 0, NULL);
+	SimpleObjectFactory* building0_wall1 = new SimpleObjectFactory("building0_wall1.mesh", "building0_corner_tex1.PNG", 10, testCubeA);
+	SimpleObjectFactory* building0_wall2 = new SimpleObjectFactory("building0_wall2.mesh", "building0_wall_tex1.PNG", 0, NULL);
+
+	RandomObjectFactory* building0_wall = new RandomObjectFactory();
+	building0_wall->AddAlternativeFactory(5.0f, building0_wall0);
+	building0_wall->AddAlternativeFactory(1.0f, building0_wall1);
+	building0_wall->AddAlternativeFactory(5.0f, building0_wall2);
+
+
+	SimpleObjectFactory* building0_corner = new SimpleObjectFactory("building0_corner.mesh", "building0_corner_tex1.PNG", 0, NULL);
+	SimpleObjectFactory* building0_innerCorner = new SimpleObjectFactory("building0_innerCorner.mesh", "building0_corner_tex1.PNG", 0, NULL);
+
+	SimpleObjectFactory* building0_topFloor = new SimpleObjectFactory("building0_topFloor.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_topEdge = new SimpleObjectFactory("building0_topEdge.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_topCorner = new SimpleObjectFactory("building0_topCorner.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_topInnerCorner = new SimpleObjectFactory("building0_topInnerCorner.mesh", "building0_topEdge.PNG", 0, NULL);
+
+	SimpleObjectFactory* building0_specificCorner1 = new SimpleObjectFactory("building0_specificCorner1.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_specificCorner1Symetry = new SimpleObjectFactory("building0_specificCorner1Symetry.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_specificCorner0 = new SimpleObjectFactory("building0_specificCorner0.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_specificCorner0Symetry = new SimpleObjectFactory("building0_specificCorner0Symetry.mesh", "building0_topEdge.PNG", 0, NULL);
+
+	SimpleObjectFactory* building0_floorToWall = new SimpleObjectFactory("building0_floorToWall.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_floorToWallCorner = new SimpleObjectFactory("building0_floorToWallCorner.mesh", "building0_topEdge.PNG", 0, NULL);
+	SimpleObjectFactory* building0_floorToWallInnerCorner = new SimpleObjectFactory("building0_floorToWallInnerCorner.mesh", "building0_corner_tex1.PNG", 0, NULL);
+	
+	
+
+	SimpleObjectFactory* single_window = new SimpleObjectFactory("level4_single_window.mesh", "level4_single_window2.PNG", 0, NULL);
+#pragma region Rules declaration
+
+	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), Vector3(50, 50, 50), false, 0.5f);
+	list<bool> conditionsWall = list<bool>();
+	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsWall.push_back(true);		 //(0.5f, -0.5f, -0.5f),
+	conditionsWall.push_back(true);		 //(0.5f, 0.5f, -0.5f),
+
+	conditionsWall.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsWall.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsWall.push_back(false);		 //(0.5f, -0.5f, 0.5f),
+	conditionsWall.push_back(false);		 //(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsWall, building0_wall);
+
+
+	list<bool> conditionsCorner = list<bool>();
+	conditionsCorner.push_back(false);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsCorner.push_back(false);			//(0.5f, -0.5f, -0.5f),
+	conditionsCorner.push_back(false);			//(0.5f, 0.5f, -0.5f),
+	
+	conditionsCorner.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsCorner.push_back(true);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsCorner.push_back(false);			//(0.5f, -0.5f, 0.5f),
+	conditionsCorner.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsCorner, building0_corner);
+
+
+	list<bool> conditionsInnerCorner = list<bool>();
+	conditionsInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsInnerCorner.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f), V
+	conditionsInnerCorner.push_back(true);			//(0.5f, 0.5f, -0.5f), V
+
+	conditionsInnerCorner.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsInnerCorner.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsInnerCorner.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsInnerCorner.push_back(true);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsInnerCorner, building0_innerCorner);
+
+
+	list<bool> conditionsFloor = list<bool>();
+	conditionsFloor.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsFloor.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsFloor.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsFloor.push_back(false);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsFloor.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsFloor.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsFloor.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsFloor.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsFloor, building0_topFloor);
+
+
+	list<bool> conditionsTopEdge = list<bool>();
+	conditionsTopEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsTopEdge.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsTopEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsTopEdge.push_back(false);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsTopEdge.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsTopEdge.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsTopEdge.push_back(false);			//(0.5f, -0.5f, 0.5f),
+	conditionsTopEdge.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsTopEdge, building0_topEdge);
+
+
+	list<bool> conditionsTopCorner = list<bool>();
+	conditionsTopCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsTopCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsTopCorner.push_back(false);			//(0.5f, -0.5f, -0.5f),
+	conditionsTopCorner.push_back(false);			//(0.5f, 0.5f, -0.5f),
+	
+	conditionsTopCorner.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsTopCorner.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsTopCorner.push_back(false);			//(0.5f, -0.5f, 0.5f),
+	conditionsTopCorner.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsTopCorner, building0_topCorner);
+
+
+	list<bool> conditionsTopInnerCorner = list<bool>();
+	conditionsTopInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f), V
+	conditionsTopInnerCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsTopInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f), V
+	conditionsTopInnerCorner.push_back(false);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsTopInnerCorner.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsTopInnerCorner.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsTopInnerCorner.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsTopInnerCorner.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsTopInnerCorner, building0_topInnerCorner);
+
+
+	//list<bool> conditionsBottonEdge = list<bool>();
+	//conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	//conditionsBottonEdge.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	//conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	//conditionsBottonEdge.push_back(true);			//(0.5f, 0.5f, -0.5f),
+	//
+	//conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	//conditionsBottonEdge.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	//conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	//conditionsBottonEdge.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	list<bool> conditionsBottonEdge = list<bool>();
+	conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsBottonEdge.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsBottonEdge.push_back(false);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsBottonEdge.push_back(true);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsBottonEdge.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsBottonEdge, building0_floorToWall);
+
+
+	list<bool> conditionsSpecificCorner1 = list<bool>();
+	conditionsSpecificCorner1.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner1.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsSpecificCorner1.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner1.push_back(true);			//(0.5f, 0.5f, -0.5f),
+	
+	conditionsSpecificCorner1.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner1.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsSpecificCorner1.push_back(false);			//(0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner1.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsSpecificCorner1, building0_specificCorner1);
+
+
+	list<bool> conditionsSpecificCorner1Symetry = list<bool>();
+	conditionsSpecificCorner1Symetry.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner1Symetry.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsSpecificCorner1Symetry.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner1Symetry.push_back(false);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsSpecificCorner1Symetry.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner1Symetry.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsSpecificCorner1Symetry.push_back(false);			//(0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner1Symetry.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsSpecificCorner1Symetry, building0_specificCorner1Symetry);
+
+
+	list<bool> conditionsSpecificCorner0 = list<bool>();
+	conditionsSpecificCorner0.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner0.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsSpecificCorner0.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner0.push_back(true);			//(0.5f, 0.5f, -0.5f),
+
+	conditionsSpecificCorner0.push_back(false);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner0.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsSpecificCorner0.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner0.push_back(true);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsSpecificCorner0, building0_specificCorner0);
+
+
+	list<bool> conditionsSpecificCorner0Sysmetry = list<bool>();
+	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsSpecificCorner0Sysmetry.push_back(true);			//(0.5f, -0.5f, -0.5f), V
+	conditionsSpecificCorner0Sysmetry.push_back(false);			//(0.5f, 0.5f, -0.5f),
+	
+	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsSpecificCorner0Sysmetry.push_back(false);			//(0.5f, -0.5f, 0.5f), V
+	conditionsSpecificCorner0Sysmetry.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsSpecificCorner0Sysmetry, building0_specificCorner0Symetry);
+	
+
+	list<bool> conditionsFloorToWallCorner = list<bool>();
+	conditionsFloorToWallCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsFloorToWallCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
+	conditionsFloorToWallCorner.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsFloorToWallCorner.push_back(false);			//(0.5f, 0.5f, -0.5f),
+	
+	conditionsFloorToWallCorner.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsFloorToWallCorner.push_back(true);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsFloorToWallCorner.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsFloorToWallCorner.push_back(false);			//(0.5f, 0.5f, 0.5f),
+
+	testVoxelFactory->AddRule(conditionsFloorToWallCorner, building0_floorToWallCorner);
+	
+
+	list<bool> conditionsFloorToWallInnerCorner = list<bool>();
+	conditionsFloorToWallInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
+	conditionsFloorToWallInnerCorner.push_back(true);			 //(-0.5f, 0.5f, -0.5f), V
+	conditionsFloorToWallInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f),
+	conditionsFloorToWallInnerCorner.push_back(true);			//(0.5f, 0.5f, -0.5f), V
+
+	conditionsFloorToWallInnerCorner.push_back(true);			 //(-0.5f, -0.5f, 0.5f),
+	conditionsFloorToWallInnerCorner.push_back(false);			 //(-0.5f, 0.5f, 0.5f),
+	conditionsFloorToWallInnerCorner.push_back(true);			//(0.5f, -0.5f, 0.5f),
+	conditionsFloorToWallInnerCorner.push_back(true);			//(0.5f, 0.5f, 0.5f), V
+
+	testVoxelFactory->AddRule(conditionsFloorToWallInnerCorner, building0_floorToWallInnerCorner);
+
+#pragma endregion
+
+	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+	//SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
+	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, testVoxelFactory);
+	item0->SetId(10);
+	sceneManager->QueueAddItem(item0);
+}
 
 void OgreClient::createScene(void)
 {
@@ -304,8 +558,7 @@ void OgreClient::createScene(void)
 	Ogre::MaterialManager& lMaterialManager = Ogre::MaterialManager::getSingleton();
 	Ogre::ResourceGroupManager& ressourceGroupManager = Ogre::ResourceGroupManager::getSingleton();
 
-	mCamera->setPosition(0, 0, 5);
-
+	mCamera->setPosition(0, 2, 10);
 
 	/// Some resource setup
 	string textureGroupName = "Textures";
@@ -376,7 +629,8 @@ void OgreClient::createScene(void)
 	_sceneManager = SceneGraphManager(_ogreInstanciater);
 
 	//InitializeQuaternionTestScene(&_sceneManager);
-	InitializeAsianBuildingsTestScene(&_sceneManager);
+	//InitializeAsianBuildingsTestScene(&_sceneManager);
+	InitializerVoxelTestScene(&_sceneManager);
 }
 
 
