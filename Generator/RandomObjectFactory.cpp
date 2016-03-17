@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RandomObjectFactory.h"
+#include "Item.h"
 
 #include <random>
 

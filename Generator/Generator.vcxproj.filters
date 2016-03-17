@@ -84,6 +84,9 @@
     <ClInclude Include="RandomObjectFactory.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="VoxelFactory.h">
+      <Filter>Header Files\SceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files\SceneGraph</Filter>
     </ClCompile>
     <ClCompile Include="TransformationFactory.cpp">
+      <Filter>Source Files\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>

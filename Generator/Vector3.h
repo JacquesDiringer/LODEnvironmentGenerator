@@ -16,8 +16,13 @@ namespace Math
 		Vector3(float x, float y, float z);
 		~Vector3();
 
-		static float Distance(Vector3 a, Vector3 b);
-		static Vector3 Add(Vector3 a, Vector3 b);
+		static float Distance(const Vector3 a, const Vector3 b);
+		static Vector3 Add(const Vector3 a, const Vector3 b);
+		Vector3 operator+(const Vector3 b);
+		static Vector3 Multiply(const Vector3 a, const Vector3 b);
+		Vector3 operator*(const Vector3 b);
+		Vector3 operator*(const float multiplier);
+
 
 		// Properties
 		float X() const { return _x; }

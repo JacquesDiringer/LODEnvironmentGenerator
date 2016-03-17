@@ -23,7 +23,7 @@ namespace Math
 	{
 	}
 
-	float Vector3::Distance(Vector3 a, Vector3 b)
+	float Vector3::Distance(const Vector3 a, const Vector3 b)
 	{
 		return sqrtf(
 			pow(a.X() - b.X(), 2) +
@@ -31,11 +31,43 @@ namespace Math
 			pow(a.Z() - b.Z(), 2));
 	}
 
-	Vector3 Vector3::Add(Vector3 a, Vector3 b)
+	Vector3 Vector3::Add(const Vector3 a, const Vector3 b)
 	{
 		return Vector3(
 			a.X() + b.X(),
 			a.Y() + b.Y(),
 			a.Z() + b.Z());
+	}
+
+	Vector3 Vector3::operator+(const Vector3 b)
+	{
+		return Vector3(
+			X() + b.X(),
+			Y() + b.Y(),
+			Z() + b.Z());
+	}
+
+	Vector3 Vector3::Multiply(const Vector3 a, const Vector3 b)
+	{
+		return Vector3(
+			a.X() * b.X(),
+			a.Y() * b.Y(),
+			a.Z() * b.Z());
+	}
+
+	Vector3 Vector3::operator*(const Vector3 b)
+	{
+		return Vector3(
+			X() * b.X(),
+			Y() * b.Y(),
+			Z() * b.Z());
+	}
+
+	Vector3 Vector3::operator*(const float multiplier)
+	{
+		return Vector3(
+			X() * multiplier,
+			Y() * multiplier,
+			Z() * multiplier);
 	}
 }

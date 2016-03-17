@@ -64,6 +64,21 @@ namespace Math
 						m30, m31, m32, m33);
 	}
 
+	Matrix4 Matrix4::operator*(Matrix4 b)
+	{
+		return Matrix4::Multiply((*this), b);
+	}
+
+	Matrix4 Matrix4::operator*(Vector3 b)
+	{
+		return Matrix4::Multiply((*this), b);
+	}
+
+	Vector3 Matrix4::Multiply(Matrix4 a, Vector3 position)
+	{
+		return Matrix4::Multiply(a, Matrix4::CreateTranslation(position)).Position();
+	}
+
 	Matrix4 Matrix4::CreateTranslation(Vector3 translation)
 	{
 		return Matrix4(translation);
