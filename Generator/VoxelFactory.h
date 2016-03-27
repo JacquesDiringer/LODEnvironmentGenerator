@@ -1,6 +1,7 @@
 #pragma once
 #include "LevelFactory.h"
 #include "Vector3.h"
+#include "FloatExpression.h"
 #include <map>
 #include <list>
 
@@ -22,7 +23,7 @@ namespace Generator
 	{
 	public:
 		VoxelFactory();
-		VoxelFactory(Vector3 voxelSize, Vector3 domainSize, bool isDomainLimited, float minimalDensity);
+		VoxelFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
 		~VoxelFactory();
 
 		// Generates children for the parent.
@@ -44,6 +45,8 @@ namespace Generator
 		// A map of a set of 8 rules, and a LevelFactory.
 		// The boolean array corresponds to the density requirement at each vertex of the evaluated voxel, the LevelFactory will give the items to return in case the rule is fullfilled.
 		map<list<bool>, LevelFactory*> _rules;
+		// Density mathematical expression.
+		FloatExpression* _densityExpression;
 
 	private:
 		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, Vector3 localCoordinates);

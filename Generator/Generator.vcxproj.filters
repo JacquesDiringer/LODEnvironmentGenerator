@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Math">
       <UniqueIdentifier>{e766c586-6d41-4863-a45d-acfdd37f093e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math\Expressions">
+      <UniqueIdentifier>{298da792-6872-4438-aa77-0651102fd771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Expressions">
+      <UniqueIdentifier>{daefa8cc-787f-47b8-a200-1be9fa4ac8e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -87,6 +93,21 @@
     <ClInclude Include="VoxelFactory.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="FloatExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearFunctionExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearCombinationExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiplicationExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="CosExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +160,21 @@
     </ClCompile>
     <ClCompile Include="VoxelFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearFunctionExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearCombinationExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiplicationExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="CosExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

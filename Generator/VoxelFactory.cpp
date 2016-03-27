@@ -2,17 +2,14 @@
 #include "VoxelFactory.h"
 #include "Item.h"
 
-//#include <cmath>
-
-
 namespace Generator
 {
 	VoxelFactory::VoxelFactory()
 	{
 	}
 
-	VoxelFactory::VoxelFactory(Vector3 voxelSize, Vector3 domainSize, bool isDomainLimited, float minimalDensity = 0.5f)
-		: _voxelSize(voxelSize), _domainSize(domainSize), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
+	VoxelFactory::VoxelFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
+		: _voxelSize(voxelSize), _domainSize(domainSize), _densityExpression(densityExpression), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
 	{
 		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0 || domainSize.X() == 0 || domainSize.Y() == 0 || domainSize.Z() == 0)
 		{
@@ -162,10 +159,11 @@ namespace Generator
 
 	float VoxelFactory::DensityFunction(const Vector3 fetchCoordinates)
 	{
+		return _densityExpression->Evaluate(fetchCoordinates);
 		//return (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() > 10) || (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() < 0) || fetchCoordinates.Z() < 0 ? 1.0f : 0.0f;
 
 		//return (fetchCoordinates.Y() + std::cos(fetchCoordinates.X() / 10.0) * 20.0 < 0) && fetchCoordinates.Z() < 0 ? 1.0f : 0.0f;
-		return fetchCoordinates.Y() + std::cos(fetchCoordinates.X() / 10.0) * 10.0 + std::cos(fetchCoordinates.Z() / 5.0) * 5.0 < 0 ? 1.0f : 0.0f;
+		//return fetchCoordinates.Y() + std::cos(fetchCoordinates.X() / 10.0) * 10.0 + std::cos(fetchCoordinates.Z() / 5.0) * 5.0 < 0 ? 1.0f : 0.0f;
 	}
 
 }

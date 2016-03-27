@@ -143,12 +143,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComplexObjectFactory.h" />
+    <ClInclude Include="CosExpression.h" />
+    <ClInclude Include="LinearCombinationExpression.h" />
+    <ClInclude Include="LinearFunctionExpression.h" />
     <ClInclude Include="Displayable.h" />
+    <ClInclude Include="FloatExpression.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Instanciater.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="LevelFactory.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="MultiplicationExpression.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RandomObjectFactory.h" />
     <ClInclude Include="SceneGraphManager.h" />
@@ -162,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComplexObjectFactory.cpp" />
+    <ClCompile Include="CosExpression.cpp" />
+    <ClCompile Include="LinearCombinationExpression.cpp" />
+    <ClCompile Include="LinearFunctionExpression.cpp" />
     <ClCompile Include="Displayable.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -177,11 +185,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="FloatExpression.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Instanciater.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="MultiplicationExpression.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RandomObjectFactory.cpp" />
     <ClCompile Include="SceneGraphManager.cpp" />
