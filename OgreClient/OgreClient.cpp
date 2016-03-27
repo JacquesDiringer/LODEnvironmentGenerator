@@ -19,6 +19,12 @@
 #include "TransformationFactory.h"
 #include "VoxelFactory.h"
 
+#include "FloatExpression.h"
+#include "LinearFunctionExpression.h"
+#include "LinearCombinationExpression.h"
+#include "MultiplicationExpression.h"
+#include "CosExpression.h"
+
 using std::list;
 
 using namespace Math;
@@ -335,7 +341,12 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	SimpleObjectFactory* single_window = new SimpleObjectFactory("level4_single_window.mesh", "level4_single_window2.PNG", 0, NULL);
 #pragma region Rules declaration
 
-	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), Vector3(50, 50, 50), false, 0.5f);
+	LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0, 0));
+	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0, 1, 0));
+	CosExpression* cosExpression = new CosExpression(xExpression);
+	LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
+
+	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), Vector3(50, 50, 50), combinationExpression, false, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
