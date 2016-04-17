@@ -48,9 +48,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Generator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
@@ -133,9 +130,6 @@
     </ClCompile>
     <ClCompile Include="LevelFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Generator.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4.cpp">
       <Filter>Source Files\Math</Filter>

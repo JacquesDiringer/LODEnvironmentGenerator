@@ -22,6 +22,7 @@
     <ProjectGuid>{8218AE1E-51E4-4F16-A784-F4FE81D3FAEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Generator</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -148,7 +149,6 @@
     <ClInclude Include="LinearFunctionExpression.h" />
     <ClInclude Include="Displayable.h" />
     <ClInclude Include="FloatExpression.h" />
-    <ClInclude Include="Generator.h" />
     <ClInclude Include="Instanciater.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="LevelFactory.h" />
@@ -186,7 +186,6 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FloatExpression.cpp" />
-    <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Instanciater.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LevelFactory.cpp" />

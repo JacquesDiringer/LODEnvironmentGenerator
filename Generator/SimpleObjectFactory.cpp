@@ -9,8 +9,8 @@ namespace Generator
 	{
 	}
 
-	SimpleObjectFactory::SimpleObjectFactory(string modeName, string textureName, float expansionDistance, LevelFactory* subLevelFactory)
-		: _modelName(modeName), _textureName(textureName), _expansionDistance(expansionDistance), _subLevelFactory(subLevelFactory)
+	SimpleObjectFactory::SimpleObjectFactory(string modelName, string textureName, float expansionDistance, LevelFactory* subLevelFactory)
+		: _modelName(modelName), _textureName(textureName), _expansionDistance(expansionDistance), _subLevelFactory(subLevelFactory)
 	{
 		// Void
 	}

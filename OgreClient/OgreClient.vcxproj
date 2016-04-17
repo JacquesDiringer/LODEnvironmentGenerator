@@ -85,13 +85,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\boost;C:\Users\Jacques\Documents\Visual Studio 2013\Projects\LODProceduralGenerator\Generator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\boost;$(SolutionDir)\Generator;$(SolutionDir)\DataModel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OGRE_HOME)\lib\$(Configuration);$(SolutionDir)$(Configuration);$(OGRE_HOME)\boost\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain_d.lib;OgreOverlay_d.lib;OIS_d.lib;Generator.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OgreOverlay_d.lib;OIS_d.lib;Generator.lib;DataModel.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy  "$(OGRE_HOME)\Bin\$(Configuration)\OgreMain_d.dll" "$(OutDir)"
@@ -137,7 +137,7 @@ copy  "$(OGRE_HOME)\Bin\$(Configuration)\cg.dll" "$(OutDir)"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\boost;C:\Users\Jacques\Documents\Visual Studio 2013\Projects\LODProceduralGenerator\Generator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\boost;$(SolutionDir)\Generator;$(SolutionDir)\DataModel;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +145,7 @@ copy  "$(OGRE_HOME)\Bin\$(Configuration)\cg.dll" "$(OutDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OGRE_HOME)\lib\$(Configuration);$(SolutionDir)$(Configuration);$(OGRE_HOME)\boost\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OgreMain.lib;OgreOverlay.lib;OIS.lib;Generator.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OgreOverlay.lib;OIS.lib;Generator.lib;DataModel.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy  "$(OGRE_HOME)\Bin\$(Configuration)\OgreMain.dll" "$(OutDir)"

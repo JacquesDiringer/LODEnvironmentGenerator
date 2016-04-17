@@ -19,7 +19,7 @@ namespace Generator
 	{
 	public:
 		SimpleObjectFactory();
-		SimpleObjectFactory(string modeName, string textureName, float expansionDistance, LevelFactory* subLevelFactory);
+		SimpleObjectFactory(string modelName, string textureName, float expansionDistance, LevelFactory* subLevelFactory);
 		~SimpleObjectFactory();
 
 		// Generates children for the parent

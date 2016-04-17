@@ -25,6 +25,10 @@
 #include "MultiplicationExpression.h"
 #include "CosExpression.h"
 
+#include "LevelFactoryDataModel.h"
+#include "SimpleObjectFactoryDataModel.h"
+#include "DependenceTreeDataModel.h"
+
 using std::list;
 
 using namespace Math;
@@ -341,12 +345,14 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	SimpleObjectFactory* single_window = new SimpleObjectFactory("level4_single_window.mesh", "level4_single_window2.PNG", 0, NULL);
 #pragma region Rules declaration
 
-	LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0, 0));
-	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0, 1, 0));
+	LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0.05f, 0));
+	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, 1, 0.4f));
 	CosExpression* cosExpression = new CosExpression(xExpression);
 	LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
 
-	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), Vector3(50, 50, 50), combinationExpression, false, 0.5f);
+	//Vector3 voxelFactorySize = Vector3(10, 10, 10);
+	Vector3 voxelFactorySize = Vector3(5, 5, 5);
+	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), voxelFactorySize, combinationExpression, false, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
@@ -556,8 +562,35 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 #pragma endregion
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+
+	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "debug_texture.png", 50, testVoxelFactory);
+
+	ComplexObjectFactory* voxelField = new ComplexObjectFactory();
+
+	for (int i = -10; i < 10; i++)
+	{
+		for (int j = -10; j < 10; j++)
+		{
+			for (int k = -10; k < 10; k++)
+			{
+				voxelField->AddComposerFactory(new TransformationFactory(voxelCube, Matrix4::CreateTranslation(Vector3(i * voxelFactorySize.X(), j * voxelFactorySize.Y(), k * voxelFactorySize.Z()))));
+			}
+		}
+	}
 	//SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
-	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, testVoxelFactory);
+	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, voxelField);
+	item0->SetId(10);
+	sceneManager->QueueAddItem(item0);
+}
+
+void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
+{
+	LevelFactory* rootFactory = DataModel::DependenceTreeDataModel::Read("testFile.txt");
+
+	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
+
+	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, rootFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -573,24 +606,6 @@ void OgreClient::createScene(void)
 
 	/// Some resource setup
 	string textureGroupName = "Textures";
-
-	//// Create a material for each texture in the texture ressource group
-	//Ogre::StringVectorPtr textureListPtr = ressourceGroupManager.listResourceNames(textureGroupName);
-	//Ogre::StringVector * textureList = textureListPtr.get();
-	//for (Ogre::StringVector::iterator textureIterator = textureList->begin(); textureIterator != textureList->end(); textureIterator++)
-	//{
-	//	string textureName = *textureIterator;
-
-	//	// Materials
-	//	Ogre::MaterialPtr lMaterial = lMaterialManager.create(textureName, textureGroupName);
-	//	Ogre::Technique* lFirstTechnique = lMaterial->getTechnique(0);
-	//	Ogre::Pass* lFirstPass = lFirstTechnique->getPass(0);
-	//	lFirstPass->setLightingEnabled(false);
-
-	//	Ogre::TextureUnitState* lTextureUnit = lFirstPass->createTextureUnitState();
-	//	lTextureUnit->setTextureName(textureName, Ogre::TEX_TYPE_2D);
-	//	lTextureUnit->setTextureCoordSet(0);
-	//}
 
 	// Create a material for each texture in the texture ressource group
 	Ogre::MaterialPtr instancingMaterial = lMaterialManager.getByName("HW_VTFInstancing");
@@ -641,7 +656,8 @@ void OgreClient::createScene(void)
 
 	//InitializeQuaternionTestScene(&_sceneManager);
 	//InitializeAsianBuildingsTestScene(&_sceneManager);
-	InitializerVoxelTestScene(&_sceneManager);
+	//InitializerVoxelTestScene(&_sceneManager);
+	InitializeFileReadingTestScene(&_sceneManager);
 }
 
 
