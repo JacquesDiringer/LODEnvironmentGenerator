@@ -2,13 +2,16 @@
 
 #include <fstream>
 #include <string>
+#include <map>;
 
 #include "LevelFactory.h"
+#include "LevelFactoryDataModel.h"
 
 using std::fstream;
 using std::ifstream;
 using std::ofstream;
 using std::string;
+using std::map;
 
 using Generator::LevelFactory;
 
@@ -27,7 +30,10 @@ namespace DataModel
 		~DependenceTreeDataModel();
 
 		// Reads a dependence tree file and returns the root node factory.
-		static LevelFactory* Read(string filePath);
-	};
+		LevelFactory* Read(string filePath);
 
+	private:
+		// Associates the name of a factory to factory data model
+		map<string, LevelFactoryDataModel*> _factoriesDataModelMap;
+	};
 }

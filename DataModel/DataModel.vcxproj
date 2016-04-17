@@ -29,7 +29,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComplexObjectFactoryDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
     <ClInclude Include="LevelFactoryDataModel.h" />
     <ClInclude Include="resource.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />
     <ClCompile Include="LevelFactoryDataModel.cpp" />
     <ClCompile Include="SimpleObjectFactoryDataModel.cpp" />

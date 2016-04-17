@@ -1,19 +1,18 @@
 #include "stdafx.h"
 #include "DependenceTreeDataModel.h"
 
-#include "LevelFactoryDataModel.h"
 #include "SimpleObjectFactoryDataModel.h"
-
-#include <map>;
+#include "ComplexObjectFactoryDataModel.h"
 
 #include<iostream>
-
-using std::map;
 
 namespace DataModel
 {
 	DependenceTreeDataModel::DependenceTreeDataModel()
 	{
+		_factoriesDataModelMap = map<string, LevelFactoryDataModel*>();
+		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("SimpleObjectFactory", new SimpleObjectFactoryDataModel));
+		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ComplexObjectFactory", new ComplexObjectFactoryDataModel));
 	}
 
 
@@ -23,23 +22,38 @@ namespace DataModel
 
 	LevelFactory * DependenceTreeDataModel::Read(string filePath)
 	{
+		// A map of the the factories that have already been read, stored by name.
+		// This is done for children dependencies purposes.
 		map<string, LevelFactory*>* previousFactories = new map<string, LevelFactory*>();
+
+		// Last factory that has been read, it will be returned to define the root factory.
 		LevelFactory* lastFactory;
 
+		// Open an input stream to the designated file path.
 		ifstream inputStream(filePath, ifstream::in);
 
+		// If the input stream has correctly been opened.
 		if (inputStream)
 		{
 			string currentLine;
 
+			// Get lines until the end of the file.
 			while (std::getline(inputStream, currentLine))
 			{
-				std::cout << "Line : " << currentLine << std::endl;
-
+				// Lines can be empty between factories for easier human reading purposes.
 				if (currentLine.length() > 0)
 				{
-					LevelFactoryDataModel* currentFactoryDataModel = new SimpleObjectFactoryDataModel;
-					lastFactory = currentFactoryDataModel->Read(&inputStream, previousFactories);
+					// Search for the right data model to read the factory.
+					map<string, LevelFactoryDataModel*>::iterator factoryReaderIt = _factoriesDataModelMap.find(currentLine);
+					if (factoryReaderIt == _factoriesDataModelMap.end())
+					{
+						throw new std::invalid_argument("There is no data model able to read that kind of factory.");
+					}
+
+					// Retrieve the data model.
+					LevelFactoryDataModel* factoryReader = (*factoryReaderIt).second;
+					// Do the reading.
+					lastFactory = factoryReader->Read(&inputStream, previousFactories);
 				}
 			}
 		}
@@ -48,6 +62,7 @@ namespace DataModel
 			throw new std::invalid_argument("File not found.");
 		}
 
+		// Return the last factory read, it will become the root factory.
 		return lastFactory;
 	}
 

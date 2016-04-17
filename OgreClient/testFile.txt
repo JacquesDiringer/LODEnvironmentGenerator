@@ -1,21 +1,27 @@
 SimpleObjectFactory
-Level3_Simple
+Level3_Simple0
 B_Brick.mesh
 1d_debug.png
 0
 NULL
 
 SimpleObjectFactory
-Level2_Simple
+Level3_Simple1
+Arrows_1_unit.mesh
+RGB.jpg
+0
+NULL
+
+ComplexObjectFactory
+Level2_Complex
+Begin AddComposerFactory
+Level3_Simple1
+Level3_Simple0
+End AddComposerFactory
+
+SimpleObjectFactory
+Level2_Simple0
 A_Brick.mesh
 1d_debug.png
 10
-Level3_Simple
-
-
-SimpleObjectFactory
-Level1_Simple
-Arrows_1_unit.mesh
-RGB.jpg
-20
-Level2_Simple
+Level2_Complex

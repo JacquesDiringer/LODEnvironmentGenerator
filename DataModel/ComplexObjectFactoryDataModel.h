@@ -9,15 +9,16 @@
 
 namespace DataModel
 {
-	class DATAMODEL_API SimpleObjectFactoryDataModel :
+	class DATAMODEL_API ComplexObjectFactoryDataModel :
 		public LevelFactoryDataModel
 	{
 	public:
-		SimpleObjectFactoryDataModel();
-		~SimpleObjectFactoryDataModel();
+		ComplexObjectFactoryDataModel();
+		~ComplexObjectFactoryDataModel();
 
 	protected:
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories);
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite);
 	};
 }
+

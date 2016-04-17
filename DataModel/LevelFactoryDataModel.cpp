@@ -15,6 +15,9 @@ namespace DataModel
 
 	LevelFactory * LevelFactoryDataModel::Read(ifstream* stream, map<string, LevelFactory*>* previousFactories)
 	{
+		// Set the name of the factory, to be stored in the map.
+		getline(*stream, _name);
+
 		InternalRead(stream, previousFactories);
 
 		// The InternalRead has to have read something.

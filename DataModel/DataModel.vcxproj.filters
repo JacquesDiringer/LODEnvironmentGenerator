@@ -36,6 +36,9 @@
     <ClInclude Include="DependenceTreeDataModel.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="ComplexObjectFactoryDataModel.h">
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="DependenceTreeDataModel.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ComplexObjectFactoryDataModel.cpp">
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

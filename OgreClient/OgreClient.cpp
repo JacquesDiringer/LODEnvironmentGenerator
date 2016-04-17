@@ -77,15 +77,6 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 	randomFactory->AddAlternativeFactory(0.2f, eightSplitFactory);
 	randomFactory->AddAlternativeFactory(0.2f, fourSplitFactory);
 
-	// building0_topFloor
-
-
-	//// Single object
-	//SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
-	//Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 10.0f, object0, eightSplitFactory);
-	//_sceneManager.QueueAddItem(item0);
-	//// end of single object
-
 	// Flat array
 	list<Item*> itemsToAdd = list<Item*>();
 	for (int i = 0; i < 1; i += 1)
@@ -94,8 +85,6 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 		{
 			for (int k = 0; k < 5; k += 5)
 			{
-				//SimpleObjectDisplayable* currentDisplayable = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
-				//itemsToAdd.push_back(new Item(Matrix4(Vector3(i, 0, j)), NULL, 10.0f, currentDisplayable, subLevelFactory));
 				SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
 				Item* item0 = new Item(Matrix4(Vector3(i, k, j)), NULL, 60.0f, object0, randomFactory);
 				item0->SetId(10 * i + j);
@@ -103,11 +92,6 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 			}
 		}
 	}
-	/*for each (Item* currentItem in itemsToAdd)
-	{
-		sceneManager->QueueAddItem(currentItem);
-	}*/
-	// end of array
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
 	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 60.0f, object0, eightSplitFactory);
@@ -585,7 +569,8 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
 {
-	LevelFactory* rootFactory = DataModel::DependenceTreeDataModel::Read("testFile.txt");
+	DataModel::DependenceTreeDataModel dependenceTree = DataModel::DependenceTreeDataModel();
+	LevelFactory* rootFactory = dependenceTree.Read("testFile.txt");
 
 	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 
