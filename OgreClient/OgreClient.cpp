@@ -25,8 +25,6 @@
 #include "MultiplicationExpression.h"
 #include "CosExpression.h"
 
-#include "LevelFactoryDataModel.h"
-#include "SimpleObjectFactoryDataModel.h"
 #include "DependenceTreeDataModel.h"
 
 using std::list;

@@ -22,7 +22,6 @@ namespace DataModel
 		string modelName;
 		string textureName;
 		float expansionDistance;
-		LevelFactory* subLevelFactory = NULL;
 
 		// String containing the expansionDistance.
 		string expansionDistanceString;
@@ -43,19 +42,8 @@ namespace DataModel
 		// Get the string name of the sublevel factory.
 		getline(*stream, subLevelFactoryName);
 
-		// If this factory is supposed to have a child.
-		if (subLevelFactoryName != "NULL")
-		{
-			// Then look if this factory has been previously loaded.
-			map<string, LevelFactory*>::iterator factoryIt = previousFactories->find(subLevelFactoryName);
-			if (factoryIt == previousFactories->end())
-			{
-				throw new std::invalid_argument("Children factory not previously read.");
-			}
-
-			// Register the found factory as the sublevel of future factory.
-			subLevelFactory = (*factoryIt).second;
-		}
+		// Get the sublevel factory according to its name, if it exist.
+		LevelFactory* subLevelFactory = GetFactoryByName(subLevelFactoryName, previousFactories);
 
 		// Set the factory to be stored in the map.
 		_factory = new SimpleObjectFactory(modelName, textureName, expansionDistance, subLevelFactory);

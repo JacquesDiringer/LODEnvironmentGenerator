@@ -38,6 +38,8 @@ namespace DataModel
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories) = 0;
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite) = 0;
 
+		LevelFactory* GetFactoryByName(string name, map<string, LevelFactory*>* previousFactories);
+
 		string _name;
 		LevelFactory* _factory;
 	};

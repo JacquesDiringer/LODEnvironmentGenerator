@@ -12,11 +12,31 @@ RGB.jpg
 0
 NULL
 
+TransformationFactory
+Level3_Transform0
+Level3_Simple0
+1
+0
+0
+0
+0
+1
+0
+2
+0
+0
+1
+0
+0
+0
+0
+1
+
 ComplexObjectFactory
 Level2_Complex
 Begin AddComposerFactory
 Level3_Simple1
-Level3_Simple0
+Level3_Transform0
 End AddComposerFactory
 
 SimpleObjectFactory

@@ -46,4 +46,22 @@ namespace DataModel
 	{
 		InternalWrite(stream, factoryToWrite);
 	}
+	LevelFactory * LevelFactoryDataModel::GetFactoryByName(string name, map<string, LevelFactory*>* previousFactories)
+	{
+		// If this factory is supposed to have a child.
+		if (name != "NULL")
+		{
+			// Then look if this factory has been previously loaded.
+			map<string, LevelFactory*>::iterator factoryIt = previousFactories->find(name);
+			if (factoryIt == previousFactories->end())
+			{
+				throw new std::invalid_argument("Children factory not previously read.");
+			}
+
+			// Register the found factory as the sublevel of future factory.
+			return (*factoryIt).second;
+		}
+
+		return NULL;
+	}
 }

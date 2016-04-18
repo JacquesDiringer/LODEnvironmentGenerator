@@ -32,15 +32,14 @@ namespace DataModel
 		getline(*stream, currentLine);
 		while (currentLine != "End AddComposerFactory")
 		{
-			// Then look if this factory has been previously loaded.
-			map<string, LevelFactory*>::iterator levelFactoryIt = previousFactories->find(currentLine);
-			if (levelFactoryIt == previousFactories->end())
-			{
-				throw new std::invalid_argument("Children factory not previously read.");
-			}
+			// Get the composer factory according to its name, if it exist.
+			LevelFactory* composerFactory = GetFactoryByName(currentLine, previousFactories);
 
-			// Add the found factory as a composer of the currently constructing factory.
-			result->AddComposerFactory((*levelFactoryIt).second);
+			if (composerFactory != NULL)
+			{
+				// Add the found factory as a composer of the currently constructing factory.
+				result->AddComposerFactory(composerFactory);
+			}
 
 			// Read the newt line.
 			getline(*stream, currentLine);
