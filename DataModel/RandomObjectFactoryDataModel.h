@@ -3,16 +3,15 @@
 
 namespace DataModel
 {
-	class ComplexObjectFactoryDataModel :
+	class RandomObjectFactoryDataModel :
 		public LevelFactoryDataModel
 	{
 	public:
-		ComplexObjectFactoryDataModel();
-		~ComplexObjectFactoryDataModel();
+		RandomObjectFactoryDataModel();
+		~RandomObjectFactoryDataModel();
 
 	protected:
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories);
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite);
 	};
 }
-

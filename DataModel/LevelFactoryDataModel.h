@@ -14,15 +14,9 @@ using std::map;
 
 using Generator::LevelFactory;
 
-#ifdef DATAMODEL_EXPORTS
-#define DATAMODEL_API __declspec(dllexport)
-#else
-#define DATAMODEL_API __declspec(dllimport)
-#endif
-
 namespace DataModel
 {
-	class DATAMODEL_API LevelFactoryDataModel
+	class LevelFactoryDataModel
 	{
 	public:
 		LevelFactoryDataModel();

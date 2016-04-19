@@ -17,7 +17,6 @@ namespace DataModel
 	}
 	LevelFactory * ComplexObjectFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
 	{
-
 		ComplexObjectFactory* result = new ComplexObjectFactory();
 
 		string currentLine;
@@ -41,7 +40,7 @@ namespace DataModel
 				result->AddComposerFactory(composerFactory);
 			}
 
-			// Read the newt line.
+			// Read the newt line. Either a new composer factory or an end marker.
 			getline(*stream, currentLine);
 		}
 

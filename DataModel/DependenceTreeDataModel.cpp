@@ -4,6 +4,7 @@
 #include "SimpleObjectFactoryDataModel.h"
 #include "ComplexObjectFactoryDataModel.h"
 #include "TransformationFactoryDataModel.h"
+#include "RandomObjectFactoryDataModel.h"
 
 #include<iostream>
 
@@ -15,6 +16,7 @@ namespace DataModel
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("SimpleObjectFactory", new SimpleObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ComplexObjectFactory", new ComplexObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("TransformationFactory", new TransformationFactoryDataModel));
+		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("RandomObjectFactory", new RandomObjectFactoryDataModel));
 	}
 
 

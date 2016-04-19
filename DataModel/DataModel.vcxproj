@@ -139,6 +139,7 @@
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
     <ClInclude Include="LevelFactoryDataModel.h" />
+    <ClInclude Include="RandomObjectFactoryDataModel.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SimpleObjectFactoryDataModel.h" />
     <ClInclude Include="Stdafx.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />
     <ClCompile Include="LevelFactoryDataModel.cpp" />
+    <ClCompile Include="RandomObjectFactoryDataModel.cpp" />
     <ClCompile Include="SimpleObjectFactoryDataModel.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

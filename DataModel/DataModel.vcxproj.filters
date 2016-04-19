@@ -40,7 +40,10 @@
       <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
     <ClInclude Include="TransformationFactoryDataModel.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomObjectFactoryDataModel.h">
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,7 +63,10 @@
       <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
     <ClCompile Include="TransformationFactoryDataModel.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomObjectFactoryDataModel.cpp">
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

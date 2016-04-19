@@ -1,15 +1,9 @@
 #pragma once
 #include "LevelFactoryDataModel.h"
 
-#ifdef DATAMODEL_EXPORTS
-#define DATAMODEL_API __declspec(dllexport)
-#else
-#define DATAMODEL_API __declspec(dllimport)
-#endif
-
 namespace DataModel
 {
-	class DATAMODEL_API SimpleObjectFactoryDataModel :
+	class SimpleObjectFactoryDataModel :
 		public LevelFactoryDataModel
 	{
 	public:
