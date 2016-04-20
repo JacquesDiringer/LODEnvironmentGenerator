@@ -9,8 +9,8 @@ namespace DataModel
 {
 	SimpleObjectFactoryDataModel::SimpleObjectFactoryDataModel()
 	{
+		_floatExpressions = new map<string, FloatExpression*>();
 	}
-
 
 	SimpleObjectFactoryDataModel::~SimpleObjectFactoryDataModel()
 	{

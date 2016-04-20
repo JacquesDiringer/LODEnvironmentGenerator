@@ -45,6 +45,9 @@
     <ClInclude Include="RandomObjectFactoryDataModel.h">
       <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="VoxelFactoryDataModel.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="RandomObjectFactoryDataModel.cpp">
       <Filter>Fichiers sources\FactoriesDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelFactoryDataModel.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ namespace DataModel
 {
 	LevelFactoryDataModel::LevelFactoryDataModel()
 	{
+		_floatExpressions = new map<string, FloatExpression*>();
 	}
 
 	LevelFactoryDataModel::~LevelFactoryDataModel()
@@ -18,6 +19,7 @@ namespace DataModel
 		// Set the name of the factory, to be stored in the map.
 		getline(*stream, _name);
 
+		// Read the specific content of the factory.
 		InternalRead(stream, previousFactories);
 
 		// The InternalRead has to have read something.
@@ -46,6 +48,17 @@ namespace DataModel
 	{
 		InternalWrite(stream, factoryToWrite);
 	}
+
+	void LevelFactoryDataModel::AddFloatExpression(string name, FloatExpression* expression)
+	{
+		_floatExpressions->insert(std::pair<string, FloatExpression*>(name, expression));
+	}
+
+	void LevelFactoryDataModel::AddFloatExpression(map<string, FloatExpression*>* additionalMap)
+	{
+		_floatExpressions->insert(additionalMap->begin(), additionalMap->end());
+	}
+
 	LevelFactory * LevelFactoryDataModel::GetFactoryByName(string name, map<string, LevelFactory*>* previousFactories)
 	{
 		// If this factory is supposed to have a child.

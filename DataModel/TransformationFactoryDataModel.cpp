@@ -11,8 +11,8 @@ namespace DataModel
 {
 	TransformationFactoryDataModel::TransformationFactoryDataModel()
 	{
+		_floatExpressions = new map<string, FloatExpression*>();
 	}
-
 
 	TransformationFactoryDataModel::~TransformationFactoryDataModel()
 	{

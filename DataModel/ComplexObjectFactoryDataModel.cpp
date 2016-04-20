@@ -9,8 +9,8 @@ namespace DataModel
 {
 	ComplexObjectFactoryDataModel::ComplexObjectFactoryDataModel()
 	{
+		_floatExpressions = new map<string, FloatExpression*>();
 	}
-
 
 	ComplexObjectFactoryDataModel::~ComplexObjectFactoryDataModel()
 	{

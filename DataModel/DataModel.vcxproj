@@ -144,6 +144,7 @@
     <ClInclude Include="SimpleObjectFactoryDataModel.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TransformationFactoryDataModel.h" />
+    <ClInclude Include="VoxelFactoryDataModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
@@ -158,6 +159,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TransformationFactoryDataModel.cpp" />
+    <ClCompile Include="VoxelFactoryDataModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

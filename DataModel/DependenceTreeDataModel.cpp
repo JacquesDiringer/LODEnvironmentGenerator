@@ -5,8 +5,16 @@
 #include "ComplexObjectFactoryDataModel.h"
 #include "TransformationFactoryDataModel.h"
 #include "RandomObjectFactoryDataModel.h"
+#include "VoxelFactoryDataModel.h"
+
+#include "LinearFunctionExpression.h"
+#include "LinearCombinationExpression.h"
+#include "MultiplicationExpression.h"
+#include "CosExpression.h"
 
 #include<iostream>
+
+using namespace Math;
 
 namespace DataModel
 {
@@ -17,6 +25,7 @@ namespace DataModel
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ComplexObjectFactory", new ComplexObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("TransformationFactory", new TransformationFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("RandomObjectFactory", new RandomObjectFactoryDataModel));
+		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("VoxelFactory", new VoxelFactoryDataModel));
 	}
 
 
@@ -26,6 +35,31 @@ namespace DataModel
 
 	LevelFactory * DependenceTreeDataModel::Read(string filePath)
 	{
+		// A map of the read expressions, with their name as the key.
+		map<string, FloatExpression*>* floatExpressions = new map<string, FloatExpression*>();
+
+		// Test expressions, TO BE REMOVED.
+		LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0.05f, 0));
+		LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, 1, 0.4f));
+		CosExpression* cosExpression = new CosExpression(xExpression);
+		LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
+
+		// Adding the test expressions.
+		floatExpressions->insert(std::pair<string, FloatExpression*>("combinationExpression", combinationExpression));
+		floatExpressions->insert(std::pair<string, FloatExpression*>("xExpression", xExpression));
+		floatExpressions->insert(std::pair<string, FloatExpression*>("yExpression", yExpression));
+		floatExpressions->insert(std::pair<string, FloatExpression*>("cosExpression", cosExpression));
+
+		// TODO: Read the float expressions from the file specified by filePath.
+
+		// Add the read float epxressions to the static field that all factory data model can access.
+		for each (std::pair<string, LevelFactoryDataModel*> couple in _factoriesDataModelMap)
+		{
+			couple.second->AddFloatExpression(floatExpressions);
+		}
+
+		//LevelFactoryDataModel::AddFloatExpression(floatExpressions);
+
 		// A map of the the factories that have already been read, stored by name.
 		// This is done for children dependencies purposes.
 		map<string, LevelFactory*>* previousFactories = new map<string, LevelFactory*>();

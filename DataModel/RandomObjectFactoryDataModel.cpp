@@ -10,6 +10,7 @@ namespace DataModel
 {
 	RandomObjectFactoryDataModel::RandomObjectFactoryDataModel()
 	{
+		_floatExpressions = new map<string, FloatExpression*>();
 	}
 
 	RandomObjectFactoryDataModel::~RandomObjectFactoryDataModel()
