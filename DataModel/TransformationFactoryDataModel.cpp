@@ -55,5 +55,6 @@ namespace DataModel
 
 	void TransformationFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
+		throw std::exception("Not implemented");
 	}
 }

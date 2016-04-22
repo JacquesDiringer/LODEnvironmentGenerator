@@ -2,6 +2,7 @@
 #include "VoxelFactoryDataModel.h"
 
 #include "VoxelFactory.h"
+#include "FloatExpressionDataModel.h"
 
 using Generator::VoxelFactory;
 using std::list;
@@ -21,10 +22,10 @@ namespace DataModel
 		string currentLine;
 		
 		// Read the voxel size.
-		Vector3 voxelSize = ReadVector3(stream);
+		Vector3 voxelSize = FloatExpressionDataModel::ReadVector3(stream);
 
 		// Read the domain size.
-		Vector3 domainSize = ReadVector3(stream);
+		Vector3 domainSize = FloatExpressionDataModel::ReadVector3(stream);
 
 		// Read the density expression name.
 		getline(*stream, currentLine);
@@ -92,25 +93,6 @@ namespace DataModel
 
 	void VoxelFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
-	}
-
-	Vector3 VoxelFactoryDataModel::ReadVector3(ifstream* stream)
-	{
-		string currentLine;
-
-		// Get the X component.
-		getline(*stream, currentLine);
-		float voxelSizeX = std::stof(currentLine);
-
-		// Get the Y component.
-		getline(*stream, currentLine);
-		float voxelSizeY = std::stof(currentLine);
-
-		// Get the Z component.
-		getline(*stream, currentLine);
-		float voxelSizeZ = std::stof(currentLine);
-
-		// Combine them into the final Vector3.
-		return Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);
+		throw std::exception("Not implemented");
 	}
 }

@@ -52,5 +52,6 @@ namespace DataModel
 
 	void SimpleObjectFactoryDataModel::InternalWrite(ofstream* stream, LevelFactory* factoryToWrite)
 	{
+		throw std::exception("Not implemented");
 	}
 }

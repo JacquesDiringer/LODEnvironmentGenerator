@@ -19,6 +19,12 @@
     <Filter Include="Fichiers d%27en-tête\FactoriesDataModel">
       <UniqueIdentifier>{d15b4eca-5370-4f9f-80e2-6a2206ada0ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\MathsDataModel">
+      <UniqueIdentifier>{2e1be55b-66af-4a2b-83cb-19f6edaa3ec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\MathsDataModel">
+      <UniqueIdentifier>{ecb1baf7-5a1e-40cd-922b-d728818b0692}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stdafx.h">
@@ -45,8 +51,14 @@
     <ClInclude Include="RandomObjectFactoryDataModel.h">
       <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="FloatExpressionDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearFunctionDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
     <ClInclude Include="VoxelFactoryDataModel.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,8 +83,14 @@
     <ClCompile Include="RandomObjectFactoryDataModel.cpp">
       <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
+    <ClCompile Include="FloatExpressionDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearFunctionDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
     <ClCompile Include="VoxelFactoryDataModel.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

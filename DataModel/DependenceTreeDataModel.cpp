@@ -7,10 +7,7 @@
 #include "RandomObjectFactoryDataModel.h"
 #include "VoxelFactoryDataModel.h"
 
-#include "LinearFunctionExpression.h"
-#include "LinearCombinationExpression.h"
-#include "MultiplicationExpression.h"
-#include "CosExpression.h"
+#include "LinearFunctionDataModel.h"
 
 #include<iostream>
 
@@ -26,6 +23,9 @@ namespace DataModel
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("TransformationFactory", new TransformationFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("RandomObjectFactory", new RandomObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("VoxelFactory", new VoxelFactoryDataModel));
+
+		_floatExpressionsDataModelMap = map<string, FloatExpressionDataModel*>();
+		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("LinearFunctionExpression", new LinearFunctionDataModel()));
 	}
 
 
@@ -35,35 +35,6 @@ namespace DataModel
 
 	LevelFactory * DependenceTreeDataModel::Read(string filePath)
 	{
-		// A map of the read expressions, with their name as the key.
-		map<string, FloatExpression*>* floatExpressions = new map<string, FloatExpression*>();
-
-		// Test expressions, TO BE REMOVED.
-		LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0.05f, 0));
-		LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, 1, 0.4f));
-		CosExpression* cosExpression = new CosExpression(xExpression);
-		LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
-
-		// Adding the test expressions.
-		floatExpressions->insert(std::pair<string, FloatExpression*>("combinationExpression", combinationExpression));
-		floatExpressions->insert(std::pair<string, FloatExpression*>("xExpression", xExpression));
-		floatExpressions->insert(std::pair<string, FloatExpression*>("yExpression", yExpression));
-		floatExpressions->insert(std::pair<string, FloatExpression*>("cosExpression", cosExpression));
-
-		// TODO: Read the float expressions from the file specified by filePath.
-
-		// Add the read float epxressions to the static field that all factory data model can access.
-		for each (std::pair<string, LevelFactoryDataModel*> couple in _factoriesDataModelMap)
-		{
-			couple.second->AddFloatExpression(floatExpressions);
-		}
-
-		//LevelFactoryDataModel::AddFloatExpression(floatExpressions);
-
-		// A map of the the factories that have already been read, stored by name.
-		// This is done for children dependencies purposes.
-		map<string, LevelFactory*>* previousFactories = new map<string, LevelFactory*>();
-
 		// Last factory that has been read, it will be returned to define the root factory.
 		LevelFactory* lastFactory;
 
@@ -73,7 +44,44 @@ namespace DataModel
 		// If the input stream has correctly been opened.
 		if (inputStream)
 		{
+			// Stream reading content.
 			string currentLine;
+
+			//// Float expressions reading section.
+
+			// A map of the read expressions, with their name as the key.
+			map<string, FloatExpression*>* floatExpressions = new map<string, FloatExpression*>();
+
+			while (std::getline(inputStream, currentLine) && currentLine != "End of FloatExpression")
+			{
+				// TODO: Read the float expressions from the file specified by filePath.
+				if (currentLine.length() > 0)
+				{
+					map<string, FloatExpressionDataModel*>::iterator expressionIt = _floatExpressionsDataModelMap.find(currentLine);
+					if (expressionIt == _floatExpressionsDataModelMap.end())
+					{
+						throw new std::invalid_argument("There is no data model able to read that kind of expression.");
+					}
+
+					// Retrieve the expression data model.
+					FloatExpressionDataModel* expressionReader = (*expressionIt).second;
+					// Do the reading. This function will also fill floatExpressions.
+					FloatExpression* readExpression = expressionReader->Read(&inputStream, floatExpressions);
+				}
+			}
+
+			// Add the read float epxressions to the static field that all factory data model can access.
+			for each (std::pair<string, LevelFactoryDataModel*> couple in _factoriesDataModelMap)
+			{
+				couple.second->AddFloatExpression(floatExpressions);
+			}
+
+
+			//// Factories reading section.
+
+			// A map of the the factories that have already been read, stored by name.
+			// This is done for children dependencies purposes.
+			map<string, LevelFactory*>* previousFactories = new map<string, LevelFactory*>();
 
 			// Get lines until the end of the file.
 			while (std::getline(inputStream, currentLine))
@@ -88,9 +96,9 @@ namespace DataModel
 						throw new std::invalid_argument("There is no data model able to read that kind of factory.");
 					}
 
-					// Retrieve the data model.
+					// Retrieve the factory data model.
 					LevelFactoryDataModel* factoryReader = (*factoryReaderIt).second;
-					// Do the reading.
+					// Do the reading. This function will also fill previousFactories.
 					lastFactory = factoryReader->Read(&inputStream, previousFactories);
 				}
 			}

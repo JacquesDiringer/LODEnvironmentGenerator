@@ -16,8 +16,5 @@ namespace DataModel
 	protected:
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories);
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite);
-
-	private:
-		static Vector3 ReadVector3(ifstream* stream);
 	};
 }

@@ -20,6 +20,7 @@ namespace DataModel
 		getline(*stream, _name);
 
 		// Read the specific content of the factory.
+		// The concrete implementation is supposed to fill the _factory field.
 		InternalRead(stream, previousFactories);
 
 		// The InternalRead has to have read something.

@@ -6,6 +6,7 @@
 
 #include "LevelFactory.h"
 #include "LevelFactoryDataModel.h"
+#include "FloatExpressionDataModel.h"
 
 using std::fstream;
 using std::ifstream;
@@ -33,7 +34,10 @@ namespace DataModel
 		LevelFactory* Read(string filePath);
 
 	private:
-		// Associates the name of a factory to factory data model
+		// Associates the type of a factory to factory data model type.
 		map<string, LevelFactoryDataModel*> _factoriesDataModelMap;
+
+		// Associates the type of a float expression to float expression data model type.
+		map<string, FloatExpressionDataModel*> _floatExpressionsDataModelMap;
 	};
 }

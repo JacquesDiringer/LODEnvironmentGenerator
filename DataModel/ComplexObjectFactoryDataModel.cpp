@@ -49,5 +49,6 @@ namespace DataModel
 	}
 	void ComplexObjectFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
+		throw std::exception("Not implemented");
 	}
 }

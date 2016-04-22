@@ -1,3 +1,14 @@
+LinearFunctionExpression
+yExpression
+0.1
+-1
+-0.2
+
+
+End of FloatExpression
+
+
+
 SimpleObjectFactory
 Level3_Simple0
 B_Brick.mesh
@@ -29,7 +40,7 @@ schoolVoxels
 50
 50
 50
-combinationExpression
+yExpression
 0
 0.5f
 Begin AddRules

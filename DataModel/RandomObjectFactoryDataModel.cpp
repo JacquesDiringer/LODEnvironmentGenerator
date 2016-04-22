@@ -54,5 +54,6 @@ namespace DataModel
 
 	void RandomObjectFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
+		throw std::exception("Not implemented");
 	}
 }
