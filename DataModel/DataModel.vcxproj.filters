@@ -66,6 +66,9 @@
     <ClInclude Include="MultiplicationDataModel.h">
       <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="CosDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -102,6 +105,9 @@
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
     <ClCompile Include="MultiplicationDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="CosDataModel.cpp">
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
   </ItemGroup>

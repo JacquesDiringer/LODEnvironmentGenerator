@@ -1,8 +1,12 @@
 LinearFunctionExpression
 xExpression0
-0.1
+0.5
 0
 0
+
+CosExpression
+Cos0
+xExpression0
 
 MultiplicationExpression
 xExpression
@@ -18,7 +22,7 @@ yExpression
 LinearCombinationExpression
 combinationExp0
 1
-xExpression
+Cos0
 1
 yExpression
 

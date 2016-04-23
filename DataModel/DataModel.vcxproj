@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
+    <ClInclude Include="CosDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
     <ClInclude Include="FloatExpressionDataModel.h" />
     <ClInclude Include="LevelFactoryDataModel.h" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
+    <ClCompile Include="CosDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />
     <ClCompile Include="FloatExpressionDataModel.cpp" />
     <ClCompile Include="LevelFactoryDataModel.cpp" />
