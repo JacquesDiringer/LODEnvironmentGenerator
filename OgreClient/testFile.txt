@@ -1,8 +1,21 @@
 LinearFunctionExpression
-yExpression
+xExpression
 0.1
+0
+0
+
+LinearFunctionExpression
+yExpression
+0
 -1
--0.2
+0
+
+LinearCombinationExpression
+combinationExp0
+2
+xExpression
+1
+yExpression
 
 
 End of FloatExpression
@@ -40,7 +53,7 @@ schoolVoxels
 50
 50
 50
-yExpression
+combinationExp0
 0
 0.5f
 Begin AddRules

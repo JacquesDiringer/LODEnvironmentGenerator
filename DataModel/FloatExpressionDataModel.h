@@ -39,6 +39,8 @@ namespace DataModel
 		// Concrete write, has to be implemented by any class implementing FloatExpressionDataModel.
 		virtual void InternalWrite(ofstream* stream, FloatExpression* expressionToWrite) = 0;
 
+		static FloatExpression* GetFloatExpressionByName(string name, map<string, FloatExpression*>* previousExpressions);
+
 		// Instance name of the float expression.
 		string _name;
 		// The float expression itself.

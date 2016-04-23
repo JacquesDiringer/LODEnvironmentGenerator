@@ -67,4 +67,23 @@ namespace DataModel
 		// Combine them into the final Vector3.
 		return Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);
 	}
+
+	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(string name, map<string, FloatExpression*>* previousExpressions)
+	{
+		// If this factory is supposed to have a child.
+		if (name != "NULL")
+		{
+			// Then look if this factory has been previously loaded.
+			map<string, FloatExpression*>::iterator expressionIt = previousExpressions->find(name);
+			if (expressionIt == previousExpressions->end())
+			{
+				throw new std::invalid_argument("Children float expression not previously read.");
+			}
+
+			// Register the found factory as the sublevel of future factory.
+			return (*expressionIt).second;
+		}
+
+		return NULL;
+	}
 }

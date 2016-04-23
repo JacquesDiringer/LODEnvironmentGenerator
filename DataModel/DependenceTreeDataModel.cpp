@@ -8,6 +8,7 @@
 #include "VoxelFactoryDataModel.h"
 
 #include "LinearFunctionDataModel.h"
+#include "LinearCombinationDataModel.h"
 
 #include<iostream>
 
@@ -26,6 +27,7 @@ namespace DataModel
 
 		_floatExpressionsDataModelMap = map<string, FloatExpressionDataModel*>();
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("LinearFunctionExpression", new LinearFunctionDataModel()));
+		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("LinearCombinationExpression", new LinearCombinationDataModel()));
 	}
 
 

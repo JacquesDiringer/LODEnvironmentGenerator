@@ -3,8 +3,6 @@
 #include "LinearFunctionExpression.h"
 #include "Vector3.h"
 
-using std::getline;
-
 using Math::LinearFunctionExpression;
 using Math::Vector3;
 
