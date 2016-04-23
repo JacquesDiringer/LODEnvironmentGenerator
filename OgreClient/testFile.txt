@@ -1,8 +1,13 @@
 LinearFunctionExpression
-xExpression
+xExpression0
 0.1
 0
 0
+
+MultiplicationExpression
+xExpression
+-1
+xExpression0
 
 LinearFunctionExpression
 yExpression
@@ -12,7 +17,7 @@ yExpression
 
 LinearCombinationExpression
 combinationExp0
-2
+1
 xExpression
 1
 yExpression

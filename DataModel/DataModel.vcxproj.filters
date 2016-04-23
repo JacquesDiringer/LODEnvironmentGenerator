@@ -61,7 +61,10 @@
       <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
     <ClInclude Include="LinearCombinationDataModel.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiplicationDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +99,10 @@
       <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
     <ClCompile Include="LinearCombinationDataModel.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiplicationDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
