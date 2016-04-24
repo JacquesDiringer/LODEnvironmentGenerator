@@ -61,7 +61,7 @@ namespace DataModel
 			while (std::getline(inputStream, currentLine) && currentLine != "End of FloatExpression")
 			{
 				// TODO: Read the float expressions from the file specified by filePath.
-				if (currentLine.length() > 0)
+				if (currentLine.length() > 0 && currentLine.find("//") == string::npos)
 				{
 					map<string, FloatExpressionDataModel*>::iterator expressionIt = _floatExpressionsDataModelMap.find(currentLine);
 					if (expressionIt == _floatExpressionsDataModelMap.end())
@@ -93,7 +93,7 @@ namespace DataModel
 			while (std::getline(inputStream, currentLine))
 			{
 				// Lines can be empty between factories for easier human reading purposes.
-				if (currentLine.length() > 0)
+				if (currentLine.length() > 0 && currentLine.find("//") == string::npos)
 				{
 					// Search for the right data model to read the factory.
 					map<string, LevelFactoryDataModel*>::iterator factoryReaderIt = _factoriesDataModelMap.find(currentLine);

@@ -19,6 +19,7 @@ yExpression
 -1
 0
 
+// This is a comment.
 LinearCombinationExpression
 combinationExp0
 1
@@ -44,6 +45,9 @@ Arrows_1_unit.mesh
 RGB.jpg
 0
 NULL
+
+
+//// This is an other comment.
 
 RandomObjectFactory
 Level3Random0
