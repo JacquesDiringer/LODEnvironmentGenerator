@@ -2,6 +2,7 @@
 #include "LevelFactoryDataModel.h"
 
 #include <exception>
+#include <iostream>
 
 namespace DataModel
 {
@@ -69,6 +70,7 @@ namespace DataModel
 			map<string, LevelFactory*>::iterator factoryIt = previousFactories->find(name);
 			if (factoryIt == previousFactories->end())
 			{
+				std::cout << "Erroc : children factory not previously read : " << name;
 				throw new std::invalid_argument("Children factory not previously read.");
 			}
 

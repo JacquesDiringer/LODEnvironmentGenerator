@@ -33,6 +33,41 @@ namespace DataModel
 			throw new std::invalid_argument("A transformation factory should always have a sublevel.");
 		}
 
+		// Descriptor of the matrix constructor to read and use.
+		string matrixConstructor;
+		// Get the matrix constructor.
+		getline(*stream, matrixConstructor);
+
+		// Final transformation matrix.
+		Matrix4 transformation;
+
+		if (matrixConstructor == "Matrix")
+		{
+			transformation = ReadMatrix4(stream);
+		}
+		else if(matrixConstructor == "YRotation")
+		{
+			transformation = ReadYRotation(stream);
+		}
+		else if (matrixConstructor == "Translation")
+		{
+			transformation = ReadTranslation(stream);
+		}
+		else
+		{
+			throw new std::exception("Invalid constructor specified.");
+		}
+
+		_factory = new TransformationFactory(subLevelFactory, transformation);
+		return _factory;
+	}
+
+	void TransformationFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
+	{
+		throw std::exception("Not implemented");
+	}
+	Matrix4 TransformationFactoryDataModel::ReadMatrix4(ifstream * stream)
+	{
 		// Read the 16 matrix values.
 		float matrixParameters[16];
 		string currentParameter;
@@ -43,18 +78,43 @@ namespace DataModel
 			matrixParameters[i] = std::stof(currentParameter);
 		}
 
-		// Create the matrix.
-		Matrix4 transformation = Matrix4(	matrixParameters[0], matrixParameters[1], matrixParameters[2], matrixParameters[3],
-									matrixParameters[4], matrixParameters[5], matrixParameters[6], matrixParameters[7],
-									matrixParameters[8], matrixParameters[9], matrixParameters[10], matrixParameters[11],
-									matrixParameters[12], matrixParameters[13], matrixParameters[14], matrixParameters[15]);
-
-		_factory = new TransformationFactory(subLevelFactory, transformation);
-		return _factory;
+		// Create and return the matrix.
+		return Matrix4(matrixParameters[0], matrixParameters[1], matrixParameters[2], matrixParameters[3],
+			matrixParameters[4], matrixParameters[5], matrixParameters[6], matrixParameters[7],
+			matrixParameters[8], matrixParameters[9], matrixParameters[10], matrixParameters[11],
+			matrixParameters[12], matrixParameters[13], matrixParameters[14], matrixParameters[15]);
 	}
-
-	void TransformationFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
+	Matrix4 TransformationFactoryDataModel::ReadYRotation(ifstream * stream)
 	{
-		throw std::exception("Not implemented");
+		// Stores the string descibing the rotation angle in degrees.
+		string rotationString;
+
+		// Gets the string.
+		getline(*stream, rotationString);
+		// Convert the string to a float value.
+		float rotation = std::stof(rotationString);
+
+		// Create and return the matrix.
+		return Matrix4::CreateRotationY(rotation);
+	}
+	Matrix4 TransformationFactoryDataModel::ReadTranslation(ifstream * stream)
+	{
+		// The 3 floats for the described translation.
+		float translationParameters[3];
+
+		// Stores the current parameter being read.
+		string currentParameter;
+
+		// Read the 3 values.
+		for (int i = 0; i < 3; i++)
+		{
+			getline(*stream, currentParameter);
+			translationParameters[i] = std::stof(currentParameter);
+		}
+
+		// Create and return the matrix.
+		return Matrix4::CreateTranslation(Vector3(	translationParameters[0],
+													translationParameters[1],
+													translationParameters[2]));
 	}
 }
