@@ -33,9 +33,65 @@ End of FloatExpression
 
 //// LEVEL 0
 
+
+/// Props
+
+// Barrel 01
+SimpleObjectFactory
+barrel_01
+Barrel_01.mesh
+barrel.dds
+0
+NULL
+
+// Barrel 02
+SimpleObjectFactory
+barrel_02
+Barrel_02.mesh
+barrel02_D.tga
+0
+NULL
+
+// Crate 01
+SimpleObjectFactory
+crate_01
+Crate01.mesh
+Crate01.jpg
+0
+NULL
+
+// Wall prop 0, suspended hardware
+SimpleObjectFactory
+wall_prop0
+wall_prop0.mesh
+metal_passage.jpg
+0
+NULL
+
+RandomObjectFactory
+wall_prop0_random
+Begin AddRandomFactory
+1
+wall_prop0
+10
+NULL
+End AddRandomFactory
+
+
+RandomObjectFactory
+wall_prop0_random2
+Begin AddRandomFactory
+1
+wall_prop0
+3
+NULL
+End AddRandomFactory
+
+
+
 /// Walls
 
-// Metal wall level 0
+// Metal wall 0 level 0
 SimpleObjectFactory
 metal_wall0_level0
 metal_wall0_level0.mesh
@@ -43,12 +99,84 @@ metal_wall0.jpg
 0
 NULL
 
+ComplexObjectFactory
+metal_wall0_level0_with_props
+Begin AddComposerFactory
+metal_wall0_level0
+wall_prop0_random
+End AddComposerFactory
+
+
+// Metal wall 1 level 0
+SimpleObjectFactory
+metal_wall1_level0
+metal_wall1_level0.mesh
+metal_wall0.jpg
+0
+NULL
+
+TransformationFactory
+wall_prop0_random_90
+wall_prop0_random2
+YRotation
+90
+
+TransformationFactory
+wall_prop0_random_minus90
+wall_prop0_random2
+YRotation
+-90
+
+TransformationFactory
+metal_wall1_level0_props_pos0
+wall_prop0_random_minus90
+Translation
+-2.07008
+0.0
+9.02393
+
+TransformationFactory
+metal_wall1_level0_props_pos1
+wall_prop0_random_minus90
+Translation
+-2.07008
+0.0
+13.21271
+
+TransformationFactory
+metal_wall1_level0_props_pos2
+wall_prop0_random_90
+Translation
+2.07008
+0.0
+9.02393
+
+TransformationFactory
+metal_wall1_level0_props_pos3
+wall_prop0_random_90
+Translation
+2.07008
+0.0
+13.21271
+
+
+ComplexObjectFactory
+metal_wall1_level0_with_props
+Begin AddComposerFactory
+metal_wall1_level0
+metal_wall1_level0_props_pos0
+metal_wall1_level0_props_pos1
+metal_wall1_level0_props_pos2
+metal_wall1_level0_props_pos3
+End AddComposerFactory
 
 RandomObjectFactory
 metal_wall_generic_level0
 Begin AddRandomFactory
+15
+metal_wall0_level0_with_props
 1
-metal_wall0_level0
+metal_wall1_level0_with_props
 End AddRandomFactory
 
 
@@ -416,6 +544,98 @@ Translation
 
 
 
+/// Sub passage with props
+
+RandomObjectFactory
+random_passage_prop
+Begin AddRandomFactory
+1
+barrel_01
+1
+barrel_02
+3
+crate_01
+10
+NULL
+End AddRandomFactory
+
+TransformationFactory
+passage_prop_position0
+random_passage_prop
+Translation
+-1.86133
+-3.37665
+5.34913
+
+TransformationFactory
+passage_prop_position1
+random_passage_prop
+Translation
+-1.86133
+-3.37665
+5.34913
+
+TransformationFactory
+passage_prop_position2
+random_passage_prop
+Translation
+1.67518
+-3.37665
+6.49028
+
+TransformationFactory
+passage_prop_position3
+random_passage_prop
+Translation
+1.3925
+-3.37665
+-2.81478
+
+TransformationFactory
+passage_prop_position4
+random_passage_prop
+Translation
+1.3925
+-3.37665
+-1.81478
+
+TransformationFactory
+passage_prop_position5
+random_passage_prop
+Translation
+-2.15968
+-3.37665
+-2.0714
+
+TransformationFactory
+passage_prop_position6
+random_passage_prop
+Translation
+-2.13763
+-3.37665
+-6.60941
+
+SimpleObjectFactory
+passage0_level0_sublevel
+passage0_level0.mesh
+metal_passage.jpg
+0
+NULL
+
+ComplexObjectFactory
+passage0_level0_sublevel_complex
+Begin AddComposerFactory
+passage0_level0_sublevel
+passage_prop_position0
+passage_prop_position1
+passage_prop_position2
+passage_prop_position3
+passage_prop_position4
+passage_prop_position5
+passage_prop_position6
+End AddComposerFactory
+
+
 /// Passages
 
 SimpleObjectFactory
@@ -430,8 +650,8 @@ SimpleObjectFactory
 passage0_level0
 passage0_level0.mesh
 metal_passage.jpg
-0
-NULL
+150
+passage0_level0_sublevel_complex
 
 
 TransformationFactory
@@ -534,7 +754,7 @@ complete_passage_random
 Begin AddRandomFactory
 1
 complete_passage
-2
+5
 no_passage
 End AddRandomFactory
 
@@ -625,9 +845,20 @@ passage_fourth_stage
 End AddComposerFactory
 
 
+//// LEVEL 1
+
+// Two building blocks supposedely linked by passages
+SimpleObjectFactory
+metal_wall0_level1
+metal_wall0_level1.mesh
+metal_wall0_level1.jpg
+500
+metal_2buildings_104_104_passages
+
+
 TransformationFactory
 metal_2buildings_104_104_passages_transf_up_64
-metal_2buildings_104_104_passages
+metal_wall0_level1
 Translation
 0
 64
@@ -635,7 +866,7 @@ Translation
 
 TransformationFactory
 metal_2buildings_104_104_passages_transf_up_128
-metal_2buildings_104_104_passages
+metal_wall0_level1
 Translation
 0
 128
@@ -643,7 +874,7 @@ Translation
 
 TransformationFactory
 metal_2buildings_104_104_passages_transf_up_192
-metal_2buildings_104_104_passages
+metal_wall0_level1
 Translation
 0
 192
@@ -654,14 +885,63 @@ Translation
 ComplexObjectFactory
 metal_2buildings_104_104_passages_stages
 Begin AddComposerFactory
-metal_2buildings_104_104_passages
+metal_wall0_level1
 metal_2buildings_104_104_passages_transf_up_64
 metal_2buildings_104_104_passages_transf_up_128
 metal_2buildings_104_104_passages_transf_up_192
 End AddComposerFactory
 
+TransformationFactory
+metal_2buildings_104_104_passages_stages_up_256
+metal_2buildings_104_104_passages_stages
+Translation
+0
+256
+0
 
-//// LEVEL 1
+
+// Still more stages
+ComplexObjectFactory
+metal_2buildings_104_104_passages_more_stages
+Begin AddComposerFactory
+metal_2buildings_104_104_passages_stages
+metal_2buildings_104_104_passages_stages_up_256
+End AddComposerFactory
+
+TransformationFactory
+metal_2buildings_104_104_passages_more_stages_pos0
+metal_2buildings_104_104_passages_more_stages
+Translation
+120
+0
+0
+
+TransformationFactory
+metal_2buildings_104_104_passages_more_stages_pos1
+metal_2buildings_104_104_passages_more_stages
+Translation
+240
+0
+0
+
+TransformationFactory
+metal_2buildings_104_104_passages_more_stages_pos2
+metal_2buildings_104_104_passages_more_stages
+Translation
+360
+0
+0
+
+
+// More buildings
+ComplexObjectFactory
+metal_2buildings_104_104_passages_more_building
+Begin AddComposerFactory
+metal_2buildings_104_104_passages_more_stages
+metal_2buildings_104_104_passages_more_stages_pos0
+metal_2buildings_104_104_passages_more_stages_pos1
+metal_2buildings_104_104_passages_more_stages_pos2
+End AddComposerFactory
 
 
 
@@ -672,4 +952,10 @@ Level2_Simple0
 A_Brick.mesh
 1d_debug.png
 90000
-metal_2buildings_104_104_passages_stages
+metal_2buildings_104_104_passages_more_building
+
+
+//metal_wall0_level1
+//metal_2buildings_104_104_passages
+//metal_2buildings_104_104_passages_stages
+//metal_2buildings_104_104_passages_more_building
