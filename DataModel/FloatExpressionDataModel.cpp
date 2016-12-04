@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "FloatExpressionDataModel.h"
 
+#include "UtilityReaderWriter.h"
+
 
 namespace DataModel
 {
@@ -53,16 +55,13 @@ namespace DataModel
 		string currentLine;
 
 		// Get the X component.
-		getline(*stream, currentLine);
-		float voxelSizeX = std::stof(currentLine);
+		float voxelSizeX = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the Y component.
-		getline(*stream, currentLine);
-		float voxelSizeY = std::stof(currentLine);
+		float voxelSizeY = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the Z component.
-		getline(*stream, currentLine);
-		float voxelSizeZ = std::stof(currentLine);
+		float voxelSizeZ = UtilityReaderWriter::ReadFloat(stream);
 
 		// Combine them into the final Vector3.
 		return Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);

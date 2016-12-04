@@ -31,7 +31,7 @@ namespace Generator
 		// Fills a list of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
 		void UpdateChildrenToRemove(list<Item*>* childrenToRemove);
 
-		// Fills a list of items to add, has to be called from an expanding paren
+		// Fills a list of items to add, has to be called from an expanding parent
 		void UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, list<Item*>* childrenToAdd);
 
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...

@@ -187,3 +187,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/OgreClient/buildings_with_bridges_testScene.txt
+/LODProceduralGenerator.VC.opendb

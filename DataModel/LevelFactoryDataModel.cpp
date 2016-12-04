@@ -4,6 +4,7 @@
 #include <exception>
 #include <iostream>
 
+
 namespace DataModel
 {
 	LevelFactoryDataModel::LevelFactoryDataModel()
@@ -34,7 +35,7 @@ namespace DataModel
 			}
 			else
 			{
-				throw new std::invalid_argument("This factory already exists.");
+				throw new std::invalid_argument("This factory already exists : " + _name);
 			}
 		}
 		else

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "MultiplicationDataModel.h"
+
 #include "MultiplicationExpression.h"
+#include "UtilityReaderWriter.h"
 
 using Math::MultiplicationExpression;
 
@@ -21,9 +23,7 @@ namespace DataModel
 		string currentLine;
 
 		// Get the ratio.
-		getline(*stream, currentLine);
-
-		float ratio = std::stof(currentLine);
+		float ratio = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the expression name.
 		getline(*stream, currentLine);

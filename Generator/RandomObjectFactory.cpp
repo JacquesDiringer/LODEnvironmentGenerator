@@ -31,6 +31,7 @@ namespace Generator
 	{
 		list<Item*> result = list<Item*>();
 
+		// TODO: Find a better way to a generate random number.
 		std::srand((parent->GetId() + childrenNumber) * (parent->GetId() + childrenNumber) * 100);
 
 		int newSeed = std::rand();

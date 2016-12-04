@@ -2,6 +2,7 @@
 #include "TransformationFactoryDataModel.h"
 
 #include "TransformationFactory.h"
+#include "UtilityReaderWriter.h"
 
 using std::getline;
 using Generator::TransformationFactory;
@@ -70,12 +71,10 @@ namespace DataModel
 	{
 		// Read the 16 matrix values.
 		float matrixParameters[16];
-		string currentParameter;
 
 		for (int i = 0; i < 16; i++)
 		{
-			getline(*stream, currentParameter);
-			matrixParameters[i] = std::stof(currentParameter);
+			matrixParameters[i] = UtilityReaderWriter::ReadFloat(stream);
 		}
 
 		// Create and return the matrix.
@@ -86,13 +85,8 @@ namespace DataModel
 	}
 	Matrix4 TransformationFactoryDataModel::ReadYRotation(ifstream * stream)
 	{
-		// Stores the string descibing the rotation angle in degrees.
-		string rotationString;
-
-		// Gets the string.
-		getline(*stream, rotationString);
-		// Convert the string to a float value.
-		float rotation = std::stof(rotationString);
+		// Get the rotation value.
+		float rotation = UtilityReaderWriter::ReadFloat(stream);
 
 		// Create and return the matrix.
 		return Matrix4::CreateRotationY(rotation);
@@ -108,8 +102,7 @@ namespace DataModel
 		// Read the 3 values.
 		for (int i = 0; i < 3; i++)
 		{
-			getline(*stream, currentParameter);
-			translationParameters[i] = std::stof(currentParameter);
+			translationParameters[i] = UtilityReaderWriter::ReadFloat(stream);
 		}
 
 		// Create and return the matrix.

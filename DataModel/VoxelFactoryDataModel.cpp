@@ -3,6 +3,7 @@
 
 #include "VoxelFactory.h"
 #include "FloatExpressionDataModel.h"
+#include "UtilityReaderWriter.h"
 
 using Generator::VoxelFactory;
 using std::list;
@@ -45,8 +46,7 @@ namespace DataModel
 		bool isDomainLimited = std::stoi(currentLine);
 
 		// Read the minimal density float.
-		getline(*stream, currentLine);
-		float minimalDensity = std::stof(currentLine);
+		float minimalDensity = UtilityReaderWriter::ReadFloat(stream);
 
 		// Initialize the factory with the read parameters.
 		VoxelFactory* result = new VoxelFactory(voxelSize, domainSize, expression, isDomainLimited, minimalDensity);

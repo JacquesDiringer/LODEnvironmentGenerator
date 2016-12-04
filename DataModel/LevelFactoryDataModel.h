@@ -36,13 +36,21 @@ namespace DataModel
 		void AddFloatExpression(map<string, FloatExpression*>* additionalMap);
 
 	protected:
+		// Virtual methods.
+
 		// Concrete read, has to be implemented by any class implementing LevelFactoryDataModel.
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories) = 0;
 		// Concrete write, has to be implemented by any class implementing LevelFactoryDataModel.
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite) = 0;
 
+
+		// Utility functions.
+
 		// Fetches a factory according to its instance name, in the previously loaded factories.
 		static LevelFactory* GetFactoryByName(string name, map<string, LevelFactory*>* previousFactories);
+
+
+		// Fields.
 
 		// Instance name of the factory.
 		string _name;

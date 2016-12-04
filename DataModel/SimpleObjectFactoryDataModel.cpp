@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SimpleObjectFactoryDataModel.h"
+
 #include "SimpleObjectFactory.h"
+#include "UtilityReaderWriter.h"
 
 using std::getline;
 using Generator::SimpleObjectFactory;
@@ -34,10 +36,8 @@ namespace DataModel
 		// Get the texture name line.
 		getline(*stream, textureName);
 
-		// Get the string distance of expansion of the factory.
-		getline(*stream, expansionDistanceString);
-		// Then translate it to a floating value.
-		expansionDistance = std::stof(expansionDistanceString);
+		// Get the float distance of expansion of the factory.
+		expansionDistance = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the string name of the sublevel factory.
 		getline(*stream, subLevelFactoryName);

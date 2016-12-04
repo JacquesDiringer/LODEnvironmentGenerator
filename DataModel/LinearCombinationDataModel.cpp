@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "LinearCombinationDataModel.h"
+
 #include "LinearCombinationExpression.h"
+#include "UtilityReaderWriter.h"
 
 using std::getline;
 
@@ -22,9 +24,7 @@ namespace DataModel
 		string currentLine;
 
 		// Get the first ratio.
-		getline(*stream, currentLine);
-
-		float aRatio = std::stof(currentLine);
+		float aRatio = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the first expression name.
 		getline(*stream, currentLine);
@@ -34,9 +34,7 @@ namespace DataModel
 
 
 		// Get the second ratio.
-		getline(*stream, currentLine);
-
-		float bRatio = std::stof(currentLine);
+		float bRatio = UtilityReaderWriter::ReadFloat(stream);
 
 		// Get the second expression name.
 		getline(*stream, currentLine);
