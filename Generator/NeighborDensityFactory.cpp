@@ -105,7 +105,6 @@ namespace Generator
 				int idCounter = 0;
 				for each (Item* currentItem in generatedItems)
 				{
-					//currentItem->SetRelativeMatrix(currentRotationMatrix * currentItem->GetRelativeMatrix());
 					currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
 					Vector3 position = currentItem->GetWorldMatrix().Position();
 					currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
