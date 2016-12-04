@@ -5,7 +5,7 @@
 #include "ComplexObjectFactoryDataModel.h"
 #include "TransformationFactoryDataModel.h"
 #include "RandomObjectFactoryDataModel.h"
-#include "VoxelFactoryDataModel.h"
+#include "NeighborDensityFactoryDataModel.h"
 #include "ArrayFactoryDataModel.h"
 
 #include "LinearFunctionDataModel.h"
@@ -26,7 +26,7 @@ namespace DataModel
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ComplexObjectFactory", new ComplexObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("TransformationFactory", new TransformationFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("RandomObjectFactory", new RandomObjectFactoryDataModel));
-		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("VoxelFactory", new VoxelFactoryDataModel));
+		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("NeighborDensityFactory", new NeighborDensityFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ArrayFactory", new ArrayFactoryDataModel));
 
 		_floatExpressionsDataModelMap = map<string, FloatExpressionDataModel*>();

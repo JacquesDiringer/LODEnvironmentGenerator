@@ -18,13 +18,13 @@ using std::list;
 
 namespace Generator
 {
-	class GENERATOR_API VoxelFactory :
+	class GENERATOR_API NeighborDensityFactory :
 		public LevelFactory
 	{
 	public:
-		VoxelFactory();
-		VoxelFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
-		~VoxelFactory();
+		NeighborDensityFactory();
+		NeighborDensityFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
+		~NeighborDensityFactory();
 
 		// Generates children for the parent.
 		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber);

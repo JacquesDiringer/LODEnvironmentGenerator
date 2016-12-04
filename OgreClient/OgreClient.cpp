@@ -17,7 +17,7 @@
 #include "ComplexObjectFactory.h"
 #include "RandomObjectFactory.h"
 #include "TransformationFactory.h"
-#include "VoxelFactory.h"
+#include "NeighborDensityFactory.h"
 #include "ArrayFactory.h"
 
 #include "FloatExpression.h"
@@ -347,7 +347,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 	//Vector3 voxelFactorySize = Vector3(10, 10, 10);
 	Vector3 voxelFactorySize = Vector3(5, 5, 5);
-	VoxelFactory* testVoxelFactory = new VoxelFactory(Vector3(1.0f, 1.0f, 1.0f), voxelFactorySize, combinationExpression, false, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), voxelFactorySize, combinationExpression, false, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),

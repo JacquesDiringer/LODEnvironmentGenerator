@@ -57,9 +57,6 @@
     <ClInclude Include="LinearFunctionDataModel.h">
       <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
-    <ClInclude Include="VoxelFactoryDataModel.h">
-      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
-    </ClInclude>
     <ClInclude Include="LinearCombinationDataModel.h">
       <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
@@ -74,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="UtilityReaderWriter.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="NeighborDensityFactoryDataModel.h">
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,9 +104,6 @@
     <ClCompile Include="LinearFunctionDataModel.cpp">
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelFactoryDataModel.cpp">
-      <Filter>Fichiers sources\FactoriesDataModel</Filter>
-    </ClCompile>
     <ClCompile Include="LinearCombinationDataModel.cpp">
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
@@ -121,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="UtilityReaderWriter.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NeighborDensityFactoryDataModel.cpp">
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

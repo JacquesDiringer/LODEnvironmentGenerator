@@ -87,9 +87,6 @@
     <ClInclude Include="RandomObjectFactory.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="VoxelFactory.h">
-      <Filter>Header Files\SceneGraph</Filter>
-    </ClInclude>
     <ClInclude Include="FloatExpression.h">
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
@@ -106,6 +103,9 @@
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
     <ClInclude Include="ArrayFactory.h">
+      <Filter>Header Files\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="NeighborDensityFactory.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,9 +155,6 @@
     <ClCompile Include="TransformationFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelFactory.cpp">
-      <Filter>Source Files\SceneGraph</Filter>
-    </ClCompile>
     <ClCompile Include="FloatExpression.cpp">
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="ArrayFactory.cpp">
+      <Filter>Source Files\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="NeighborDensityFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>

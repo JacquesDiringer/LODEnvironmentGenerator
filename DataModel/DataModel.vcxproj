@@ -152,7 +152,7 @@
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TransformationFactoryDataModel.h" />
     <ClInclude Include="UtilityReaderWriter.h" />
-    <ClInclude Include="VoxelFactoryDataModel.h" />
+    <ClInclude Include="NeighborDensityFactoryDataModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayFactoryDataModel.cpp" />
@@ -174,7 +174,7 @@
     </ClCompile>
     <ClCompile Include="TransformationFactoryDataModel.cpp" />
     <ClCompile Include="UtilityReaderWriter.cpp" />
-    <ClCompile Include="VoxelFactoryDataModel.cpp" />
+    <ClCompile Include="NeighborDensityFactoryDataModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

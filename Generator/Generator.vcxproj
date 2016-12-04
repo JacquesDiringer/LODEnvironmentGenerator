@@ -164,7 +164,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TransformationFactory.h" />
     <ClInclude Include="Vector3.h" />
-    <ClInclude Include="VoxelFactory.h" />
+    <ClInclude Include="NeighborDensityFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayFactory.cpp" />
@@ -206,7 +206,7 @@
     </ClCompile>
     <ClCompile Include="TransformationFactory.cpp" />
     <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="VoxelFactory.cpp" />
+    <ClCompile Include="NeighborDensityFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

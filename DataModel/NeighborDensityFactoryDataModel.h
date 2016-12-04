@@ -6,12 +6,12 @@ using Math::Vector3;
 
 namespace DataModel
 {
-	class VoxelFactoryDataModel :
+	class NeighborDensityFactoryDataModel :
 		public LevelFactoryDataModel
 	{
 	public:
-		VoxelFactoryDataModel();
-		~VoxelFactoryDataModel();
+		NeighborDensityFactoryDataModel();
+		~NeighborDensityFactoryDataModel();
 
 	protected:
 		virtual LevelFactory* InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories);

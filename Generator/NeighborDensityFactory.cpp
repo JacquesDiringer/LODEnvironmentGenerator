@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "VoxelFactory.h"
+#include "NeighborDensityFactory.h"
 #include "Item.h"
 
 namespace Generator
 {
-	VoxelFactory::VoxelFactory()
+	NeighborDensityFactory::NeighborDensityFactory()
 	{
 	}
 
-	VoxelFactory::VoxelFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
+	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
 		: _voxelSize(voxelSize), _domainSize(domainSize), _densityExpression(densityExpression), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
 	{
 		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0 || domainSize.X() == 0 || domainSize.Y() == 0 || domainSize.Z() == 0)
@@ -20,11 +20,11 @@ namespace Generator
 	}
 
 
-	VoxelFactory::~VoxelFactory()
+	NeighborDensityFactory::~NeighborDensityFactory()
 	{
 	}
 
-	list<Item*> VoxelFactory::GenerateLevel(Item * parent, int childrenNumber)
+	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber)
 	{
 		list<Item*> newItems = list<Item*>();
 
@@ -60,7 +60,7 @@ namespace Generator
 		return newItems;
 	}
 
-	void VoxelFactory::AddRule(bool const conditions[8], LevelFactory * factory)
+	void NeighborDensityFactory::AddRule(bool const conditions[8], LevelFactory * factory)
 	{
 		list<bool> conditionsList = list<bool>();
 
@@ -72,7 +72,7 @@ namespace Generator
 		AddRule(conditionsList, factory);
 	}
 
-	void VoxelFactory::AddRule(list<bool>conditions, LevelFactory * factory)
+	void NeighborDensityFactory::AddRule(list<bool>conditions, LevelFactory * factory)
 	{
 		for each (std::pair<list<bool>, LevelFactory*> rulePair in _rules)
 		{
@@ -85,7 +85,7 @@ namespace Generator
 		_rules.insert(std::pair<list<bool>, LevelFactory*>(conditions, factory));
 	}
 
-	list<Item*> VoxelFactory::ComputeVoxel(Item * parent, int childrenNumber, Vector3 localCoordinates)
+	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, Vector3 localCoordinates)
 	{
 		list<Item*> newItems = list<Item*>();
 
@@ -157,7 +157,7 @@ namespace Generator
 		return newItems;
 	}
 
-	float VoxelFactory::DensityFunction(const Vector3 fetchCoordinates)
+	float NeighborDensityFactory::DensityFunction(const Vector3 fetchCoordinates)
 	{
 		return _densityExpression->Evaluate(fetchCoordinates);
 		//return (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() > 10) || (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() < 0) || fetchCoordinates.Z() < 0 ? 1.0f : 0.0f;

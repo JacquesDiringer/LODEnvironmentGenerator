@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "VoxelFactoryDataModel.h"
+#include "NeighborDensityFactoryDataModel.h"
 
-#include "VoxelFactory.h"
+#include "NeighborDensityFactory.h"
 #include "FloatExpressionDataModel.h"
 #include "UtilityReaderWriter.h"
 
-using Generator::VoxelFactory;
+using Generator::NeighborDensityFactory;
 using std::list;
 
 namespace DataModel
 {
-	VoxelFactoryDataModel::VoxelFactoryDataModel()
+	NeighborDensityFactoryDataModel::NeighborDensityFactoryDataModel()
 	{
 	}
 
-	VoxelFactoryDataModel::~VoxelFactoryDataModel()
+	NeighborDensityFactoryDataModel::~NeighborDensityFactoryDataModel()
 	{
 	}
 
-	LevelFactory * VoxelFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * NeighborDensityFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
 	{
 		string currentLine;
 		
@@ -49,7 +49,7 @@ namespace DataModel
 		float minimalDensity = UtilityReaderWriter::ReadFloat(stream);
 
 		// Initialize the factory with the read parameters.
-		VoxelFactory* result = new VoxelFactory(voxelSize, domainSize, expression, isDomainLimited, minimalDensity);
+		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, domainSize, expression, isDomainLimited, minimalDensity);
 
 		// Then read the rules to be added to the factory.
 
@@ -89,7 +89,7 @@ namespace DataModel
 		return result;
 	}
 
-	void VoxelFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
+	void NeighborDensityFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
 		throw std::exception("Not implemented");
 	}
