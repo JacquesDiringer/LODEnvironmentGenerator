@@ -48,8 +48,7 @@ namespace DataModel
 			getline(*stream, currentLine);
 		}
 
-		_factory = result;
-		return _factory;
+		return result;
 	}
 
 	void RandomObjectFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)

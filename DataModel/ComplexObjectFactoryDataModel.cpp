@@ -44,7 +44,6 @@ namespace DataModel
 			getline(*stream, currentLine);
 		}
 
-		_factory = result;
 		return result;
 	}
 	void ComplexObjectFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)

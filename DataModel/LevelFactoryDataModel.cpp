@@ -23,7 +23,7 @@ namespace DataModel
 
 		// Read the specific content of the factory.
 		// The concrete implementation is supposed to fill the _factory field.
-		InternalRead(stream, previousFactories);
+		_factory = InternalRead(stream, previousFactories);
 
 		// The InternalRead has to have read something.
 		if (_name.length() > 0 && _factory != NULL)

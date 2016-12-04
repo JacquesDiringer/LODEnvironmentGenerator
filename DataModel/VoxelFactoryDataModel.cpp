@@ -86,9 +86,7 @@ namespace DataModel
 			getline(*stream, currentLine);
 		}
 
-
-		_factory = result;
-		return _factory;
+		return result;
 	}
 
 	void VoxelFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)

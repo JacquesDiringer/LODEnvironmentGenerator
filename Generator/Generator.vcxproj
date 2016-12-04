@@ -143,6 +143,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayFactory.h" />
     <ClInclude Include="ComplexObjectFactory.h" />
     <ClInclude Include="CosExpression.h" />
     <ClInclude Include="LinearCombinationExpression.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="VoxelFactory.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayFactory.cpp" />
     <ClCompile Include="ComplexObjectFactory.cpp" />
     <ClCompile Include="CosExpression.cpp" />
     <ClCompile Include="LinearCombinationExpression.cpp" />

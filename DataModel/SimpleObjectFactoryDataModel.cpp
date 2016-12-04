@@ -45,9 +45,8 @@ namespace DataModel
 		// Get the sublevel factory according to its name, if it exist.
 		LevelFactory* subLevelFactory = GetFactoryByName(subLevelFactoryName, previousFactories);
 
-		// Set the factory to be stored in the map.
-		_factory = new SimpleObjectFactory(modelName, textureName, expansionDistance, subLevelFactory);
-		return _factory;
+		// Return the factory to be stored in the map.
+		return new SimpleObjectFactory(modelName, textureName, expansionDistance, subLevelFactory);
 	}
 
 	void SimpleObjectFactoryDataModel::InternalWrite(ofstream* stream, LevelFactory* factoryToWrite)

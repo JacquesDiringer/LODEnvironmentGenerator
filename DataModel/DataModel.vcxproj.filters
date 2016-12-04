@@ -69,6 +69,12 @@
     <ClInclude Include="CosDataModel.h">
       <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayFactoryDataModel.h">
+      <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityReaderWriter.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -109,6 +115,12 @@
     </ClCompile>
     <ClCompile Include="CosDataModel.cpp">
       <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayFactoryDataModel.cpp">
+      <Filter>Fichiers sources\FactoriesDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityReaderWriter.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

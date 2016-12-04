@@ -95,6 +95,7 @@
     <Link>
       <AdditionalDependencies>Generator.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,6 +137,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayFactoryDataModel.h" />
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
     <ClInclude Include="CosDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
@@ -149,9 +151,11 @@
     <ClInclude Include="SimpleObjectFactoryDataModel.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TransformationFactoryDataModel.h" />
+    <ClInclude Include="UtilityReaderWriter.h" />
     <ClInclude Include="VoxelFactoryDataModel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayFactoryDataModel.cpp" />
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
     <ClCompile Include="CosDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />
@@ -169,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TransformationFactoryDataModel.cpp" />
+    <ClCompile Include="UtilityReaderWriter.cpp" />
     <ClCompile Include="VoxelFactoryDataModel.cpp" />
   </ItemGroup>
   <ItemGroup>

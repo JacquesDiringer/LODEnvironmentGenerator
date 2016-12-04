@@ -59,8 +59,7 @@ namespace DataModel
 			throw new std::exception("Invalid constructor specified.");
 		}
 
-		_factory = new TransformationFactory(subLevelFactory, transformation);
-		return _factory;
+		return new TransformationFactory(subLevelFactory, transformation);
 	}
 
 	void TransformationFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)

@@ -18,6 +18,7 @@
 #include "RandomObjectFactory.h"
 #include "TransformationFactory.h"
 #include "VoxelFactory.h"
+#include "ArrayFactory.h"
 
 #include "FloatExpression.h"
 #include "LinearFunctionExpression.h"
@@ -287,6 +288,18 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	// Level 1
 	//SimpleObjectFactory* level1_mainFrame = new SimpleObjectFactory("level1_mainFrame.mesh", "");
 
+}
+
+void InitializerArrayVoxelTestScene(SceneGraphManager* sceneManager)
+{
+	SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
+
+	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1, 2, 1.1), testCubeA);
+
+	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, arrayFactory);
+	item0->SetId(10);
+	sceneManager->QueueAddItem(item0);
 }
 
 void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
@@ -641,6 +654,7 @@ void OgreClient::createScene(void)
 	//InitializeAsianBuildingsTestScene(&_sceneManager);
 	//InitializerVoxelTestScene(&_sceneManager);
 	InitializeFileReadingTestScene(&_sceneManager);
+	//InitializerArrayVoxelTestScene(&_sceneManager);
 }
 
 
