@@ -8,12 +8,12 @@ namespace Generator
 	{
 	}
 
-	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
-		: _voxelSize(voxelSize), _domainSize(domainSize), _densityExpression(densityExpression), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
+	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
+		: _voxelSize(voxelSize), _densityExpression(densityExpression), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
 	{
-		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0 || domainSize.X() == 0 || domainSize.Y() == 0 || domainSize.Z() == 0)
+		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0)
 		{
-			throw new std::invalid_argument("None of the dimensions of the voxel size or the domain size can be 0");
+			throw new std::invalid_argument("None of the dimensions of the voxel size can be 0");
 		}
 
 		_rules = map<list<bool>, LevelFactory*>();
@@ -24,40 +24,9 @@ namespace Generator
 	{
 	}
 
-	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber)
+	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
 	{
-		list<Item*> newItems = list<Item*>();
-
-		int voxelNumber = 1;
-
-		int xMaxCount = _domainSize.X() / _voxelSize.X();
-		int yMaxCount = _domainSize.Y() / _voxelSize.Y();
-		int zMaxCount = _domainSize.Z() / _voxelSize.Z();
-
-		for (int xCount = 0; xCount < xMaxCount; xCount++)
-		{
-			for (int yCount = 0; yCount < yMaxCount; yCount++)
-			{
-				for (int zCount = 0; zCount < zMaxCount; zCount++)
-				{
-					Vector3 localCoordinates = Vector3(
-						-_domainSize.X() * 0.5f + _voxelSize.X() * xCount,
-						-_domainSize.Y() * 0.5f + _voxelSize.Y() * yCount,
-						-_domainSize.Z() * 0.5f + _voxelSize.Z() * zCount
-						);
-					list<Item*> generatedItems = ComputeVoxel(parent, childrenNumber * voxelNumber, localCoordinates);
-
-					for each (Item* currentItem in generatedItems)
-					{
-						newItems.push_back(currentItem);
-					}
-
-					++voxelNumber;
-				}
-			}
-		}
-
-		return newItems;
+		return ComputeVoxel(parent, childrenNumber, futureTransformation);
 	}
 
 	void NeighborDensityFactory::AddRule(bool const conditions[8], LevelFactory * factory)
@@ -85,11 +54,9 @@ namespace Generator
 		_rules.insert(std::pair<list<bool>, LevelFactory*>(conditions, factory));
 	}
 
-	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, Vector3 localCoordinates)
+	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
 	{
 		list<Item*> newItems = list<Item*>();
-
-		Matrix4 parentWorldMatrix = parent->GetWorldMatrix();
 
 		// New 8 values system
 		// One value for each vertex of the cube that contains the current "voxel".
@@ -118,9 +85,9 @@ namespace Generator
 			for (int fetchIndex = 0; fetchIndex < 8; fetchIndex++)
 			{
 				// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
-				Vector3 localDomainFetchCoordinates = localCoordinates + (Matrix4::Multiply(currentRotationMatrix, fetchCoordinates[fetchIndex] * _voxelSize));
+				Vector3 localDomainFetchCoordinates = Matrix4::Multiply(currentRotationMatrix, fetchCoordinates[fetchIndex] * _voxelSize);
 				// Then transforming to world coordinates by multiplying by the world mattrix of the father.
-				Vector3 worldFetchCoordinates = Matrix4::Multiply(parentWorldMatrix, localDomainFetchCoordinates);
+				Vector3 worldFetchCoordinates = Matrix4::Multiply(*futureTransformation, localDomainFetchCoordinates);
 				// Actually performing the fetch thanks to the density function and comparing the value to the minimal density required.
 				fetchedValues.push_back(DensityFunction(worldFetchCoordinates) > _minimalDensity);
 			}
@@ -133,16 +100,13 @@ namespace Generator
 				LevelFactory* associatedFactory = (*correspondingPairIterator).second;
 
 				// Then instanciate new items with this factory.
-				list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber);
-
-				// This matrix describe the transformation of the block localy to the domain.
-				// It is used to set the new item's at the right spot.
-				Matrix4 localBlockMatrix = Matrix4::CreateTranslation(localCoordinates) * currentRotationMatrix;
+				list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation);
 
 				int idCounter = 0;
 				for each (Item* currentItem in generatedItems)
 				{
-					currentItem->SetRelativeMatrix(localBlockMatrix * currentItem->GetRelativeMatrix());
+					//currentItem->SetRelativeMatrix(currentRotationMatrix * currentItem->GetRelativeMatrix());
+					currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
 					Vector3 position = currentItem->GetWorldMatrix().Position();
 					currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
 					// And put them in the returned list.

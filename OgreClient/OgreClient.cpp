@@ -347,7 +347,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 	//Vector3 voxelFactorySize = Vector3(10, 10, 10);
 	Vector3 voxelFactorySize = Vector3(5, 5, 5);
-	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), voxelFactorySize, combinationExpression, false, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), combinationExpression, false, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
@@ -556,11 +556,11 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 #pragma endregion
 
-	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+	int multiplicator = 10;
+	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Vector3(1, 1, 1), testVoxelFactory);
+	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "debug_texture.png", 50, smallArray);
 
-	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "debug_texture.png", 50, testVoxelFactory);
-
-	ComplexObjectFactory* voxelField = new ComplexObjectFactory();
+	/*ComplexObjectFactory* voxelField = new ComplexObjectFactory();
 
 	for (int i = -10; i < 10; i++)
 	{
@@ -571,9 +571,10 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 				voxelField->AddComposerFactory(new TransformationFactory(voxelCube, Matrix4::CreateTranslation(Vector3(i * voxelFactorySize.X(), j * voxelFactorySize.Y(), k * voxelFactorySize.Z()))));
 			}
 		}
-	}
-	//SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("building0_topFloor.mesh", "building0_topEdge.PNG");
-	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, voxelField);
+	}*/
+
+	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
+	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, voxelCube);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }

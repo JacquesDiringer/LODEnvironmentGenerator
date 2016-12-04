@@ -26,7 +26,7 @@ namespace Generator
 		~ArrayFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
 
 	private:
 		ComplexObjectFactory _arrayFactory;

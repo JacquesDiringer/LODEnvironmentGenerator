@@ -20,13 +20,14 @@ namespace Generator
 	{
 	}
 
-	list<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber)
+	list<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation)
 	{
 		list<Item*> result = list<Item*>();
 
 		SimpleObjectDisplayable* displayable = new SimpleObjectDisplayable(_modelName, _textureName);
 
-		Item* simpleObject = new Item(Matrix4::Identity(), parent, _expansionDistance, displayable, _subLevelFactory);
+		//Item* simpleObject = new Item(Matrix4::Identity(), parent, _expansionDistance, displayable, _subLevelFactory);
+		Item* simpleObject = new Item(*futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
 
 		result.push_back(simpleObject);
 

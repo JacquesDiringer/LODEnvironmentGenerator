@@ -23,11 +23,11 @@ namespace Generator
 	{
 	public:
 		NeighborDensityFactory();
-		NeighborDensityFactory(Vector3 voxelSize, Vector3 domainSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
+		NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
 		void AddRule(bool const conditions[8], LevelFactory* factory);
 		void AddRule(list<bool>conditions, LevelFactory* factory);
 
@@ -35,8 +35,6 @@ namespace Generator
 		// Dimension of one voxel block.
 		// This will determine the density function fetch step as well as the children position.
 		Vector3 _voxelSize;
-		// Dimension of the domain that will spawn children.
-		Vector3 _domainSize;
 		// When true, density fetches that happen to be outside of the domain will always return a density value of 0.
 		// TODO: Implement the 0 density fetch when outside the domain.
 		bool _isDomainLimited;
@@ -49,7 +47,7 @@ namespace Generator
 		FloatExpression* _densityExpression;
 
 	private:
-		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, Vector3 localCoordinates);
+		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation);
 		float DensityFunction(const Vector3 fetchCoordinates);
 	};
 }

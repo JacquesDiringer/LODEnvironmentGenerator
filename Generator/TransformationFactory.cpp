@@ -20,16 +20,22 @@ namespace Generator
 	{
 	}
 
-	list<Item*> TransformationFactory::GenerateLevel(Item* parent, int childrenNumber)
+	list<Item*> TransformationFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation)
 	{
-		list<Item*> result = _factory->GenerateLevel(parent, childrenNumber);
+		//Matrix4* newTransformation = &Matrix4::Multiply(_transformation, *futureTransformation);
+		Matrix4* newTransformation = &Matrix4::Multiply(*futureTransformation, _transformation);
 
-		for each (Item* currentItem in result)
-		{
-			currentItem->SetRelativeMatrix(Matrix4::Multiply(_transformation, currentItem->GetRelativeMatrix()));
-		}
+		//list<Item*> result = _factory->GenerateLevel(parent, childrenNumber, newTransformation);
 
-		return result;
+		//// TODO : Check for validity
+		//for each (Item* currentItem in result)
+		//{
+		//	currentItem->SetRelativeMatrix(Matrix4::Multiply(_transformation, currentItem->GetRelativeMatrix()));
+		//}
+
+		//return result;
+
+		return _factory->GenerateLevel(parent, childrenNumber, newTransformation);
 	}
 
 }

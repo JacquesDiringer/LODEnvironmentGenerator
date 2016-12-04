@@ -21,7 +21,7 @@ namespace Generator
 		void AddComposerFactory(LevelFactory* composerFactory);
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
 
 	private:
 		list<LevelFactory*> _itemOccurrences;

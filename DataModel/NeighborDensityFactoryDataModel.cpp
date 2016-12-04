@@ -25,9 +25,6 @@ namespace DataModel
 		// Read the voxel size.
 		Vector3 voxelSize = FloatExpressionDataModel::ReadVector3(stream);
 
-		// Read the domain size.
-		Vector3 domainSize = FloatExpressionDataModel::ReadVector3(stream);
-
 		// Read the density expression name.
 		getline(*stream, currentLine);
 
@@ -49,7 +46,7 @@ namespace DataModel
 		float minimalDensity = UtilityReaderWriter::ReadFloat(stream);
 
 		// Initialize the factory with the read parameters.
-		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, domainSize, expression, isDomainLimited, minimalDensity);
+		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, expression, isDomainLimited, minimalDensity);
 
 		// Then read the rules to be added to the factory.
 

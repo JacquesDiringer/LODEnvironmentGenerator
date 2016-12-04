@@ -95,7 +95,7 @@ namespace Generator
 
 		if (_subLevelFactory != NULL)
 		{
-			_children = _subLevelFactory->GenerateLevel(this, 1);
+			_children = _subLevelFactory->GenerateLevel(this, 1, &Matrix4::Identity());
 
 			for each (Item* child in _children)
 			{

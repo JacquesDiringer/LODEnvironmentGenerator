@@ -36,8 +36,8 @@ namespace Generator
 	{
 	}
 
-	list<Item*> ArrayFactory::GenerateLevel(Item * parent, int childrenNumber)
+	list<Item*> ArrayFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
 	{
-		return _arrayFactory.GenerateLevel(parent, childrenNumber);
+		return _arrayFactory.GenerateLevel(parent, childrenNumber, futureTransformation);
 	}
 }

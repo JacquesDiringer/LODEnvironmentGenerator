@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Matrix4.h"
+
 #include <list>
+
+using Math::Matrix4;
 
 using std::list;
 
@@ -21,8 +25,6 @@ namespace Generator
 		~LevelFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber) = 0;
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation) = 0;
 	};
-
-
 }
