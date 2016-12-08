@@ -556,22 +556,9 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 #pragma endregion
 
-	int multiplicator = 10;
+	int multiplicator = 2;
 	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Vector3(1, 1, 1), testVoxelFactory);
 	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "debug_texture.png", 50, smallArray);
-
-	/*ComplexObjectFactory* voxelField = new ComplexObjectFactory();
-
-	for (int i = -10; i < 10; i++)
-	{
-		for (int j = -10; j < 10; j++)
-		{
-			for (int k = -10; k < 10; k++)
-			{
-				voxelField->AddComposerFactory(new TransformationFactory(voxelCube, Matrix4::CreateTranslation(Vector3(i * voxelFactorySize.X(), j * voxelFactorySize.Y(), k * voxelFactorySize.Z()))));
-			}
-		}
-	}*/
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
 	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, voxelCube);
@@ -653,8 +640,8 @@ void OgreClient::createScene(void)
 
 	//InitializeQuaternionTestScene(&_sceneManager);
 	//InitializeAsianBuildingsTestScene(&_sceneManager);
-	//InitializerVoxelTestScene(&_sceneManager);
-	InitializeFileReadingTestScene(&_sceneManager);
+	InitializerVoxelTestScene(&_sceneManager);
+	//InitializeFileReadingTestScene(&_sceneManager);
 	//InitializerArrayVoxelTestScene(&_sceneManager);
 }
 

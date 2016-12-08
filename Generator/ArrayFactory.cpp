@@ -21,12 +21,12 @@ namespace Generator
 				for (int zIter = 0; zIter < zCount; zIter++)
 				{
 					// Translation for the TransformationFactory that will put the child factory at the right spot according to it's array index.
-					Matrix4 transflationMatrix = Matrix4::CreateTranslation(Vector3(
+					Matrix4 transformationMatrix = Matrix4::CreateTranslation(Vector3(
 						(xIter + 0.5f) * boxSize.X(),
 						(yIter + 0.5f) * boxSize.Y(),
 						(zIter + 0.5f) * boxSize.Z()));
 
-					_arrayFactory.AddComposerFactory(new TransformationFactory(factory, transflationMatrix));
+					_arrayFactory.AddComposerFactory(new TransformationFactory(factory, transformationMatrix));
 				}
 			}
 		}

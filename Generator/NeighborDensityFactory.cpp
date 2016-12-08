@@ -16,7 +16,7 @@ namespace Generator
 			throw new std::invalid_argument("None of the dimensions of the voxel size can be 0");
 		}
 
-		_rules = map<list<bool>, LevelFactory*>();
+		_rules = list<Rule*>();
 	}
 
 
@@ -29,34 +29,12 @@ namespace Generator
 		return ComputeVoxel(parent, childrenNumber, futureTransformation);
 	}
 
-	void NeighborDensityFactory::AddRule(bool const conditions[8], LevelFactory * factory)
-	{
-		list<bool> conditionsList = list<bool>();
-
-		for each (bool currentCondition in conditions)
-		{
-			conditionsList.push_back(currentCondition);
-		}
-
-		AddRule(conditionsList, factory);
-	}
-
 	void NeighborDensityFactory::AddRule(list<bool>conditions, LevelFactory * factory)
 	{
-		for each (std::pair<list<bool>, LevelFactory*> rulePair in _rules)
+		if (conditions.size() != 8)
 		{
-			if (rulePair.first == conditions)
-			{
-				throw new std::invalid_argument("A rule with the same conditions has already been added.");
-			}
+			throw new std::invalid_argument("This function is made to accept a list of 8 conditions only.");
 		}
-
-		_rules.insert(std::pair<list<bool>, LevelFactory*>(conditions, factory));
-	}
-
-	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
-	{
-		list<Item*> newItems = list<Item*>();
 
 		// New 8 values system
 		// One value for each vertex of the cube that contains the current "voxel".
@@ -73,44 +51,95 @@ namespace Generator
 			Vector3(0.5f, 0.5f, 0.5f),
 		};
 
+		// Declare the new rule.
+		Rule* newRule = new Rule(factory);
+		
+		// Then fill it.
+		int fetchIndex = 0;
+		for each (bool condition in conditions)
+		{
+			newRule->AddCondition(fetchCoordinates[fetchIndex], condition);
+			++fetchIndex;
+		}
+
+		for each (Rule* rule in _rules)
+		{
+			if (newRule == rule)
+			{
+				throw new std::invalid_argument("A rule with the same conditions has already been added.");
+			}
+		}
+
+		_rules.push_back(newRule);
+	}
+
+	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
+	{
+		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
+		map<Vector3, bool> fetchedValuesWorldCoordinates;
+
+		list<Item*> newItems = list<Item*>();
+
 		Matrix4 currentRotationMatrix = Matrix4::Identity();
 		Matrix4 quarterRotationMatrix = Matrix4::CreateRotationY(90);
 		// Calculations have to be done 4 times, rotating the fetching coordinates in the 4 cardinal directions to reduce the combination possibilities.
 		// The calculations can stop as spoon as a result is found. We don't want symetric conditions on the Y axis to spawn 4 objects at the same spot.
 		for (int rotationCount = 0; rotationCount < 4 && newItems.size() == 0; rotationCount++)
 		{
-			list<bool>fetchedValues;
-
 			// Fetch the density values at the right coordinates in the world.
-			for (int fetchIndex = 0; fetchIndex < 8; fetchIndex++)
+			for each(Rule* currentRule in _rules)
 			{
-				// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
-				Vector3 localDomainFetchCoordinates = Matrix4::Multiply(currentRotationMatrix, fetchCoordinates[fetchIndex] * _voxelSize);
-				// Then transforming to world coordinates by multiplying by the world mattrix of the father.
-				Vector3 worldFetchCoordinates = Matrix4::Multiply(*futureTransformation, localDomainFetchCoordinates);
-				// Actually performing the fetch thanks to the density function and comparing the value to the minimal density required.
-				fetchedValues.push_back(DensityFunction(worldFetchCoordinates) > _minimalDensity);
-			}
+				// Stays true if every condition reveals true.
+				bool ruleValidated = true;
 
-			// Compare the density values to the _rules stored.
-			std::map<list<bool>, LevelFactory*>::iterator correspondingPairIterator = _rules.find(fetchedValues);
-			if (correspondingPairIterator != _rules.end())
-			{
-				// If the fetched values correspond to a rule, retrieve the associated level factory.
-				LevelFactory* associatedFactory = (*correspondingPairIterator).second;
-
-				// Then instanciate new items with this factory.
-				list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation);
-
-				int idCounter = 0;
-				for each (Item* currentItem in generatedItems)
+				for each(Condition* currentCondition in currentRule->GetConditions())
 				{
-					currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
-					Vector3 position = currentItem->GetWorldMatrix().Position();
-					currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
-					// And put them in the returned list.
-					newItems.push_back(currentItem);
-					++idCounter;
+					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
+					Vector3 localDomainFetchCoordinates = Matrix4::Multiply(currentRotationMatrix, currentCondition->LocalFetchCoordinates * _voxelSize);
+					// Then transforming to world coordinates by multiplying by the world mattrix of the father.
+					Vector3 worldFetchCoordinates = Matrix4::Multiply(*futureTransformation, localDomainFetchCoordinates);
+
+					bool fetchResult;
+
+					// If these coordinates have already been fetched, retrieve the resulting value from the map.
+					map<Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
+					if (worldCoordinatesFetchIterator != fetchedValuesWorldCoordinates.end())
+					{
+						fetchResult = (*worldCoordinatesFetchIterator).second;
+					}
+					else
+					{
+						// Actually performing the fetch thanks to the density function and comparing the value to the minimal density required.
+						fetchResult = DensityFunction(worldFetchCoordinates) > _minimalDensity;
+
+						// Store the value in a map for optimization purposes. Don't fetch twice at the same world coordinates.
+						fetchedValuesWorldCoordinates.insert(std::pair<Vector3, bool>(worldFetchCoordinates, fetchResult));
+					}
+
+					// Invalidate the rule if one of the conditions is false.
+					ruleValidated &= fetchResult == currentCondition->ExpectedValue;
+				}
+
+				if (ruleValidated)
+				{
+					// If the fetched values correspond to a rule, retrieve the associated level factory.
+					LevelFactory* associatedFactory = currentRule->GetFactory();
+
+					// Then instanciate new items with this factory.
+					list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation);
+
+					int idCounter = 0;
+					for each (Item* currentItem in generatedItems)
+					{
+						// Correct the rotation of the items.
+						currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
+						Vector3 position = currentItem->GetWorldMatrix().Position();
+						// Give them a better ID.
+						currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
+						++idCounter;
+					}
+
+					return generatedItems;
 				}
 			}
 
@@ -123,10 +152,59 @@ namespace Generator
 	float NeighborDensityFactory::DensityFunction(const Vector3 fetchCoordinates)
 	{
 		return _densityExpression->Evaluate(fetchCoordinates);
-		//return (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() > 10) || (fetchCoordinates.Y() < 0) && (fetchCoordinates.X() < 0) || fetchCoordinates.Z() < 0 ? 1.0f : 0.0f;
-
-		//return (fetchCoordinates.Y() + std::cos(fetchCoordinates.X() / 10.0) * 20.0 < 0) && fetchCoordinates.Z() < 0 ? 1.0f : 0.0f;
-		//return fetchCoordinates.Y() + std::cos(fetchCoordinates.X() / 10.0) * 10.0 + std::cos(fetchCoordinates.Z() / 5.0) * 5.0 < 0 ? 1.0f : 0.0f;
 	}
 
+	NeighborDensityFactory::Rule::Rule()
+	{
+	}
+
+	NeighborDensityFactory::Rule::Rule(LevelFactory * factory)
+		: _factory(factory)
+	{
+		_conditionsList = list<Condition*>();
+	}
+
+	NeighborDensityFactory::Rule::~Rule()
+	{
+	}
+
+	void NeighborDensityFactory::Rule::AddCondition(Vector3 fetchCoordinates, bool expectedValue)
+	{
+		Condition* newCondition = new Condition();
+		newCondition->LocalFetchCoordinates = fetchCoordinates;
+		newCondition->ExpectedValue = expectedValue;
+
+		_conditionsList.push_back(newCondition);
+	}
+
+	bool NeighborDensityFactory::Rule::operator==(const Rule & other)
+	{
+		list<Condition*> othersConditions = other.GetConditions();
+
+		if (_conditionsList.size() != othersConditions.size())
+		{
+			return false;
+		}
+
+		for each (Condition* condition in _conditionsList)
+		{
+			bool matchingOtherCondition = false;
+
+			for each (Condition* otherCondition in othersConditions)
+			{
+				if (condition->LocalFetchCoordinates == otherCondition->LocalFetchCoordinates
+					&& condition->ExpectedValue == condition->ExpectedValue)
+				{
+					matchingOtherCondition == true;
+				}
+			}
+
+			if (!matchingOtherCondition)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

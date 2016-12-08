@@ -18,10 +18,13 @@ namespace Math
 
 		static float Distance(const Vector3 a, const Vector3 b);
 		static Vector3 Add(const Vector3 a, const Vector3 b);
+		float Length() const;
 		Vector3 operator+(const Vector3 b);
 		static Vector3 Multiply(const Vector3 a, const Vector3 b);
 		Vector3 operator*(const Vector3 b);
 		Vector3 operator*(const float multiplier);
+		bool operator==(const Vector3 other);
+		bool operator<(const Vector3 other) const; // Necessary operator to be able to but Vector3 in a map structure.
 
 
 		// Properties

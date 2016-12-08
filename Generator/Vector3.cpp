@@ -39,6 +39,11 @@ namespace Math
 			a.Z() + b.Z());
 	}
 
+	float Vector3::Length() const
+	{
+		return Vector3::Distance(*this, Vector3());
+	}
+
 	Vector3 Vector3::operator+(const Vector3 b)
 	{
 		return Vector3(
@@ -69,5 +74,25 @@ namespace Math
 			X() * multiplier,
 			Y() * multiplier,
 			Z() * multiplier);
+	}
+
+	bool Vector3::operator==(const Vector3 other)
+	{
+		return _x == other.X() && _y == other.Y() && _z == other.Z();
+	}
+
+	bool Vector3::operator<(const Vector3 other) const
+	{
+		if (_x != other.X())
+		{
+			return _x < other.X();
+		}
+
+		if (_y != other.Y())
+		{
+			return _y < other.Y();
+		}
+
+		return _z < other.Z();
 	}
 }
