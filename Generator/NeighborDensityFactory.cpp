@@ -62,6 +62,11 @@ namespace Generator
 			++fetchIndex;
 		}
 
+		AddRule(newRule);
+	}
+
+	void NeighborDensityFactory::AddRule(Rule * newRule)
+	{
 		for each (Rule* rule in _rules)
 		{
 			if (newRule == rule)

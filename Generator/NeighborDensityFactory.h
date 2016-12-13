@@ -54,6 +54,7 @@ namespace Generator
 		// Generates children for the parent.
 		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
 		void AddRule(list<bool>conditions, LevelFactory* factory);
+		void AddRule(Rule* newRule);
 
 	private:
 		// Dimension of one voxel block.
