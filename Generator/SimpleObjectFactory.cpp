@@ -20,7 +20,7 @@ namespace Generator
 	{
 	}
 
-	list<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation)
+	list<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		list<Item*> result = list<Item*>();
 

@@ -294,7 +294,7 @@ void InitializerArrayVoxelTestScene(SceneGraphManager* sceneManager)
 {
 	SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 
-	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1, 2, 1.1), testCubeA);
+	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1, 2, 1.1), true, testCubeA);
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
 	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, arrayFactory);
@@ -341,13 +341,11 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 #pragma region Rules declaration
 
 	LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0.05f, 0));
-	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, -6, 0));
+	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, 1, 0.4f));
 	CosExpression* cosExpression = new CosExpression(xExpression);
 	LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
 
-	//Vector3 voxelFactorySize = Vector3(10, 10, 10);
-	Vector3 voxelFactorySize = Vector3(5, 5, 5);
-	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), yExpression, false, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), combinationExpression, false, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
@@ -556,16 +554,17 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 #pragma endregion
 
+	Vector3 voxelFactorySize = Vector3(5, 5, 5);
 	int multiplicator = 1;
-	SimpleObjectFactory* object1 = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 10, testVoxelFactory);
+	//SimpleObjectFactory* object1 = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 20, testVoxelFactory);
 
-	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Vector3(1, 1, 1), object1);
+	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Vector3(1, 1, 1), true, testVoxelFactory);
 	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "1d_debug.png", 30, smallArray);
 
-	ArrayFactory* worldArray = new ArrayFactory(3, 4, 4, voxelFactorySize * multiplicator + Vector3(1, 1, 1), voxelCube);
+	ArrayFactory* worldArray = new ArrayFactory(10, 10, 10, voxelFactorySize * multiplicator + Vector3(0, 0, 0), true, voxelCube);
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
-	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, worldArray);
+	Item* item0 = new Item(Matrix4(Vector3(0, -10, 0)), NULL, 1000.0f, object0, worldArray);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }

@@ -21,7 +21,7 @@ namespace Generator
 		~TransformationFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 
 	private:
 		LevelFactory* _factory;

@@ -27,7 +27,7 @@ namespace Generator
 		_totalProbability += probability;
 	}
 
-	list<Item*> RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation)
+	list<Item*> RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		list<Item*> result = list<Item*>();
 
@@ -50,7 +50,7 @@ namespace Generator
 			if (probabilityCounter > randomNumber)
 			{
 				LevelFactory* currentFactory = std::get<1>(currentTuple);
-				return currentFactory->GenerateLevel(parent, childrenNumber, futureTransformation);
+				return currentFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
 			}
 		}
 

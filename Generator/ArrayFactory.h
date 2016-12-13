@@ -22,11 +22,11 @@ namespace Generator
 	public:
 		ArrayFactory();
 		// Each instance will be considered to be at the center of a box of dimension "boxSize", these boxes will be instanciated side by side.
-		ArrayFactory(int xCount, int yCount, int zCount, Vector3 boxSize, LevelFactory* factory);
+		ArrayFactory(int xCount, int yCount, int zCount, Vector3 boxSize, bool centered, LevelFactory* factory);
 		~ArrayFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformationm, const Matrix4* worldMatrix);
 
 	private:
 		ComplexObjectFactory _arrayFactory;

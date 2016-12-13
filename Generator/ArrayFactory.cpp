@@ -9,7 +9,7 @@ namespace Generator
 	{
 	}
 
-	ArrayFactory::ArrayFactory(int xCount, int yCount, int zCount, Vector3 boxSize, LevelFactory * factory)
+	ArrayFactory::ArrayFactory(int xCount, int yCount, int zCount, Vector3 boxSize, bool centered, LevelFactory * factory)
 	{
 		// The ArrayFactory is just a ComplexObjectFactory containing TransformationFactories putting the objects in the right spot according to their array index.
 		_arrayFactory = ComplexObjectFactory();
@@ -21,10 +21,21 @@ namespace Generator
 				for (int zIter = 0; zIter < zCount; zIter++)
 				{
 					// Translation for the TransformationFactory that will put the child factory at the right spot according to it's array index.
-					Matrix4 transformationMatrix = Matrix4::CreateTranslation(Vector3(
-						(xIter + 0.5f) * boxSize.X(),
-						(yIter + 0.5f) * boxSize.Y(),
-						(zIter + 0.5f) * boxSize.Z()));
+					Matrix4 transformationMatrix;
+					if (centered)
+					{
+						transformationMatrix = Matrix4::CreateTranslation(Vector3(
+							boxSize.X() *(-0.5f * xCount + xIter),
+							boxSize.Y() *(-0.5f * yCount + yIter),
+							boxSize.Z() *(-0.5f * zCount + zIter)));
+					}
+					else
+					{
+						transformationMatrix = Matrix4::CreateTranslation(Vector3(
+							(xIter + 0.5f) * boxSize.X(),
+							(yIter + 0.5f) * boxSize.Y(),
+							(zIter + 0.5f) * boxSize.Z()));
+					}
 
 					_arrayFactory.AddComposerFactory(new TransformationFactory(factory, transformationMatrix));
 				}
@@ -36,8 +47,8 @@ namespace Generator
 	{
 	}
 
-	list<Item*> ArrayFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
+	list<Item*> ArrayFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
-		return _arrayFactory.GenerateLevel(parent, childrenNumber, futureTransformation);
+		return _arrayFactory.GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
 	}
 }

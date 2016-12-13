@@ -52,7 +52,7 @@ namespace Generator
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation);
+		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 		void AddRule(list<bool>conditions, LevelFactory* factory);
 		void AddRule(Rule* newRule);
 
@@ -73,7 +73,7 @@ namespace Generator
 		FloatExpression* _densityExpression;
 
 	private:
-		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation);
+		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 		float DensityFunction(const Vector3 fetchCoordinates);
 	};
 }

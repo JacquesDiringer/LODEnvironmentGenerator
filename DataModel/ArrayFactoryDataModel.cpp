@@ -49,7 +49,9 @@ namespace DataModel
 			boxFloats[1],
 			boxFloats[2]);
 
-		return new ArrayFactory(xCount, yCount, zCount, boxSize, subLevelFactory);
+		bool centered = UtilityReaderWriter::ReadBool(stream);
+
+		return new ArrayFactory(xCount, yCount, zCount, boxSize, centered, subLevelFactory);
 	}
 
 	void ArrayFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)

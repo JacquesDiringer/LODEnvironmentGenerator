@@ -24,9 +24,9 @@ namespace Generator
 	{
 	}
 
-	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
+	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
-		return ComputeVoxel(parent, childrenNumber, futureTransformation);
+		return ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix);
 	}
 
 	void NeighborDensityFactory::AddRule(list<bool>conditions, LevelFactory * factory)
@@ -78,7 +78,7 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation)
+	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		map<Vector3, bool> fetchedValuesWorldCoordinates;
@@ -102,7 +102,7 @@ namespace Generator
 					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
 					Vector3 localDomainFetchCoordinates = Matrix4::Multiply(currentRotationMatrix, currentCondition->LocalFetchCoordinates * _voxelSize);
 					// Then transforming to world coordinates by multiplying by the world mattrix of the father.
-					Vector3 worldFetchCoordinates = Matrix4::Multiply(*futureTransformation, localDomainFetchCoordinates);
+					Vector3 worldFetchCoordinates = Matrix4::Multiply(*worldMatrix, localDomainFetchCoordinates);
 
 					bool fetchResult;
 
@@ -131,7 +131,7 @@ namespace Generator
 					LevelFactory* associatedFactory = currentRule->GetFactory();
 
 					// Then instanciate new items with this factory.
-					list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation);
+					list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
 
 					int idCounter = 0;
 					for each (Item* currentItem in generatedItems)

@@ -17,5 +17,6 @@ namespace DataModel
 
 		// Read a single line in the stream and interpret it as a float, stream will go the next line.
 		static float ReadFloat(ifstream* stream);
+		static bool ReadBool(ifstream* stream);
 	};
 }

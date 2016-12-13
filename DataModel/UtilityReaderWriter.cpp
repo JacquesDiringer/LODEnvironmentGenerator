@@ -22,4 +22,11 @@ namespace DataModel
 
 		return std::stof(currentLine);
 	}
+	bool UtilityReaderWriter::ReadBool(ifstream * stream)
+	{
+		string currentLine;
+		getline(*stream, currentLine);
+
+		return currentLine == "true";
+	}
 }
