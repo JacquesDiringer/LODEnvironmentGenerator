@@ -25,9 +25,9 @@ namespace Generator
 					if (centered)
 					{
 						transformationMatrix = Matrix4::CreateTranslation(Vector3(
-							boxSize.X() *(-0.5f * xCount + xIter),
-							boxSize.Y() *(-0.5f * yCount + yIter),
-							boxSize.Z() *(-0.5f * zCount + zIter)));
+							boxSize.X() *(-0.5f * (xCount - 1) + xIter),
+							boxSize.Y() *(-0.5f * (yCount - 1) + yIter),
+							boxSize.Z() *(-0.5f * (zCount - 1) + zIter)));
 					}
 					else
 					{
