@@ -108,6 +108,9 @@
     <ClInclude Include="NeighborDensityFactory.h">
       <Filter>Header Files\SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="AABExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="NeighborDensityFactory.cpp">
       <Filter>Source Files\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="AABExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

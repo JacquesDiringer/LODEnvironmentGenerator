@@ -143,6 +143,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AABExpression.h" />
     <ClInclude Include="ArrayFactory.h" />
     <ClInclude Include="ComplexObjectFactory.h" />
     <ClInclude Include="CosExpression.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="NeighborDensityFactory.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AABExpression.cpp" />
     <ClCompile Include="ArrayFactory.cpp" />
     <ClCompile Include="ComplexObjectFactory.cpp" />
     <ClCompile Include="CosExpression.cpp" />
