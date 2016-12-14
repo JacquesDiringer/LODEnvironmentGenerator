@@ -38,15 +38,11 @@ namespace DataModel
 		// Register the found expression for factory construction.
 		FloatExpression* expression = (*expressionIt).second;
 
-		// Read the domainIsLimited boolean.
-		getline(*stream, currentLine);
-		bool isDomainLimited = std::stoi(currentLine);
-
 		// Read the minimal density float.
 		float minimalDensity = UtilityReaderWriter::ReadFloat(stream);
 
 		// Initialize the factory with the read parameters.
-		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, expression, isDomainLimited, minimalDensity);
+		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, expression, minimalDensity);
 
 		// Then read the rules to be added to the factory.
 

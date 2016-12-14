@@ -8,8 +8,8 @@ namespace Generator
 	{
 	}
 
-	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity = 0.5f)
-		: _voxelSize(voxelSize), _densityExpression(densityExpression), _isDomainLimited(isDomainLimited), _minimalDensity(minimalDensity)
+	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, float minimalDensity = 0.5f)
+		: _voxelSize(voxelSize), _densityExpression(densityExpression), _minimalDensity(minimalDensity)
 	{
 		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0)
 		{

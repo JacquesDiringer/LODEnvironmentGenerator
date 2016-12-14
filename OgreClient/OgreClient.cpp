@@ -345,7 +345,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	CosExpression* cosExpression = new CosExpression(xExpression);
 	LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
 
-	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), combinationExpression, false, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), combinationExpression, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
@@ -643,8 +643,8 @@ void OgreClient::createScene(void)
 
 	//InitializeQuaternionTestScene(&_sceneManager);
 	//InitializeAsianBuildingsTestScene(&_sceneManager);
-	InitializerVoxelTestScene(&_sceneManager);
-	//InitializeFileReadingTestScene(&_sceneManager);
+	//InitializerVoxelTestScene(&_sceneManager);
+	InitializeFileReadingTestScene(&_sceneManager);
 	//InitializerArrayVoxelTestScene(&_sceneManager);
 }
 

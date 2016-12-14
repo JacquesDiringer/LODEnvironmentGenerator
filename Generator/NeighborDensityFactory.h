@@ -48,7 +48,7 @@ namespace Generator
 
 	public:
 		NeighborDensityFactory();
-		NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, bool isDomainLimited, float minimalDensity);
+		NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, float minimalDensity);
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
@@ -60,9 +60,6 @@ namespace Generator
 		// Dimension of one voxel block.
 		// This will determine the density function fetch step as well as the children position.
 		Vector3 _voxelSize;
-		// When true, density fetches that happen to be outside of the domain will always return a density value of 0.
-		// TODO: Implement the 0 density fetch when outside the domain.
-		bool _isDomainLimited;
 		// Density at which a voxel is considered not empty.
 		float _minimalDensity;
 		// A map of a set of 8 rules, and a LevelFactory.
