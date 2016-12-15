@@ -75,6 +75,9 @@
     <ClInclude Include="NeighborDensityFactoryDataModel.h">
       <Filter>Fichiers d%27en-tête\FactoriesDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="AABDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="NeighborDensityFactoryDataModel.cpp">
       <Filter>Fichiers sources\FactoriesDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="AABDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

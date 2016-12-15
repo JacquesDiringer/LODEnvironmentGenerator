@@ -30,9 +30,6 @@ namespace DataModel
 		FloatExpression* Read(ifstream* stream, map<string, FloatExpression*>* previousExpressions);
 		void Write(ofstream* stream, FloatExpression* expressionToWrite);
 
-		// General use functions.
-		static Vector3 ReadVector3(ifstream* stream);
-
 	protected:
 		// Concrete read, has to be implemented by any class implementing FloatExpressionDataModel.
 		virtual FloatExpression* InternalRead(ifstream* stream, map<string, FloatExpression*>* previousExpressions) = 0;

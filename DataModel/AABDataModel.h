@@ -1,13 +1,13 @@
 #pragma once
-#include "LinearFunctionDataModel.h"
+#include "FloatExpressionDataModel.h"
 namespace DataModel
 {
-	class LinearCombinationDataModel :
+	class AABDataModel :
 		public FloatExpressionDataModel
 	{
 	public:
-		LinearCombinationDataModel();
-		~LinearCombinationDataModel();
+		AABDataModel();
+		~AABDataModel();
 
 	protected:
 		// Concrete read, has to be implemented by any class implementing FloatExpressionDataModel.

@@ -50,23 +50,6 @@ namespace DataModel
 	{
 	}
 
-	Vector3 FloatExpressionDataModel::ReadVector3(ifstream* stream)
-	{
-		string currentLine;
-
-		// Get the X component.
-		float voxelSizeX = UtilityReaderWriter::ReadFloat(stream);
-
-		// Get the Y component.
-		float voxelSizeY = UtilityReaderWriter::ReadFloat(stream);
-
-		// Get the Z component.
-		float voxelSizeZ = UtilityReaderWriter::ReadFloat(stream);
-
-		// Combine them into the final Vector3.
-		return Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);
-	}
-
 	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(string name, map<string, FloatExpression*>* previousExpressions)
 	{
 		// If this factory is supposed to have a child.

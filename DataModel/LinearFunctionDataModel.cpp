@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LinearFunctionDataModel.h"
 #include "LinearFunctionExpression.h"
+#include "UtilityReaderWriter.h"
 #include "Vector3.h"
 
 using Math::LinearFunctionExpression;
@@ -19,7 +20,7 @@ namespace DataModel
 	FloatExpression * LinearFunctionDataModel::InternalRead(ifstream * stream, map<string, FloatExpression*>* previousExpressions)
 	{
 		// Get the ratios Vector3.
-		Vector3 ratios = ReadVector3(stream);
+		Vector3 ratios = UtilityReaderWriter::ReadVector3(stream);
 		
 		_expression = new LinearFunctionExpression(ratios);
 

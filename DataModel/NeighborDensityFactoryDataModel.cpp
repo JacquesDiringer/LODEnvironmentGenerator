@@ -2,7 +2,6 @@
 #include "NeighborDensityFactoryDataModel.h"
 
 #include "NeighborDensityFactory.h"
-#include "FloatExpressionDataModel.h"
 #include "UtilityReaderWriter.h"
 
 using Generator::NeighborDensityFactory;
@@ -23,7 +22,7 @@ namespace DataModel
 		string currentLine;
 		
 		// Read the voxel size.
-		Vector3 voxelSize = FloatExpressionDataModel::ReadVector3(stream);
+		Vector3 voxelSize = UtilityReaderWriter::ReadVector3(stream);
 
 		// Read the density expression name.
 		getline(*stream, currentLine);
