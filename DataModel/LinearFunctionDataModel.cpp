@@ -21,10 +21,8 @@ namespace DataModel
 	{
 		// Get the ratios Vector3.
 		Vector3 ratios = UtilityReaderWriter::ReadVector3(stream);
-		
-		_expression = new LinearFunctionExpression(ratios);
 
-		return _expression;
+		return new LinearFunctionExpression(ratios);
 	}
 
 	void LinearFunctionDataModel::InternalWrite(ofstream * stream, FloatExpression * expressionToWrite)

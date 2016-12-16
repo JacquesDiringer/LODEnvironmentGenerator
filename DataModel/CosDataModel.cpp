@@ -31,10 +31,8 @@ namespace DataModel
 			throw new std::invalid_argument("The expression has not been previously read.");
 		}
 
-		// Instanciate the linear combination expression.
-		_expression = new CosExpression(expression);
-
-		return _expression;
+		// Instanciate the linear combination expression and return it.
+		return new CosExpression(expression);
 	}
 
 	void CosDataModel::InternalWrite(ofstream * stream, FloatExpression * expressionToWrite)

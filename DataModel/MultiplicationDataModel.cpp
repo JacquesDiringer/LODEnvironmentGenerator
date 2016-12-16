@@ -36,10 +36,8 @@ namespace DataModel
 			throw new std::invalid_argument("The expression has not been previously read.");
 		}
 
-		// Instanciate the linear combination expression.
-		_expression = new MultiplicationExpression(expression, ratio);
-
-		return _expression;
+		// Instanciate the linear combination expression and return it.
+		return new MultiplicationExpression(expression, ratio);
 	}
 
 	void MultiplicationDataModel::InternalWrite(ofstream * stream, FloatExpression * expressionToWrite)

@@ -47,10 +47,8 @@ namespace DataModel
 			throw new std::invalid_argument("One of the necessary expression has not been previously read.");
 		}
 
-		// Instanciate the linear combination expression.
-		_expression = new LinearCombinationExpression(aExpression, bExpression, aRatio, bRatio);
-
-		return _expression;
+		// Instanciate the linear combination expression and return it.
+		return new LinearCombinationExpression(aExpression, bExpression, aRatio, bRatio);
 	}
 
 	void LinearCombinationDataModel::InternalWrite(ofstream * stream, FloatExpression * expressionToWrite)

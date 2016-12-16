@@ -22,7 +22,7 @@ namespace DataModel
 
 		// Read the specific content of the float expression.
 		// The concrete implementation is supposed to fill the _expression field.
-		InternalRead(stream, previousExpressions);
+		_expression = InternalRead(stream, previousExpressions);
 
 		// The InternalRead has to have read something.
 		if (_name.length() > 0 && _expression != NULL)
