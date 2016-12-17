@@ -27,7 +27,7 @@ namespace DataModel
 		string currentLine;
 		getline(*stream, currentLine);
 
-		return currentLine == "true";
+		return currentLine == "true" || currentLine == "1";
 	}
 
 	Vector3 UtilityReaderWriter::ReadVector3(ifstream* stream)

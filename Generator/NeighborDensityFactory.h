@@ -19,32 +19,33 @@ using std::list;
 
 namespace Generator
 {
+	struct Condition
+	{
+		Vector3 LocalFetchCoordinates;
+		bool ExpectedValue;
+	};
+
+	class GENERATOR_API Rule
+	{
+	public:
+		Rule();
+		Rule(LevelFactory* factory);
+		~Rule();
+
+		void AddCondition(Vector3 fetchCoordinates, bool expectedValue);
+		bool operator==(const Rule &other);
+
+		list<Condition*> GetConditions() const { return _conditionsList; }
+		LevelFactory* GetFactory() const { return _factory; }
+
+	private:
+		LevelFactory* _factory;
+		list<Condition*> _conditionsList;
+	};
+
 	class GENERATOR_API NeighborDensityFactory :
 		public LevelFactory
 	{
-		struct Condition
-		{
-			Vector3 LocalFetchCoordinates;
-			bool ExpectedValue;
-		};
-
-		class Rule
-		{
-		public:
-			Rule();
-			Rule(LevelFactory* factory);
-			~Rule();
-
-			void AddCondition(Vector3 fetchCoordinates, bool expectedValue);
-			bool operator==(const Rule &other);
-
-			list<Condition*> GetConditions() const { return _conditionsList; }
-			LevelFactory* GetFactory() const { return _factory; }
-
-		private:
-			LevelFactory* _factory;
-			list<Condition*> _conditionsList;
-		};
 
 	public:
 		NeighborDensityFactory();

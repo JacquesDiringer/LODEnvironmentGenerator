@@ -159,21 +159,21 @@ namespace Generator
 		return _densityExpression->Evaluate(fetchCoordinates);
 	}
 
-	NeighborDensityFactory::Rule::Rule()
+	Rule::Rule()
 	{
 	}
 
-	NeighborDensityFactory::Rule::Rule(LevelFactory * factory)
+	Rule::Rule(LevelFactory * factory)
 		: _factory(factory)
 	{
 		_conditionsList = list<Condition*>();
 	}
 
-	NeighborDensityFactory::Rule::~Rule()
+	Rule::~Rule()
 	{
 	}
 
-	void NeighborDensityFactory::Rule::AddCondition(Vector3 fetchCoordinates, bool expectedValue)
+	void Rule::AddCondition(Vector3 fetchCoordinates, bool expectedValue)
 	{
 		Condition* newCondition = new Condition();
 		newCondition->LocalFetchCoordinates = fetchCoordinates;
@@ -182,7 +182,7 @@ namespace Generator
 		_conditionsList.push_back(newCondition);
 	}
 
-	bool NeighborDensityFactory::Rule::operator==(const Rule & other)
+	bool Rule::operator==(const Rule & other)
 	{
 		list<Condition*> othersConditions = other.GetConditions();
 

@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "NeighborDensityFactoryDataModel.h"
 
-#include "NeighborDensityFactory.h"
 #include "UtilityReaderWriter.h"
 
-using Generator::NeighborDensityFactory;
+using Generator::Rule;
 using std::list;
 
 namespace DataModel
@@ -52,28 +51,22 @@ namespace DataModel
 			throw new std::invalid_argument("Wrong format.");
 		}
 
-		// Get the first rule factory name.
+		// Get the first rule's type.
 		getline(*stream, currentLine);
 		while (currentLine != "End AddRules")
 		{
-			// Get the corresponding factory.
-			LevelFactory* ruleFactory = GetFactoryByName(currentLine, previousFactories);
-
-			if (ruleFactory == NULL)
+			if (currentLine == "8FetchRule")
 			{
-				throw new std::invalid_argument("Cannot have a null factory as a rule.");
+				NeighborDensityFactoryDataModel::Read8FetchRule(stream, previousFactories, result);
 			}
-
-			// Read the 8 conditions and store them into a list.
-			list<bool> conditions = list<bool>();
-			for (int i = 0; i < 8; i++)
+			else if (currentLine == "CustomRule")
 			{
-				getline(*stream, currentLine);
-				conditions.push_back((bool)std::stoi(currentLine));
+				NeighborDensityFactoryDataModel::ReadCustomRule(stream, previousFactories, result);
 			}
-
-			result->AddRule(conditions, ruleFactory);
-
+			else
+			{
+				throw new std::invalid_argument("Keyword no corresponding to a type of Rule.");
+			}
 			// Read the newt line. Either a rule factory name or an end marker.
 			getline(*stream, currentLine);
 		}
@@ -84,5 +77,62 @@ namespace DataModel
 	void NeighborDensityFactoryDataModel::InternalWrite(ofstream * stream, LevelFactory * factoryToWrite)
 	{
 		throw std::exception("Not implemented");
+	}
+
+	void NeighborDensityFactoryDataModel::Read8FetchRule(ifstream * stream, map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
+	{
+		string currentLine;
+		// Get the rule factory name.
+		getline(*stream, currentLine);
+		// Get the corresponding factory.
+		LevelFactory* ruleFactory = GetFactoryByName(currentLine, previousFactories);
+
+		if (ruleFactory == NULL)
+		{
+			throw new std::invalid_argument("Cannot have a null factory as a rule.");
+		}
+
+		// Read the 8 conditions and store them into a list.
+		list<bool> conditions = list<bool>();
+		for (int i = 0; i < 8; i++)
+		{
+			getline(*stream, currentLine);
+			conditions.push_back((bool)std::stoi(currentLine));
+		}
+
+		factory->AddRule(conditions, ruleFactory);
+	}
+
+	void NeighborDensityFactoryDataModel::ReadCustomRule(ifstream * stream, map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
+	{
+		string currentLine;
+		// Get the rule factory name.
+		getline(*stream, currentLine);
+		// Get the corresponding factory.
+		LevelFactory* ruleFactory = GetFactoryByName(currentLine, previousFactories);
+
+		if (ruleFactory == NULL)
+		{
+			throw new std::invalid_argument("Cannot have a null factory as a rule.");
+		}
+
+		// Rule to be added.
+		Rule* newRule = new Rule(ruleFactory);
+
+		getline(*stream, currentLine);
+
+		// Fill the conditions of the Rule. Until the "End of Rule" marker is met.
+		while (currentLine != "End AddConditions")
+		{
+			Vector3 fetchCoordinates = UtilityReaderWriter::ReadVector3(stream);
+			bool expectedValue = UtilityReaderWriter::ReadBool(stream);
+
+			// Add the new condition to the Rule.
+			newRule->AddCondition(fetchCoordinates, expectedValue);
+
+			getline(*stream, currentLine);
+		}
+
+		factory->AddRule(newRule);
 	}
 }
