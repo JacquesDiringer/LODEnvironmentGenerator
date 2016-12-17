@@ -26,6 +26,7 @@
 #include "MultiplicationExpression.h"
 #include "CosExpression.h"
 #include "AABExpression.h"
+#include "BooleanOperatorExpression.h"
 
 #include "DependenceTreeDataModel.h"
 
@@ -349,9 +350,11 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	AABExpression* boxExpression = new AABExpression(Vector3(0, 0, 0), Vector3(8, 15, 16), true);
 	AABExpression* boxExpression2 = new AABExpression(Vector3(0, 0, 0), Vector3(40, 5, 3), true);
 
+	BooleanOperatorExpression* boolExpression0 = new BooleanOperatorExpression(boxExpression, boxExpression2, BooleanOperatorType::Xor);
+
 	LinearCombinationExpression* boxCombinationExpression = new LinearCombinationExpression(boxExpression, boxExpression2, 1, -1);
 
-	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), boxCombinationExpression, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), boolExpression0, 0.5f);
 	list<bool> conditionsWall = list<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
