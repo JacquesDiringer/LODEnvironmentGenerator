@@ -13,6 +13,7 @@
 #include "MultiplicationDataModel.h"
 #include "CosDataModel.h"
 #include "AABDataModel.h"
+#include "BooleanOperatorDataModel.h"
 
 #include<iostream>
 
@@ -36,6 +37,7 @@ namespace DataModel
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("MultiplicationExpression", new MultiplicationDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("CosExpression", new CosDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("AABExpression", new AABDataModel()));
+		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("BooleanOperatorExpression", new BooleanOperatorDataModel()));
 	}
 
 

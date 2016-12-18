@@ -112,7 +112,7 @@
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
     <ClInclude Include="BooleanOperatorExpression.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +186,7 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="BooleanOperatorExpression.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

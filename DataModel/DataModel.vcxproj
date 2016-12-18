@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="AABDataModel.h" />
     <ClInclude Include="ArrayFactoryDataModel.h" />
+    <ClInclude Include="BooleanOperatorDataModel.h" />
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
     <ClInclude Include="CosDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="AABDataModel.cpp" />
     <ClCompile Include="ArrayFactoryDataModel.cpp" />
+    <ClCompile Include="BooleanOperatorDataModel.cpp" />
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
     <ClCompile Include="CosDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />

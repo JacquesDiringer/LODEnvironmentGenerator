@@ -652,8 +652,8 @@ void OgreClient::createScene(void)
 
 	//InitializeQuaternionTestScene(&_sceneManager);
 	//InitializeAsianBuildingsTestScene(&_sceneManager);
-	InitializerVoxelTestScene(&_sceneManager);
-	//InitializeFileReadingTestScene(&_sceneManager);
+	//InitializerVoxelTestScene(&_sceneManager);
+	InitializeFileReadingTestScene(&_sceneManager);
 	//InitializerArrayVoxelTestScene(&_sceneManager);
 }
 

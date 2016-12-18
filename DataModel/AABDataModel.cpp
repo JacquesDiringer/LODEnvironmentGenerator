@@ -28,6 +28,6 @@ namespace DataModel
 
 	void AABDataModel::InternalWrite(ofstream * stream, FloatExpression * expressionToWrite)
 	{
-		throw std::exception("No implemented");
+		throw std::exception("Not implemented");
 	}
 }
