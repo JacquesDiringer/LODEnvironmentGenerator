@@ -14,7 +14,8 @@ namespace Math
 		No,
 		And,
 		Or,
-		Xor
+		Xor,
+		Nand,
 	};
 
 	class GENERATOR_API BooleanOperatorExpression :

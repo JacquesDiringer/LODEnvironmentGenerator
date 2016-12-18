@@ -46,6 +46,9 @@ namespace Math
 		case Math::Xor:
 			result = (aResult || bResult) && !(aResult && bResult);
 			break;
+		case Math::Nand:
+			result = !(aResult && bResult);
+			break;
 		default:
 			throw new std::invalid_argument("Wrong enum.");
 		}

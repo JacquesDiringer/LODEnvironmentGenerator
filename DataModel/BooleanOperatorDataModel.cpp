@@ -43,6 +43,10 @@ namespace DataModel
 		{
 			operatorType = Math::BooleanOperatorType::Xor;
 		}
+		else if (currentLine == "NAND")
+		{
+			operatorType = Math::BooleanOperatorType::Nand;
+		}
 		else
 		{
 			throw new std::invalid_argument("Wrong enum.");
