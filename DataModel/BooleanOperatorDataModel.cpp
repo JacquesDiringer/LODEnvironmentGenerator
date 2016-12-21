@@ -47,6 +47,10 @@ namespace DataModel
 		{
 			operatorType = Math::BooleanOperatorType::Nand;
 		}
+		else if (currentLine == "PNOQ")
+		{
+			operatorType = Math::BooleanOperatorType::PNoQ;
+		}
 		else
 		{
 			throw new std::invalid_argument("Wrong enum.");

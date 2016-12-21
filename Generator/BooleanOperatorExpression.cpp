@@ -49,6 +49,9 @@ namespace Math
 		case Math::Nand:
 			result = !(aResult && bResult);
 			break;
+		case Math::PNoQ:
+			result = aResult && (!bResult);
+			break;
 		default:
 			throw new std::invalid_argument("Wrong enum.");
 		}
