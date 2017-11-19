@@ -9,8 +9,8 @@ using Math::Matrix4;
 #define DATAMODEL_API __declspec(dllexport)
 #else
 #define DATAMODEL_API __declspec(dllimport)
-
 #endif
+
 namespace DataModel
 {
 	class DATAMODEL_API TransformationFactoryDataModel :

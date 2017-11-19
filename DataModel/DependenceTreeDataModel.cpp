@@ -48,7 +48,7 @@ namespace DataModel
 	LevelFactory * DependenceTreeDataModel::Read(string filePath)
 	{
 		// Last factory that has been read, it will be returned to define the root factory.
-		LevelFactory* lastFactory;
+		LevelFactory* lastFactory = nullptr;
 
 		// Open an input stream to the designated file path.
 		ifstream inputStream(filePath, ifstream::in);

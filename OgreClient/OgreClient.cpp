@@ -5,6 +5,10 @@
 
 #include <iostream>
 #include <list>
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
 
 #include "OgreClient.h"
 #include "Displayable.h"
@@ -36,9 +40,6 @@ using namespace Math;
 
 OgreClient::OgreClient(void)
 {
-	_refreshCounter = 0;
-	_refreshCounter2 = 0;
-
 	_timeSinceLastUpdate = 0;
 
 	_threadInitialized = false;
@@ -296,7 +297,7 @@ void InitializerArrayVoxelTestScene(SceneGraphManager* sceneManager)
 {
 	SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 
-	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1, 2, 1.1), true, testCubeA);
+	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1f, 2, 1.1f), true, testCubeA);
 
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
 	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 1000.0f, object0, arrayFactory);
@@ -661,14 +662,12 @@ void OgreClient::createScene(void)
 void RefreshGenerator(Generator::SceneGraphManager* sceneManager, Vector3 cameraPos)
 {
 	sceneManager->Update(cameraPos, Vector3(0, 0, 0));
+	//sceneManager->Flush();
 }
 
 
 bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 {
-	_refreshCounter++;
-	_refreshCounter2++;
-
 	_timeSinceLastUpdate += evt.timeSinceLastFrame;
 
 	// Flush refresh
@@ -682,19 +681,31 @@ bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 			_proceduralGeneratorThread.join();
 		}
 
+		//std::chrono::high_resolution_clock::time_point tpSceneManager0 = std::chrono::high_resolution_clock::now();
+
 		_sceneManager.Flush();
+
+		/*high_resolution_clock::time_point tpSceneManager1 = high_resolution_clock::now();
+		auto sceneManagerDuration = duration_cast<microseconds>(tpSceneManager1 - tpSceneManager0).count();
+		std::cout << "Scene manager" << sceneManagerDuration << std::endl;*/
 
 		_proceduralGeneratorThread = std::thread(RefreshGenerator, &_sceneManager, cameraPos);
 
 		//_proceduralGeneratorThread.join();
 
 		_threadInitialized = true;
-		_refreshCounter2 = 0;
 		_timeSinceLastUpdate = 0;
 
 	}
 
+	//std::chrono::high_resolution_clock::time_point tpOgreInstanciater0 = std::chrono::high_resolution_clock::now();
+
 	_ogreInstanciater->Flush(30, 30);
+
+	/*high_resolution_clock::time_point tpOgreInstanciater1 = high_resolution_clock::now();
+	auto ogreInstanciaterDuration = duration_cast<microseconds>(tpOgreInstanciater1 - tpOgreInstanciater0).count();
+	std::cout << "Instanciater : " << ogreInstanciaterDuration << std::endl;*/
+
 	return true;
 }
 

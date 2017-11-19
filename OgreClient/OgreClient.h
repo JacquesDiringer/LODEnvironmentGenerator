@@ -27,7 +27,6 @@ protected:
 
 private:
 	//Generator::CGenerator * _testGenerator;
-	int _refreshCounter, _refreshCounter2;
 	Generator::SceneGraphManager _sceneManager;
 	OgreInstanciater* _ogreInstanciater;
 	Ogre::Vector3 _lastCameraPosition;

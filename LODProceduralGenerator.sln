@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OgreClient", "OgreClient\OgreClient.vcxproj", "{B6148B7A-12E8-4E70-B092-D67C407CB455}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,6 +14,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataModel", "DataModel\DataModel.vcxproj", "{0CDFA58D-F10B-4C85-B060-326B896ED7FD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8218AE1E-51E4-4F16-A784-F4FE81D3FAEC} = {8218AE1E-51E4-4F16-A784-F4FE81D3FAEC}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F36BF593-03A5-480D-AF08-09F062177E4F}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
 	EndProjectSection
 EndProject
 Global

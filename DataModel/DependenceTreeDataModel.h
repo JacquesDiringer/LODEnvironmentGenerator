@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <string>
-#include <map>;
+#include <map>
 
 #include "LevelFactory.h"
 #include "LevelFactoryDataModel.h"
