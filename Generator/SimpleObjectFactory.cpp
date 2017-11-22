@@ -20,9 +20,9 @@ namespace Generator
 	{
 	}
 
-	list<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
-		list<Item*> result = list<Item*>();
+		vector<Item*> result = vector<Item*>();
 
 		SimpleObjectDisplayable* displayable = new SimpleObjectDisplayable(_modelName, _textureName);
 

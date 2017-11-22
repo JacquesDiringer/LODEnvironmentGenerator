@@ -23,10 +23,10 @@ namespace Generator
 		void AddAlternativeFactory(float probability, LevelFactory* alternativeFactory);
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 
 	private:
 		float _totalProbability;
-		list<tuple< float, LevelFactory*>> _alternativeFactories; // List of objects that might be created, the first element of the tuple is the probability of the object to be chosen, the second is factory to create the object
+		vector<tuple< float, LevelFactory*>> _alternativeFactories; // List of objects that might be created, the first element of the tuple is the probability of the object to be chosen, the second is factory to create the object
 	};
 }

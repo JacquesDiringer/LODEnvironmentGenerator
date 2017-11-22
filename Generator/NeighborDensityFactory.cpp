@@ -16,7 +16,7 @@ namespace Generator
 			throw new std::invalid_argument("None of the dimensions of the voxel size can be 0");
 		}
 
-		_rules = list<Rule*>();
+		_rules = vector<Rule*>();
 	}
 
 
@@ -24,16 +24,16 @@ namespace Generator
 	{
 	}
 
-	list<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		return ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix);
 	}
 
-	void NeighborDensityFactory::AddRule(list<bool>conditions, LevelFactory * factory)
+	void NeighborDensityFactory::AddRule(vector<bool>conditions, LevelFactory * factory)
 	{
 		if (conditions.size() != 8)
 		{
-			throw new std::invalid_argument("This function is made to accept a list of 8 conditions only.");
+			throw new std::invalid_argument("This function is made to accept a vector of 8 conditions only.");
 		}
 
 		// New 8 values system
@@ -78,12 +78,12 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	list<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		map<Vector3, bool> fetchedValuesWorldCoordinates;
 
-		list<Item*> newItems = list<Item*>();
+		vector<Item*> newItems = vector<Item*>();
 
 		Matrix4 currentRotationMatrix = Matrix4::Identity();
 		Matrix4 quarterRotationMatrix = Matrix4::CreateRotationY(90);
@@ -131,7 +131,7 @@ namespace Generator
 					LevelFactory* associatedFactory = currentRule->GetFactory();
 
 					// Then instanciate new items with this factory.
-					list<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
+					vector<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
 
 					int idCounter = 0;
 					for each (Item* currentItem in generatedItems)
@@ -166,7 +166,7 @@ namespace Generator
 	Rule::Rule(LevelFactory * factory)
 		: _factory(factory)
 	{
-		_conditionsList = list<Condition*>();
+		_conditionsList = vector<Condition*>();
 	}
 
 	Rule::~Rule()
@@ -184,7 +184,7 @@ namespace Generator
 
 	bool Rule::operator==(const Rule & other)
 	{
-		list<Condition*> othersConditions = other.GetConditions();
+		vector<Condition*> othersConditions = other.GetConditions();
 
 		if (_conditionsList.size() != othersConditions.size())
 		{

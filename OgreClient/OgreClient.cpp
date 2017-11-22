@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include <iostream>
-#include <list>
+#include <vector>
 #include <chrono>
 
 using namespace std;
@@ -34,7 +34,7 @@ using namespace std::chrono;
 
 #include "DependenceTreeDataModel.h"
 
-using std::list;
+using std::vector;
 
 using namespace Math;
 
@@ -80,7 +80,7 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 	randomFactory->AddAlternativeFactory(0.2f, fourSplitFactory);
 
 	// Flat array
-	list<Item*> itemsToAdd = list<Item*>();
+	vector<Item*> itemsToAdd = vector<Item*>();
 	for (int i = 0; i < 1; i += 1)
 	{
 		for (int j = 0; j < 1; j += 1)
@@ -356,7 +356,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	LinearCombinationExpression* boxCombinationExpression = new LinearCombinationExpression(boxExpression, boxExpression2, 1, -1);
 
 	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), boolExpression0, 0.5f);
-	list<bool> conditionsWall = list<bool>();
+	vector<bool> conditionsWall = vector<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsWall.push_back(true);		 //(0.5f, -0.5f, -0.5f),
@@ -370,7 +370,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsWall, building0_wall);
 
 
-	list<bool> conditionsCorner = list<bool>();
+	vector<bool> conditionsCorner = vector<bool>();
 	conditionsCorner.push_back(false);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsCorner.push_back(false);			//(0.5f, -0.5f, -0.5f),
@@ -384,7 +384,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsCorner, building0_corner);
 
 
-	list<bool> conditionsInnerCorner = list<bool>();
+	vector<bool> conditionsInnerCorner = vector<bool>();
 	conditionsInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsInnerCorner.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f), V
@@ -398,7 +398,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsInnerCorner, building0_innerCorner);
 
 
-	list<bool> conditionsFloor = list<bool>();
+	vector<bool> conditionsFloor = vector<bool>();
 	conditionsFloor.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsFloor.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsFloor.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -412,7 +412,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsFloor, building0_topFloor);
 
 
-	list<bool> conditionsTopEdge = list<bool>();
+	vector<bool> conditionsTopEdge = vector<bool>();
 	conditionsTopEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsTopEdge.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsTopEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -426,7 +426,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsTopEdge, building0_topEdge);
 
 
-	list<bool> conditionsTopCorner = list<bool>();
+	vector<bool> conditionsTopCorner = vector<bool>();
 	conditionsTopCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsTopCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsTopCorner.push_back(false);			//(0.5f, -0.5f, -0.5f),
@@ -440,7 +440,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsTopCorner, building0_topCorner);
 
 
-	list<bool> conditionsTopInnerCorner = list<bool>();
+	vector<bool> conditionsTopInnerCorner = vector<bool>();
 	conditionsTopInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f), V
 	conditionsTopInnerCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsTopInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f), V
@@ -454,7 +454,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsTopInnerCorner, building0_topInnerCorner);
 
 
-	//list<bool> conditionsBottonEdge = list<bool>();
+	//vector<bool> conditionsBottonEdge = vector<bool>();
 	//conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	//conditionsBottonEdge.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	//conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -465,7 +465,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	//conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, 0.5f),
 	//conditionsBottonEdge.push_back(false);			//(0.5f, 0.5f, 0.5f),
 
-	list<bool> conditionsBottonEdge = list<bool>();
+	vector<bool> conditionsBottonEdge = vector<bool>();
 	conditionsBottonEdge.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsBottonEdge.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsBottonEdge.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -479,7 +479,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsBottonEdge, building0_floorToWall);
 
 
-	list<bool> conditionsSpecificCorner1 = list<bool>();
+	vector<bool> conditionsSpecificCorner1 = vector<bool>();
 	conditionsSpecificCorner1.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsSpecificCorner1.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsSpecificCorner1.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -493,7 +493,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsSpecificCorner1, building0_specificCorner1);
 
 
-	list<bool> conditionsSpecificCorner1Symetry = list<bool>();
+	vector<bool> conditionsSpecificCorner1Symetry = vector<bool>();
 	conditionsSpecificCorner1Symetry.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsSpecificCorner1Symetry.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsSpecificCorner1Symetry.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -507,7 +507,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsSpecificCorner1Symetry, building0_specificCorner1Symetry);
 
 
-	list<bool> conditionsSpecificCorner0 = list<bool>();
+	vector<bool> conditionsSpecificCorner0 = vector<bool>();
 	conditionsSpecificCorner0.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsSpecificCorner0.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsSpecificCorner0.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -521,7 +521,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsSpecificCorner0, building0_specificCorner0);
 
 
-	list<bool> conditionsSpecificCorner0Sysmetry = list<bool>();
+	vector<bool> conditionsSpecificCorner0Sysmetry = vector<bool>();
 	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsSpecificCorner0Sysmetry.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsSpecificCorner0Sysmetry.push_back(true);			//(0.5f, -0.5f, -0.5f), V
@@ -535,7 +535,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsSpecificCorner0Sysmetry, building0_specificCorner0Symetry);
 	
 
-	list<bool> conditionsFloorToWallCorner = list<bool>();
+	vector<bool> conditionsFloorToWallCorner = vector<bool>();
 	conditionsFloorToWallCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsFloorToWallCorner.push_back(false);			 //(-0.5f, 0.5f, -0.5f),
 	conditionsFloorToWallCorner.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -549,7 +549,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	testVoxelFactory->AddRule(conditionsFloorToWallCorner, building0_floorToWallCorner);
 	
 
-	list<bool> conditionsFloorToWallInnerCorner = list<bool>();
+	vector<bool> conditionsFloorToWallInnerCorner = vector<bool>();
 	conditionsFloorToWallInnerCorner.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsFloorToWallInnerCorner.push_back(true);			 //(-0.5f, 0.5f, -0.5f), V
 	conditionsFloorToWallInnerCorner.push_back(true);			//(0.5f, -0.5f, -0.5f),
@@ -583,6 +583,7 @@ void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
 {
 	DataModel::DependenceTreeDataModel dependenceTree = DataModel::DependenceTreeDataModel();
 	LevelFactory* rootFactory = dependenceTree.Read("testFile.txt");
+	//LevelFactory* rootFactory = dependenceTree.Read("simpleScene.txt");
 
 	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 
@@ -681,13 +682,13 @@ bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 			_proceduralGeneratorThread.join();
 		}
 
-		//std::chrono::high_resolution_clock::time_point tpSceneManager0 = std::chrono::high_resolution_clock::now();
+		std::chrono::high_resolution_clock::time_point tpSceneManager0 = std::chrono::high_resolution_clock::now();
 
 		_sceneManager.Flush();
 
-		/*high_resolution_clock::time_point tpSceneManager1 = high_resolution_clock::now();
+		high_resolution_clock::time_point tpSceneManager1 = high_resolution_clock::now();
 		auto sceneManagerDuration = duration_cast<microseconds>(tpSceneManager1 - tpSceneManager0).count();
-		std::cout << "Scene manager" << sceneManagerDuration << std::endl;*/
+		std::cout << "Scene manager" << sceneManagerDuration << std::endl;
 
 		_proceduralGeneratorThread = std::thread(RefreshGenerator, &_sceneManager, cameraPos);
 

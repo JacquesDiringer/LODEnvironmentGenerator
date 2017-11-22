@@ -4,12 +4,12 @@
 #include "FloatExpression.h"
 
 #include <map>
-#include <list>
+#include <vector>
 
 using namespace Math;
 
 using std::map;
-using std::list;
+using std::vector;
 
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
@@ -35,12 +35,12 @@ namespace Generator
 		void AddCondition(Vector3 fetchCoordinates, bool expectedValue);
 		bool operator==(const Rule &other);
 
-		list<Condition*> GetConditions() const { return _conditionsList; }
+		vector<Condition*> GetConditions() const { return _conditionsList; }
 		LevelFactory* GetFactory() const { return _factory; }
 
 	private:
 		LevelFactory* _factory;
-		list<Condition*> _conditionsList;
+		vector<Condition*> _conditionsList;
 	};
 
 	class GENERATOR_API NeighborDensityFactory :
@@ -53,8 +53,8 @@ namespace Generator
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
-		void AddRule(list<bool>conditions, LevelFactory* factory);
+		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		void AddRule(vector<bool>conditions, LevelFactory* factory);
 		void AddRule(Rule* newRule);
 
 	private:
@@ -66,12 +66,12 @@ namespace Generator
 		// A map of a set of 8 rules, and a LevelFactory.
 		// The boolean array corresponds to the density requirement at each vertex of the evaluated voxel, the LevelFactory will give the items to return in case the rule is fullfilled.
 		// List of rules, each giving fetching coordinates and condition, and the corresponding Factory if all conditions are met.
-		list<Rule*> _rules;
+		vector<Rule*> _rules;
 		// Density mathematical expression.
 		FloatExpression* _densityExpression;
 
 	private:
-		list<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		vector<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 		float DensityFunction(const Vector3 fetchCoordinates);
 	};
 }

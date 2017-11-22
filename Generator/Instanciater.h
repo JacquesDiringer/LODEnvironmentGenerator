@@ -1,10 +1,10 @@
 #pragma once
 
-#include <list>
+#include <vector>
 
 #include "Displayable.h"
 
-using std::list;
+using std::vector;
 
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
@@ -20,6 +20,6 @@ namespace Generator
 		Instanciater();
 		~Instanciater();
 
-		virtual void UpdateDisplayables(list<Displayable*> toAdd, list<Displayable*> toRemove) = 0;
+		virtual void UpdateDisplayables(vector<Displayable*> toAdd, vector<Displayable*> toRemove) = 0;
 	};
 }

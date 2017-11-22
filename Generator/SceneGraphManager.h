@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vector>
 #include <list>
 
 #include "Item.h"
 #include "Instanciater.h"
 #include "Vector3.h"
 
+using std::vector;
 using std::list;
 
 using namespace Math;
@@ -36,10 +38,9 @@ namespace Generator
 
 	private:
 		list<Item*> _sceneCurrentItems;
-		list<Item*> _sceneTotalItems;
 
-		list<Item*> _toAdd;
-		list<Item*> _toRemove;
+		vector<Item*> _toAdd;
+		vector<Item*> _toRemove;
 
 		Instanciater* _instanciater;
 	};

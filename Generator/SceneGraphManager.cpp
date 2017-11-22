@@ -5,7 +5,6 @@
 #include "SceneGraphManager.h"
 #include "Displayable.h"
 
-
 using std::find;
 
 namespace Generator
@@ -13,18 +12,16 @@ namespace Generator
 	SceneGraphManager::SceneGraphManager()
 	{
 		_sceneCurrentItems = list<Item*>();
-		_sceneTotalItems = list<Item*>();
-		_toAdd = list<Item*>();
-		_toRemove = list<Item*>();
+		_toAdd = vector<Item*>();
+		_toRemove = vector<Item*>();
 	}
 
 	SceneGraphManager::SceneGraphManager(Instanciater* instanciater)
 		: _instanciater(instanciater)
 	{
 		_sceneCurrentItems = list<Item*>();
-		_sceneTotalItems = list<Item*>();
-		_toAdd = list<Item*>();
-		_toRemove = list<Item*>();
+		_toAdd = vector<Item*>();
+		_toRemove = vector<Item*>();
 	}
 
 
@@ -46,25 +43,25 @@ namespace Generator
 		list<Item*>::iterator findIterator = find(_sceneCurrentItems.begin(), _sceneCurrentItems.end(), itemToRemove);
 		if (findIterator != _sceneCurrentItems.end())
 		{
-			// The item has been found, add it to the items to add list
+			// The item has been found, add it to the items to add vector
 			_toRemove.push_back(itemToRemove);
 			return true;
 		}
 
-		// Item was not found in the scene list
+		// Item was not found in the scene vector
 		return false;
 	}
 
 
 	void SceneGraphManager::Flush(void)
 	{
-		list<Displayable*> displayableToRemove = list<Displayable*>();
-		list<Displayable*> displayableToAdd = list<Displayable*>();
+		vector<Displayable*> displayableToRemove = vector<Displayable*>();
+		vector<Displayable*> displayableToAdd = vector<Displayable*>();
 
-		for each (Item* itemToRemove in _toRemove)
+		for each(Item* itemToRemoveIt in _toRemove)
 		{
-			// Fill the diplayable remove list, for the instanciater
-			Displayable* displayable = itemToRemove->GetDisplayableContent();
+			// Fill the diplayable remove vector, for the instanciater
+			Displayable* displayable = itemToRemoveIt->GetDisplayableContent();
 
 			if (displayable != NULL)
 			{
@@ -72,15 +69,15 @@ namespace Generator
 			}
 
 			// TODO: do some removing shit
-			_sceneCurrentItems.remove(itemToRemove);
-			_sceneTotalItems.remove(itemToRemove);
+			_sceneCurrentItems.remove(itemToRemoveIt);
+			//_sceneCurrentItems.erase(itemToRemoveIt);
 		}
-		// Empty the list after it has been used to fill the displayable list and update scene's currents items
+		// Empty the vector after it has been used to fill the displayable vector and update scene's currents items
 		_toRemove.clear();
 
 		for each (Item* newItem in _toAdd)
 		{
-			// Fill the diplayable add list, for the instanciater
+			// Fill the diplayable add vector, for the instanciater
 			Displayable* displayable = newItem->GetDisplayableContent();
 
 			if (displayable != NULL)
@@ -90,9 +87,8 @@ namespace Generator
 
 			// TODO: do some adding shit
 			_sceneCurrentItems.push_back(newItem);
-			_sceneTotalItems.push_back(newItem);
 		}
-		// Empty the list after it has been used to fill the displayable list and update scene's currents items
+		// Empty the vector after it has been used to fill the displayable vector and update scene's currents items
 		_toAdd.clear();
 		
 		_instanciater->UpdateDisplayables(displayableToAdd, displayableToRemove);
@@ -109,9 +105,9 @@ namespace Generator
 
 		// This is the retraction pass, it handles items that need to show less details
 		{
-			// First, we browse all existing items to fill a list of parents that need to be retracted, and the list of their children who will be removed
-			list<Item*>* parentsToRetract = new list<Item*>();
-			list<Item*>* childrenToRemove = new list<Item*>();
+			// First, we browse all existing items to fill a vector of parents that need to be retracted, and the vector of their children who will be removed
+			vector<Item*>* parentsToRetract = new vector<Item*>();
+			vector<Item*>* childrenToRemove = new vector<Item*>();
 
 			for each (Item* item in _sceneCurrentItems)
 			{
@@ -145,7 +141,7 @@ namespace Generator
 
 		// This is the expansion pass, it handles items that need to show more details
 		{
-			list<Item*>* childrenToAdd = new list<Item*>();
+			vector<Item*>* childrenToAdd = new vector<Item*>();
 			for each (Item* item in _sceneCurrentItems)
 			{
 				// We don't want to check an item that we know has already been checked and is to be removed because it's father is to be retracted

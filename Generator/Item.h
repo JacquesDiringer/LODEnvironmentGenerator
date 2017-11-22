@@ -1,13 +1,13 @@
 #pragma once
 
-#include <list>
+#include <vector>
 
 #include "Displayable.h"
 #include "LevelFactory.h"
 #include "Vector3.h"
 #include "Matrix4.h"
 
-using std::list;
+using std::vector;
 using namespace Math;
 
 
@@ -26,13 +26,13 @@ namespace Generator
 		Item(Matrix4 relativeMatrix, Item* parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory);
 		~Item();
 
-		void UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, list<Item*>* parentsToRetract, list<Item*>* childrenToRemove);
+		void UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* parentsToRetract, vector<Item*>* childrenToRemove);
 
-		// Fills a list of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
-		void UpdateChildrenToRemove(list<Item*>* childrenToRemove);
+		// Fills a vector of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
+		void UpdateChildrenToRemove(vector<Item*>* childrenToRemove);
 
-		// Fills a list of items to add, has to be called from an expanding parent
-		void UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, list<Item*>* childrenToAdd);
+		// Fills a vector of items to add, has to be called from an expanding parent
+		void UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* childrenToAdd);
 
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...
 		bool NeedExpansion(Vector3 cameraPosition, Vector3 cameraSpeed);
@@ -69,7 +69,7 @@ namespace Generator
 		float _expansionDistance;
 		Displayable* _displayableContent;
 		Item* _parent;
-		list<Item*> _children;
+		vector<Item*> _children;
 		LevelFactory* _subLevelFactory;
 		Matrix4 _worldMatrix;
 		Matrix4 _relativeMatrix;

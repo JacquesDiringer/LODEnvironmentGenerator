@@ -6,8 +6,6 @@
 
 using namespace Math;
 
-using std::list;
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -26,7 +24,7 @@ namespace Generator
 		~ArrayFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformationm, const Matrix4* worldMatrix);
+		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformationm, const Matrix4* worldMatrix);
 
 	private:
 		ComplexObjectFactory _arrayFactory;

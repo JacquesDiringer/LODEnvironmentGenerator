@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "NeighborDensityFactoryDataModel.h"
 
+#include <vector>
+
 #include "UtilityReaderWriter.h"
 
 using Generator::Rule;
-using std::list;
+using std::vector;
 
 namespace DataModel
 {
@@ -93,7 +95,7 @@ namespace DataModel
 		}
 
 		// Read the 8 conditions and store them into a list.
-		list<bool> conditions = list<bool>();
+		vector<bool> conditions = vector<bool>();
 		for (int i = 0; i < 8; i++)
 		{
 			getline(*stream, currentLine);

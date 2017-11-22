@@ -23,7 +23,7 @@ namespace Generator
 		~SimpleObjectFactory();
 
 		// Generates children for the parent
-		virtual list<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 
 	private:
 		string _modelName;

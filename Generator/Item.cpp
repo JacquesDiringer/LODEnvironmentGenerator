@@ -15,7 +15,7 @@ namespace Generator
 	Item::Item(Matrix4 relativeMatrix, Item* parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory)
 		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
-		_children = list<Item*>();
+		_children = vector<Item*>();
 
 		SetRelativeMatrix(relativeMatrix);
 		Vector3 position = _worldMatrix.Position();
@@ -36,7 +36,7 @@ namespace Generator
 	{
 	}
 
-	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, list<Item*>* parentsToRetract, list<Item*>* childrenToRemove)
+	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* parentsToRetract, vector<Item*>* childrenToRemove)
 	{
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
@@ -69,7 +69,7 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToRemove(list<Item*>* childrenToRemove)
+	void Item::UpdateChildrenToRemove(vector<Item*>* childrenToRemove)
 	{
 		if (_children.empty())
 		{
@@ -90,7 +90,7 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, list<Item*>* childrenToAdd)
+	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* childrenToAdd)
 	{
 
 		if (_subLevelFactory != NULL)

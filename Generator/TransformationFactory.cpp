@@ -20,7 +20,7 @@ namespace Generator
 	{
 	}
 
-	list<Item*> TransformationFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> TransformationFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		Matrix4* newTransformation = &Matrix4::Multiply(*futureTransformation, _transformation);
 		Matrix4* newWorldMatrix = &Matrix4::Multiply(*worldMatrix, _transformation);

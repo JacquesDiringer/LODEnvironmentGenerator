@@ -10,7 +10,7 @@ namespace Generator
 	RandomObjectFactory::RandomObjectFactory()
 	{
 		_totalProbability = 0;
-		_alternativeFactories = list<tuple<float, LevelFactory*>>();
+		_alternativeFactories = vector<tuple<float, LevelFactory*>>();
 	}
 
 
@@ -27,9 +27,9 @@ namespace Generator
 		_totalProbability += probability;
 	}
 
-	list<Item*> RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
-		list<Item*> result = list<Item*>();
+		vector<Item*> result = vector<Item*>();
 
 		// TODO: Find a better way to a generate random number.
 		std::srand((parent->GetId() + childrenNumber) * (parent->GetId() + childrenNumber) * 100);

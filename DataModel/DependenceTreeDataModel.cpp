@@ -93,7 +93,7 @@ namespace DataModel
 
 			// A map of the the factories that have already been read, stored by name.
 			// This is done for children dependencies purposes.
-			map<string, LevelFactory*>* previousFactories = new map<string, LevelFactory*>();
+			map<string, LevelFactory*> previousFactories = map<string, LevelFactory*>();
 
 			// Get lines until the end of the file.
 			while (std::getline(inputStream, currentLine))
@@ -111,7 +111,7 @@ namespace DataModel
 					// Retrieve the factory data model.
 					LevelFactoryDataModel* factoryReader = (*factoryReaderIt).second;
 					// Do the reading. This function will also fill previousFactories.
-					lastFactory = factoryReader->Read(&inputStream, previousFactories);
+					lastFactory = factoryReader->Read(&inputStream, &previousFactories);
 				}
 			}
 		}

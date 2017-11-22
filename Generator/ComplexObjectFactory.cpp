@@ -6,7 +6,7 @@ namespace Generator
 {
 	ComplexObjectFactory::ComplexObjectFactory()
 	{
-		_itemOccurrences = list<LevelFactory*>();
+		_itemOccurrences = vector<LevelFactory*>();
 	}
 
 
@@ -19,16 +19,16 @@ namespace Generator
 		_itemOccurrences.push_back(composerFactory);
 	}
 
-	list<Item*> ComplexObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	vector<Item*> ComplexObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
-		list<Item*> result = list<Item*>();
+		vector<Item*> result = vector<Item*>();
 
 		int currentFactoryId = 0;
 		for each (LevelFactory* currentFactory in _itemOccurrences)
 		{
 			++currentFactoryId;
 
-			list<Item*> generatedItems = currentFactory->GenerateLevel(parent, childrenNumber * currentFactoryId, futureTransformation, worldMatrix);
+			vector<Item*> generatedItems = currentFactory->GenerateLevel(parent, childrenNumber * currentFactoryId, futureTransformation, worldMatrix);
 
 			int idCounter = 0;
 			for each (Item* currentItem in generatedItems)

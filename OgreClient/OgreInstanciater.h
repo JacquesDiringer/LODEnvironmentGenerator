@@ -5,7 +5,7 @@
 #include <SimpleObjectDisplayable.h>
 #include <Quaternion.h>
 
-#include <list>
+#include <vector>
 #include <map>
 
 #include <OgreCamera.h>
@@ -17,7 +17,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreConfigFile.h>
 
-using std::list;
+using std::vector;
 using std::map;
 
 using namespace Generator;
@@ -29,7 +29,7 @@ public:
 	OgreInstanciater(Ogre::ResourceGroupManager& ressourceGroupManager, Ogre::SceneManager* sceneMgr, Ogre::MaterialManager& materialManager);
 	~OgreInstanciater(void);
 
-	virtual void UpdateDisplayables(list<Displayable*> toAdd, list<Displayable*> toRemove);
+	virtual void UpdateDisplayables(vector<Displayable*> toAdd, vector<Displayable*> toRemove);
 
 	void Flush(int addCount, int removeCount);
 
@@ -39,8 +39,8 @@ private:
 	map<Displayable*, Ogre::SceneNode*> _sceneDisplayablesNodes;
 	map<string, Ogre::InstanceManager*> _instanceManagers;
 
-	list<Displayable *> _pendingToAddList;
-	list<Displayable *> _pendingToRemoveList;
+	vector<Displayable *> _pendingToAddList;
+	vector<Displayable *> _pendingToRemoveList;
 
 	Ogre::ResourceGroupManager& _ressourceGroupManager;
 	Ogre::SceneManager* _sceneMgr;

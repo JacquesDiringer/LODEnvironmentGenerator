@@ -6,10 +6,13 @@
 
 
 OgreInstanciater::OgreInstanciater(Ogre::ResourceGroupManager& ressourceGroupManager, Ogre::SceneManager* sceneMgr, Ogre::MaterialManager& materialManager)
-: _ressourceGroupManager(ressourceGroupManager), _sceneMgr(sceneMgr), _materialManager(materialManager)
+	: _ressourceGroupManager(ressourceGroupManager), _sceneMgr(sceneMgr), _materialManager(materialManager)
 {
 	_sceneDisplayablesNodes = map<Displayable*, Ogre::SceneNode*>();
 	_instanceManagers = map<string, Ogre::InstanceManager*>();
+
+	_pendingToAddList = vector<Displayable *>();
+	_pendingToRemoveList = vector<Displayable *>();
 }
 
 
@@ -42,7 +45,7 @@ OgreInstanciater::~OgreInstanciater()
 //	}
 //}
 
-void OgreInstanciater::UpdateDisplayables(list<Displayable*> toAdd, list<Displayable*> toRemove)
+void OgreInstanciater::UpdateDisplayables(vector<Displayable*> toAdd, vector<Displayable*> toRemove)
 {
 	// Pending items optimization
 	//{
@@ -128,54 +131,63 @@ void OgreInstanciater::UpdateDisplayables(list<Displayable*> toAdd, list<Display
 
 
 	// Now that useless occurences have been eliminated, just add the elements to the pending lists
+
+
+	int iteratorId = 0;
 	for each (Displayable* currentDisplayable in toAdd)
 	{
+		++iteratorId;
 		_pendingToAddList.push_back(currentDisplayable);
 	}
+
+	iteratorId = 0;
 	for each (Displayable* currentDisplayable in toRemove)
 	{
+		++iteratorId;
 		_pendingToRemoveList.push_back(currentDisplayable);
 	}
 }
 
 void OgreInstanciater::Flush(int addCount, int removeCount)
-{	
-	list<Displayable*>::iterator displayableIterator;
+{
+	vector<Displayable*>::iterator displayableIterator;
 
 	// Old elements are removed
 	if (!_pendingToRemoveList.empty())
 	{
-		displayableIterator = _pendingToRemoveList.begin();
+		int toRemoveSize = _pendingToRemoveList.size();
+		displayableIterator = _pendingToRemoveList.end();
 
-		for (int removeIndex = 0; removeIndex < removeCount && displayableIterator != _pendingToRemoveList.end(); removeIndex++)
+		for (int removeIndex = 0; removeIndex < removeCount && removeIndex < toRemoveSize; ++removeIndex)
 		{
+			--displayableIterator;
 			RemoveDisplayable(*displayableIterator);
-			displayableIterator++;
 		}
 
 		int numberOfItemsToRemove = std::min(removeCount, (int)_pendingToRemoveList.size());
-		for (int removeIndex = 0; removeIndex < numberOfItemsToRemove; removeIndex++)
+		for (int removeIndex = 0; removeIndex < numberOfItemsToRemove; ++removeIndex)
 		{
-			_pendingToRemoveList.pop_front();
+			_pendingToRemoveList.pop_back();
 		}
 	}
-	
-	
+
+
 	// New elements are added
 	if (!_pendingToAddList.empty())
 	{
-		displayableIterator = _pendingToAddList.begin();
+		int toAddSize = _pendingToAddList.size();
+		displayableIterator = _pendingToAddList.end();
 
-		for (int addIndex = 0; addIndex < addCount && displayableIterator != _pendingToAddList.end(); addIndex++)
+		for (int addIndex = 0; addIndex < addCount && addIndex < toAddSize; ++addIndex)
 		{
+			--displayableIterator;
 			AddDisplayable(*displayableIterator);
-			displayableIterator++;
 		}
 
 		int numberOfItemsToRemove = std::min(removeCount, (int)_pendingToAddList.size());
-		for (int addIndex = 0; addIndex < numberOfItemsToRemove; addIndex++)
+		for (int addIndex = 0; addIndex < numberOfItemsToRemove; ++addIndex)
 		{
-			_pendingToAddList.pop_front();
+			_pendingToAddList.pop_back();
 		}
 	}
 }
@@ -215,7 +227,7 @@ bool OgreInstanciater::RemoveDisplayable(Displayable* displayableToRemove)
 	}
 
 	Ogre::SceneNode* nodeToRemove = findIterator->second;
-	
+
 	// TODO: make sure that the node AND the entity are deleted correctly
 	nodeToRemove->removeAndDestroyAllChildren();
 	_sceneMgr->destroySceneNode(nodeToRemove);
@@ -256,7 +268,7 @@ bool OgreInstanciater::AddSimpleObjectDisplayable(SimpleObjectDisplayable* newSi
 	_sceneDisplayablesNodes.insert(std::pair<Displayable*, Ogre::SceneNode*>(newSimpleObjectDisplayable, lNode));
 
 	//std::cout << "Added : " << newSimpleObjectDisplayable->GetTextureName() << std::endl;
-	
+
 	return true;
 
 
