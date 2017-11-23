@@ -1,14 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <list>
+#include <unordered_set>
 
 #include "Item.h"
 #include "Instanciater.h"
 #include "Vector3.h"
 
 using std::vector;
-using std::list;
+using std::unordered_set;
 
 using namespace Math;
 
@@ -37,7 +37,7 @@ namespace Generator
 		void Update(Vector3 cameraPosition, Vector3 cameraSpeed);
 
 	private:
-		list<Item*> _sceneCurrentItems;
+		unordered_set<Item*> _sceneCurrentItems;
 
 		vector<Item*> _toAdd;
 		vector<Item*> _toRemove;

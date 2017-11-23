@@ -11,7 +11,7 @@ namespace Generator
 {
 	SceneGraphManager::SceneGraphManager()
 	{
-		_sceneCurrentItems = list<Item*>();
+		_sceneCurrentItems = unordered_set<Item*>();
 		_toAdd = vector<Item*>();
 		_toRemove = vector<Item*>();
 	}
@@ -19,7 +19,7 @@ namespace Generator
 	SceneGraphManager::SceneGraphManager(Instanciater* instanciater)
 		: _instanciater(instanciater)
 	{
-		_sceneCurrentItems = list<Item*>();
+		_sceneCurrentItems = unordered_set<Item*>();
 		_toAdd = vector<Item*>();
 		_toRemove = vector<Item*>();
 	}
@@ -40,7 +40,7 @@ namespace Generator
 
 	bool SceneGraphManager::QueueRemoveItem(Item* itemToRemove)
 	{
-		list<Item*>::iterator findIterator = find(_sceneCurrentItems.begin(), _sceneCurrentItems.end(), itemToRemove);
+		unordered_set<Item*>::iterator findIterator = _sceneCurrentItems.find(itemToRemove);
 		if (findIterator != _sceneCurrentItems.end())
 		{
 			// The item has been found, add it to the items to add vector
@@ -69,8 +69,7 @@ namespace Generator
 			}
 
 			// TODO: do some removing shit
-			_sceneCurrentItems.remove(itemToRemoveIt);
-			//_sceneCurrentItems.erase(itemToRemoveIt);
+			_sceneCurrentItems.erase(itemToRemoveIt);
 		}
 		// Empty the vector after it has been used to fill the displayable vector and update scene's currents items
 		_toRemove.clear();
@@ -86,7 +85,7 @@ namespace Generator
 			}
 
 			// TODO: do some adding shit
-			_sceneCurrentItems.push_back(newItem);
+			_sceneCurrentItems.insert(newItem);
 		}
 		// Empty the vector after it has been used to fill the displayable vector and update scene's currents items
 		_toAdd.clear();
