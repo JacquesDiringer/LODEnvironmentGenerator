@@ -36,7 +36,7 @@ namespace Math
 		return Vector3(_m03, _m13, _m23);
 	}
 
-	Matrix4 Matrix4::Multiply(Matrix4 a, Matrix4 b)
+	Matrix4 Matrix4::Multiply(const Matrix4& a, const Matrix4& b)
 	{
 		float m00 = a._m00*b._m00 + a._m01*b._m10 + a._m02*b._m20 + a._m03*b._m30;
 		float m01 = a._m00*b._m01 + a._m01*b._m11 + a._m02*b._m21 + a._m03*b._m31;
@@ -64,22 +64,22 @@ namespace Math
 						m30, m31, m32, m33);
 	}
 
-	Matrix4 Matrix4::operator*(Matrix4 b)
+	Matrix4 Matrix4::operator*(const Matrix4& b)
 	{
 		return Matrix4::Multiply((*this), b);
 	}
 
-	Matrix4 Matrix4::operator*(Vector3 b)
+	Matrix4 Matrix4::operator*(const Vector3& b)
 	{
 		return Matrix4::Multiply((*this), b);
 	}
 
-	Vector3 Matrix4::Multiply(Matrix4 a, Vector3 position)
+	Vector3 Matrix4::Multiply(const Matrix4& a, const Vector3& position)
 	{
 		return Matrix4::Multiply(a, Matrix4::CreateTranslation(position)).Position();
 	}
 
-	Matrix4 Matrix4::CreateTranslation(Vector3 translation)
+	Matrix4 Matrix4::CreateTranslation(const Vector3& translation)
 	{
 		return Matrix4(translation);
 	}
