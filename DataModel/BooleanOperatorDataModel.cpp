@@ -16,7 +16,7 @@ namespace DataModel
 	BooleanOperatorDataModel::~BooleanOperatorDataModel()
 	{
 	}
-	FloatExpression * BooleanOperatorDataModel::InternalRead(ifstream * stream, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * BooleanOperatorDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		string currentLine;
 

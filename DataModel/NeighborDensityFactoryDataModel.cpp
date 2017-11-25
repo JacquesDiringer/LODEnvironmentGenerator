@@ -18,7 +18,7 @@ namespace DataModel
 	{
 	}
 
-	LevelFactory * NeighborDensityFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * NeighborDensityFactoryDataModel::InternalRead(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		string currentLine;
 		
@@ -29,7 +29,7 @@ namespace DataModel
 		getline(*stream, currentLine);
 
 		// Then look if this factory has been previously loaded.
-		map<string, FloatExpression*>::iterator expressionIt = _floatExpressions->find(currentLine);
+		unordered_map<string, FloatExpression*>::iterator expressionIt = _floatExpressions->find(currentLine);
 		if (expressionIt == _floatExpressions->end())
 		{
 			throw new std::invalid_argument("No FloatExpression with this name has been loaded.");
@@ -81,7 +81,7 @@ namespace DataModel
 		throw std::exception("Not implemented");
 	}
 
-	void NeighborDensityFactoryDataModel::Read8FetchRule(ifstream * stream, map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
+	void NeighborDensityFactoryDataModel::Read8FetchRule(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
 	{
 		string currentLine;
 		// Get the rule factory name.
@@ -105,7 +105,7 @@ namespace DataModel
 		factory->AddRule(conditions, ruleFactory);
 	}
 
-	void NeighborDensityFactoryDataModel::ReadCustomRule(ifstream * stream, map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
+	void NeighborDensityFactoryDataModel::ReadCustomRule(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories, NeighborDensityFactory* factory)
 	{
 		string currentLine;
 		// Get the rule factory name.

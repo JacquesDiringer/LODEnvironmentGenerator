@@ -17,7 +17,7 @@ namespace DataModel
 	{
 	}
 
-	LevelFactory * ArrayFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * ArrayFactoryDataModel::InternalRead(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// Name of the subLevelFactory to be read in the file.
 		string subLevelFactoryName;

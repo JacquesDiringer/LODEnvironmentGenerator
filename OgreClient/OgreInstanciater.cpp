@@ -8,8 +8,8 @@
 OgreInstanciater::OgreInstanciater(Ogre::ResourceGroupManager& ressourceGroupManager, Ogre::SceneManager* sceneMgr, Ogre::MaterialManager& materialManager)
 	: _ressourceGroupManager(ressourceGroupManager), _sceneMgr(sceneMgr), _materialManager(materialManager)
 {
-	_sceneDisplayablesNodes = map<Displayable*, Ogre::SceneNode*>();
-	_instanceManagers = map<string, Ogre::InstanceManager*>();
+	_sceneDisplayablesNodes = unordered_map<Displayable*, Ogre::SceneNode*>();
+	_instanceManagers = unordered_map<string, Ogre::InstanceManager*>();
 
 	_pendingToAddList = vector<Displayable *>();
 	_pendingToRemoveList = vector<Displayable *>();
@@ -210,7 +210,7 @@ bool OgreInstanciater::AddDisplayable(Displayable* newDisplayable)
 
 bool OgreInstanciater::RemoveDisplayable(Displayable* displayableToRemove)
 {
-	map<Displayable*, Ogre::SceneNode*>::iterator findIterator = _sceneDisplayablesNodes.find(displayableToRemove);
+	auto findIterator = _sceneDisplayablesNodes.find(displayableToRemove);
 
 	if (findIterator == _sceneDisplayablesNodes.end())
 	{
@@ -314,7 +314,7 @@ Ogre::InstancedEntity* OgreInstanciater::GetInstancedEntity(string meshName, str
 	string managerName = meshName + textureName;
 	Ogre::InstanceManager* instanceManager;
 
-	map<string, Ogre::InstanceManager*>::iterator findIterator = _instanceManagers.find(managerName);
+	auto findIterator = _instanceManagers.find(managerName);
 
 	if (findIterator != _instanceManagers.end())
 	{

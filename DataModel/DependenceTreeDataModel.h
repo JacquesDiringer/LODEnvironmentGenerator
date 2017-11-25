@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 #include "LevelFactory.h"
 #include "LevelFactoryDataModel.h"
@@ -12,7 +12,7 @@ using std::fstream;
 using std::ifstream;
 using std::ofstream;
 using std::string;
-using std::map;
+using std::unordered_map;
 
 using Generator::LevelFactory;
 
@@ -35,9 +35,9 @@ namespace DataModel
 
 	private:
 		// Associates the type of a factory to factory data model type.
-		map<string, LevelFactoryDataModel*> _factoriesDataModelMap;
+		unordered_map<string, LevelFactoryDataModel*> _factoriesDataModelMap;
 
 		// Associates the type of a float expression to float expression data model type.
-		map<string, FloatExpressionDataModel*> _floatExpressionsDataModelMap;
+		unordered_map<string, FloatExpressionDataModel*> _floatExpressionsDataModelMap;
 	};
 }

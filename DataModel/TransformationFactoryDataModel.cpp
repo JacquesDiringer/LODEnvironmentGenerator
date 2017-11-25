@@ -12,14 +12,14 @@ namespace DataModel
 {
 	TransformationFactoryDataModel::TransformationFactoryDataModel()
 	{
-		_floatExpressions = new map<string, FloatExpression*>();
+		_floatExpressions = new unordered_map<string, FloatExpression*>();
 	}
 
 	TransformationFactoryDataModel::~TransformationFactoryDataModel()
 	{
 	}
 
-	LevelFactory * TransformationFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * TransformationFactoryDataModel::InternalRead(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// Name of the subLevelFactory to be read in the file.
 		string subLevelFactoryName;

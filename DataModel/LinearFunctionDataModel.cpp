@@ -17,7 +17,7 @@ namespace DataModel
 	{
 	}
 
-	FloatExpression * LinearFunctionDataModel::InternalRead(ifstream * stream, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * LinearFunctionDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// Get the ratios Vector3.
 		Vector3 ratios = UtilityReaderWriter::ReadVector3(stream);

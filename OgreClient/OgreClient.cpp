@@ -672,7 +672,7 @@ bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 	_timeSinceLastUpdate += evt.timeSinceLastFrame;
 
 	// Flush refresh
-	if (_timeSinceLastUpdate > 0.5 && _ogreInstanciater->IsFlushCompleted())
+	//if (_timeSinceLastUpdate > 0.5 && _ogreInstanciater->IsFlushCompleted())
 	{
 		Ogre::Vector3 cameraPosition = mCamera->getPosition();
 		Vector3 cameraPos = Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z);
@@ -701,7 +701,7 @@ bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 
 	//std::chrono::high_resolution_clock::time_point tpOgreInstanciater0 = std::chrono::high_resolution_clock::now();
 
-	_ogreInstanciater->Flush(30, 30);
+	_ogreInstanciater->Flush(30000000, 30000000);
 
 	/*high_resolution_clock::time_point tpOgreInstanciater1 = high_resolution_clock::now();
 	auto ogreInstanciaterDuration = duration_cast<microseconds>(tpOgreInstanciater1 - tpOgreInstanciater0).count();

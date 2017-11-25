@@ -2,6 +2,9 @@
 #include "NeighborDensityFactory.h"
 #include "Item.h"
 
+#include <unordered_map>
+using std::unordered_map;
+
 namespace Generator
 {
 	NeighborDensityFactory::NeighborDensityFactory()
@@ -81,7 +84,7 @@ namespace Generator
 	vector<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
-		map<Vector3, bool> fetchedValuesWorldCoordinates;
+		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
 
 		vector<Item*> newItems = vector<Item*>();
 
@@ -107,7 +110,7 @@ namespace Generator
 					bool fetchResult;
 
 					// If these coordinates have already been fetched, retrieve the resulting value from the map.
-					map<Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
+					unordered_map<Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
 					if (worldCoordinatesFetchIterator != fetchedValuesWorldCoordinates.end())
 					{
 						fetchResult = (*worldCoordinatesFetchIterator).second;

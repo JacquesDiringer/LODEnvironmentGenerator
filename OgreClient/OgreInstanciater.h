@@ -6,7 +6,7 @@
 #include <Quaternion.h>
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -18,7 +18,7 @@
 #include <OgreConfigFile.h>
 
 using std::vector;
-using std::map;
+using std::unordered_map;
 
 using namespace Generator;
 
@@ -36,8 +36,8 @@ public:
 	bool IsFlushCompleted();
 
 private:
-	map<Displayable*, Ogre::SceneNode*> _sceneDisplayablesNodes;
-	map<string, Ogre::InstanceManager*> _instanceManagers;
+	unordered_map<Displayable*, Ogre::SceneNode*> _sceneDisplayablesNodes;
+	unordered_map<string, Ogre::InstanceManager*> _instanceManagers;
 
 	vector<Displayable *> _pendingToAddList;
 	vector<Displayable *> _pendingToRemoveList;

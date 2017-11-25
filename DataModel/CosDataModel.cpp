@@ -15,7 +15,7 @@ namespace DataModel
 	{
 	}
 
-	FloatExpression * CosDataModel::InternalRead(ifstream * stream, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * CosDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		_expression = NULL;
 		string currentLine;

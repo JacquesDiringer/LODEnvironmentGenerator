@@ -11,14 +11,14 @@ namespace DataModel
 {
 	SimpleObjectFactoryDataModel::SimpleObjectFactoryDataModel()
 	{
-		_floatExpressions = new map<string, FloatExpression*>();
+		_floatExpressions = new unordered_map<string, FloatExpression*>();
 	}
 
 	SimpleObjectFactoryDataModel::~SimpleObjectFactoryDataModel()
 	{
 	}
 
-	LevelFactory * SimpleObjectFactoryDataModel::InternalRead(ifstream* stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * SimpleObjectFactoryDataModel::InternalRead(ifstream* stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// Variables necessary for currently read factory initilization.
 		string modelName;

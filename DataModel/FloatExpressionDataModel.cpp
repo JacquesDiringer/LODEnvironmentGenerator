@@ -15,7 +15,7 @@ namespace DataModel
 	{
 	}
 	
-	FloatExpression* FloatExpressionDataModel::Read(ifstream* stream, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression* FloatExpressionDataModel::Read(ifstream* stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// Set the name of the float expression, to be stored in the map.
 		getline(*stream, _name);
@@ -50,13 +50,13 @@ namespace DataModel
 	{
 	}
 
-	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(string name, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(string name, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// If this factory is supposed to have a child.
 		if (name != "NULL")
 		{
 			// Then look if this factory has been previously loaded.
-			map<string, FloatExpression*>::iterator expressionIt = previousExpressions->find(name);
+			unordered_map<string, FloatExpression*>::iterator expressionIt = previousExpressions->find(name);
 			if (expressionIt == previousExpressions->end())
 			{
 				throw new std::invalid_argument("Children float expression not previously read.");

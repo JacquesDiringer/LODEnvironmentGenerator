@@ -9,14 +9,14 @@ namespace DataModel
 {
 	LevelFactoryDataModel::LevelFactoryDataModel()
 	{
-		_floatExpressions = new map<string, FloatExpression*>();
+		_floatExpressions = new unordered_map<string, FloatExpression*>();
 	}
 
 	LevelFactoryDataModel::~LevelFactoryDataModel()
 	{
 	}
 
-	LevelFactory * LevelFactoryDataModel::Read(ifstream* stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * LevelFactoryDataModel::Read(ifstream* stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// Set the name of the factory, to be stored in the map.
 		getline(*stream, _name);
@@ -56,18 +56,18 @@ namespace DataModel
 		_floatExpressions->insert(std::pair<string, FloatExpression*>(name, expression));
 	}
 
-	void LevelFactoryDataModel::AddFloatExpression(map<string, FloatExpression*>* additionalMap)
+	void LevelFactoryDataModel::AddFloatExpression(unordered_map<string, FloatExpression*>* additionalMap)
 	{
 		_floatExpressions->insert(additionalMap->begin(), additionalMap->end());
 	}
 
-	LevelFactory * LevelFactoryDataModel::GetFactoryByName(string name, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * LevelFactoryDataModel::GetFactoryByName(string name, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// If this factory is supposed to have a child.
 		if (name != "NULL")
 		{
 			// Then look if this factory has been previously loaded.
-			map<string, LevelFactory*>::iterator factoryIt = previousFactories->find(name);
+			unordered_map<string, LevelFactory*>::iterator factoryIt = previousFactories->find(name);
 			if (factoryIt == previousFactories->end())
 			{
 				std::cout << "Erroc : children factory not previously read : " << name;

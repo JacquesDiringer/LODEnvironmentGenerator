@@ -6,6 +6,7 @@
 #define GENERATOR_API __declspec(dllimport)
 #endif
 
+#include <iomanip>
 
 namespace Math
 {
@@ -23,7 +24,8 @@ namespace Math
 		static Vector3 Multiply(const Vector3 a, const Vector3 b);
 		Vector3 operator*(const Vector3 b);
 		Vector3 operator*(const float multiplier);
-		bool operator==(const Vector3 other);
+		bool operator==(const Vector3& other) const;
+		//bool operator==(const Vector3& left, const Vector3& right);
 		bool operator<(const Vector3 other) const; // Necessary operator to be able to but Vector3 in a map structure.
 
 
@@ -39,5 +41,23 @@ namespace Math
 
 	private:
 		float _x, _y, _z;
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Math::Vector3>
+	{
+		size_t operator()(const Math::Vector3& vec) const
+		{
+			using std::hash;
+
+			return (
+				hash<float>()(vec.X())
+				^ hash<float>()(vec.Y())
+				^ hash<float>()(vec.Z())
+				);
+		}
 	};
 }

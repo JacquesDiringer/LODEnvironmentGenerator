@@ -76,7 +76,7 @@ namespace Math
 			Z() * multiplier);
 	}
 
-	bool Vector3::operator==(const Vector3 other)
+	bool Vector3::operator==(const Vector3& other) const
 	{
 		return _x == other.X() && _y == other.Y() && _z == other.Z();
 	}

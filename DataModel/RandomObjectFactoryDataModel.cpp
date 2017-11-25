@@ -10,14 +10,14 @@ namespace DataModel
 {
 	RandomObjectFactoryDataModel::RandomObjectFactoryDataModel()
 	{
-		_floatExpressions = new map<string, FloatExpression*>();
+		_floatExpressions = new unordered_map<string, FloatExpression*>();
 	}
 
 	RandomObjectFactoryDataModel::~RandomObjectFactoryDataModel()
 	{
 	}
 
-	LevelFactory * RandomObjectFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * RandomObjectFactoryDataModel::InternalRead(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		RandomObjectFactory* result = new RandomObjectFactory();
 

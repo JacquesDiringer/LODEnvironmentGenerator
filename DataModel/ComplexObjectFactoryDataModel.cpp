@@ -9,13 +9,13 @@ namespace DataModel
 {
 	ComplexObjectFactoryDataModel::ComplexObjectFactoryDataModel()
 	{
-		_floatExpressions = new map<string, FloatExpression*>();
+		_floatExpressions = new unordered_map<string, FloatExpression*>();
 	}
 
 	ComplexObjectFactoryDataModel::~ComplexObjectFactoryDataModel()
 	{
 	}
-	LevelFactory * ComplexObjectFactoryDataModel::InternalRead(ifstream * stream, map<string, LevelFactory*>* previousFactories)
+	LevelFactory * ComplexObjectFactoryDataModel::InternalRead(ifstream * stream, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		ComplexObjectFactory* result = new ComplexObjectFactory();
 

@@ -16,7 +16,7 @@ namespace DataModel
 	{
 	}
 
-	FloatExpression * AABDataModel::InternalRead(ifstream * stream, map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * AABDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		Vector3 boxOrigin = UtilityReaderWriter::ReadVector3(stream);
 		Vector3 boxDimensions = UtilityReaderWriter::ReadVector3(stream);

@@ -3,12 +3,10 @@
 #include "Vector3.h"
 #include "FloatExpression.h"
 
-#include <map>
 #include <vector>
 
 using namespace Math;
 
-using std::map;
 using std::vector;
 
 #ifdef GENERATOR_EXPORTS

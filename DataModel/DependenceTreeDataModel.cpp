@@ -23,7 +23,7 @@ namespace DataModel
 {
 	DependenceTreeDataModel::DependenceTreeDataModel()
 	{
-		_factoriesDataModelMap = map<string, LevelFactoryDataModel*>();
+		_factoriesDataModelMap = unordered_map<string, LevelFactoryDataModel*>();
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("SimpleObjectFactory", new SimpleObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ComplexObjectFactory", new ComplexObjectFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("TransformationFactory", new TransformationFactoryDataModel));
@@ -31,7 +31,7 @@ namespace DataModel
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("NeighborDensityFactory", new NeighborDensityFactoryDataModel));
 		_factoriesDataModelMap.insert(std::pair<string, LevelFactoryDataModel*>("ArrayFactory", new ArrayFactoryDataModel));
 
-		_floatExpressionsDataModelMap = map<string, FloatExpressionDataModel*>();
+		_floatExpressionsDataModelMap = unordered_map<string, FloatExpressionDataModel*>();
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("LinearFunctionExpression", new LinearFunctionDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("LinearCombinationExpression", new LinearCombinationDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("MultiplicationExpression", new MultiplicationDataModel()));
@@ -62,14 +62,14 @@ namespace DataModel
 			//// Float expressions reading section.
 
 			// A map of the read expressions, with their name as the key.
-			map<string, FloatExpression*>* floatExpressions = new map<string, FloatExpression*>();
+			unordered_map<string, FloatExpression*>* floatExpressions = new unordered_map<string, FloatExpression*>();
 
 			while (std::getline(inputStream, currentLine) && currentLine != "End of FloatExpression")
 			{
 				// TODO: Read the float expressions from the file specified by filePath.
 				if (currentLine.length() > 0 && currentLine.find("//") == string::npos)
 				{
-					map<string, FloatExpressionDataModel*>::iterator expressionIt = _floatExpressionsDataModelMap.find(currentLine);
+					unordered_map<string, FloatExpressionDataModel*>::iterator expressionIt = _floatExpressionsDataModelMap.find(currentLine);
 					if (expressionIt == _floatExpressionsDataModelMap.end())
 					{
 						throw new std::invalid_argument("There is no data model able to read that kind of expression.");
@@ -93,7 +93,7 @@ namespace DataModel
 
 			// A map of the the factories that have already been read, stored by name.
 			// This is done for children dependencies purposes.
-			map<string, LevelFactory*> previousFactories = map<string, LevelFactory*>();
+			unordered_map<string, LevelFactory*> previousFactories = unordered_map<string, LevelFactory*>();
 
 			// Get lines until the end of the file.
 			while (std::getline(inputStream, currentLine))
@@ -102,7 +102,7 @@ namespace DataModel
 				if (currentLine.length() > 0 && currentLine.find("//") == string::npos)
 				{
 					// Search for the right data model to read the factory.
-					map<string, LevelFactoryDataModel*>::iterator factoryReaderIt = _factoriesDataModelMap.find(currentLine);
+					unordered_map<string, LevelFactoryDataModel*>::iterator factoryReaderIt = _factoriesDataModelMap.find(currentLine);
 					if (factoryReaderIt == _factoriesDataModelMap.end())
 					{
 						throw new std::invalid_argument("There is no data model able to read that kind of factory.");
