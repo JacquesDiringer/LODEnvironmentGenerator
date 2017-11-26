@@ -64,9 +64,33 @@ namespace Math
 						m30, m31, m32, m33);
 	}
 
-	Matrix4 Matrix4::operator*(const Matrix4& b)
+	Matrix4 Matrix4::operator*(const Matrix4& b) const
 	{
 		return Matrix4::Multiply((*this), b);
+	}
+
+	size_t Matrix4::GetHash() const
+	{
+		using std::hash;
+
+		return (
+			  hash<float>()(_m00)
+			^ hash<float>()(_m01)
+			^ hash<float>()(_m02)
+			^ hash<float>()(_m03)
+			^ hash<float>()(_m10)
+			^ hash<float>()(_m11)
+			^ hash<float>()(_m12)
+			^ hash<float>()(_m13)
+			^ hash<float>()(_m20)
+			^ hash<float>()(_m21)
+			^ hash<float>()(_m22)
+			^ hash<float>()(_m23)
+			^ hash<float>()(_m30)
+			^ hash<float>()(_m31)
+			^ hash<float>()(_m32)
+			^ hash<float>()(_m33)
+			);
 	}
 
 	Vector3 Matrix4::Multiply(const Matrix4& a, const Vector3& position)

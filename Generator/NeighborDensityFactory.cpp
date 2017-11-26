@@ -142,8 +142,6 @@ namespace Generator
 						// Correct the rotation of the items.
 						currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
 						Vector3 position = currentItem->GetWorldMatrix().Position();
-						// Give them a better ID.
-						currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
 						++idCounter;
 					}
 

@@ -32,15 +32,10 @@ namespace Generator
 		vector<Item*> result = vector<Item*>();
 
 		// TODO: Find a better way to a generate random number.
-		std::srand((parent->GetId() + childrenNumber) * (parent->GetId() + childrenNumber) * 100);
-
-		int newSeed = std::rand();
-
-		std::srand(newSeed);
+		std::srand(std::hash<Matrix4>()(*worldMatrix));
 
 		//float randomNumber = ((float)(std::rand() % 100) / 100.0f) * _totalProbability; // a random number in the range [0, _totalProbability]
 		float randomNumber = ((float)(std::rand()) / (float)(RAND_MAX)) * _totalProbability; // a random number in the range [0, _totalProbability]
-		// TODO: find a better way to generate a random number
 
 		float probabilityCounter = 0;
 

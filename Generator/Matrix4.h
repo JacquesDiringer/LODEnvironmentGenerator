@@ -3,6 +3,8 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 
+#include <iomanip>
+
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -22,7 +24,8 @@ namespace Math
 
 		static Matrix4 Identity();
 		static Matrix4 Multiply(const Matrix4& a, const Matrix4& b);
-		Matrix4 operator* (const Matrix4& b);
+		Matrix4 operator* (const Matrix4& b) const;
+		size_t GetHash() const;
 		static Vector3 Multiply(const Matrix4& a, const Vector3& position);
 
 		static Matrix4 CreateTranslation(const Vector3& translation);
@@ -43,5 +46,19 @@ namespace Math
 		float _m30, _m31, _m32, _m33;
 
 		friend class Matrix4;
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Math::Matrix4>
+	{
+		size_t operator()(const Math::Matrix4& mat) const
+		{
+			using std::hash;
+
+			return mat.GetHash();
+		}
 	};
 }

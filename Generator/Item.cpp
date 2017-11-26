@@ -19,7 +19,7 @@ namespace Generator
 
 		SetRelativeMatrix(relativeMatrix);
 		Vector3 position = _worldMatrix.Position();
-		SetId(position.X() + position.Y() + position.Z());
+		SetId(std::hash<Matrix4>()(_worldMatrix));
 
 		// Validity testing
 		if (parent != NULL)
@@ -149,17 +149,8 @@ namespace Generator
 		}
 	}
 
-	void Item::SetId(int id)
+	void Item::SetId(unsigned int id)
 	{
-
-		if (_parent != NULL)
-		{
-			// TODO: find a better way to generate unique Ids
-			_id = _parent->GetId() * (_parent->GetChildrenCount() + 1) + id;
-		}
-		else
-		{
-			_id = id;
-		}
+		_id = id;
 	}
 }

@@ -28,14 +28,12 @@ namespace Generator
 		{
 			++currentFactoryId;
 
-			vector<Item*> generatedItems = currentFactory->GenerateLevel(parent, childrenNumber * currentFactoryId, futureTransformation, worldMatrix);
+			vector<Item*> generatedItems = currentFactory->GenerateLevel(parent, currentFactoryId, futureTransformation, worldMatrix);
 
 			int idCounter = 0;
 			for each (Item* currentItem in generatedItems)
 			{
 				Vector3 position = currentItem->GetWorldMatrix().Position();
-				// TODO: This is probably what leads to random objects that are not distributed randomly but more like following a diagonal.
-				currentItem->SetId(idCounter + position.X() + position.Y() + position.Z());
 				result.push_back(currentItem);
 
 				++idCounter;

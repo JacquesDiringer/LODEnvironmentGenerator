@@ -52,20 +52,20 @@ namespace Generator
 		bool GetUpdateChecked() const { return _updateChecked; }
 		void SetUpdateChecked(bool value) { _updateChecked = value; }
 
-		Matrix4 GetWorldMatrix() const { return _worldMatrix; }
+		const Matrix4& GetWorldMatrix() const { return _worldMatrix; }
 
 		// This will set the relative matrix but also update the world matrix using the parent
-		Matrix4 GetRelativeMatrix() const { return _relativeMatrix; }
+		const Matrix4& GetRelativeMatrix() const { return _relativeMatrix; }
 		void SetRelativeMatrix(Matrix4 relativeMatrix);
 
-		int GetId() const{ return _id; }
+		unsigned int GetId() const{ return _id; }
 
 		int GetChildrenCount() const { return _children.size(); }
 
-		void SetId(int id);
+		void SetId(unsigned int id);
 
 	private:
-		int _id;
+		unsigned int _id;
 		float _expansionDistance;
 		Displayable* _displayableContent;
 		Item* _parent;
