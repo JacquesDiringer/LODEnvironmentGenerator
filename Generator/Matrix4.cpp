@@ -31,7 +31,7 @@ namespace Math
 		return Matrix4();
 	}
 
-	Vector3 Matrix4::Position()
+	Vector3 Matrix4::Position() const
 	{
 		return Vector3(_m03, _m13, _m23);
 	}
@@ -69,11 +69,6 @@ namespace Math
 		return Matrix4::Multiply((*this), b);
 	}
 
-	Matrix4 Matrix4::operator*(const Vector3& b)
-	{
-		return Matrix4::Multiply((*this), b);
-	}
-
 	Vector3 Matrix4::Multiply(const Matrix4& a, const Vector3& position)
 	{
 		return Matrix4::Multiply(a, Matrix4::CreateTranslation(position)).Position();
@@ -96,7 +91,7 @@ namespace Math
 						0,			0,	0,		1);
 	}
 
-	Matrix4::Matrix4(Vector3 position)
+	Matrix4::Matrix4(const Vector3& position)
 	{
 		_m00 = 1; _m01 = 0; _m02 = 0; _m03 = position.X();
 		_m10 = 0; _m11 = 1; _m12 = 0; _m13 = position.Y();
@@ -144,7 +139,7 @@ namespace Math
 		return Quaternion(x, y, z, w);
 	}
 
-	bool Matrix4::operator== (Matrix4 const &other) const
+	bool Matrix4::operator== (const Matrix4 &other) const
 	{
 		return (
 			_m00 == other._m00 &&

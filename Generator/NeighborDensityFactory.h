@@ -33,7 +33,7 @@ namespace Generator
 		void AddCondition(Vector3 fetchCoordinates, bool expectedValue);
 		bool operator==(const Rule &other);
 
-		vector<Condition*> GetConditions() const { return _conditionsList; }
+		const vector<Condition*>& GetConditions() const { return _conditionsList; }
 		LevelFactory* GetFactory() const { return _factory; }
 
 	private:

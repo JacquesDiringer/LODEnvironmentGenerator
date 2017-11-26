@@ -17,24 +17,23 @@ namespace Math
 	public:
 		Matrix4();
 		Matrix4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33);
-		Matrix4(Vector3 position);
+		Matrix4(const Vector3& position);
 		~Matrix4();
 
 		static Matrix4 Identity();
 		static Matrix4 Multiply(const Matrix4& a, const Matrix4& b);
 		Matrix4 operator* (const Matrix4& b);
-		Matrix4 operator* (const Vector3& b);
 		static Vector3 Multiply(const Matrix4& a, const Vector3& position);
 
 		static Matrix4 CreateTranslation(const Vector3& translation);
 		static Matrix4 CreateRotationY(float angle); // angle in degrees
 
 		// Interface
-		Vector3 Position();
+		Vector3 Position() const;
 		Quaternion ComputeQuaternion();
 
 		// Operators
-		bool operator== (Matrix4 const &other) const;
+		bool operator== (const Matrix4 &other) const;
 
 
 	private:
