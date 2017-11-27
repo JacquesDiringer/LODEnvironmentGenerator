@@ -92,7 +92,7 @@ namespace Generator
 		Matrix4 quarterRotationMatrix = Matrix4::CreateRotationY(90);
 		// Calculations have to be done 4 times, rotating the fetching coordinates in the 4 cardinal directions to reduce the combination possibilities.
 		// The calculations can stop as spoon as a result is found. We don't want symetric conditions on the Y axis to spawn 4 objects at the same spot.
-		for (int rotationCount = 0; rotationCount < 4 && newItems.size() == 0; rotationCount++)
+		for (int rotationCount = 0; rotationCount < 4 && newItems.size() == 0; ++rotationCount)
 		{
 			// Fetch the density values at the right coordinates in the world.
 			for each(Rule* currentRule in _rules)
@@ -103,8 +103,32 @@ namespace Generator
 				for each(Condition* currentCondition in currentRule->GetConditions())
 				{
 					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
-					Vector3 localDomainFetchCoordinates = Matrix4::Multiply(currentRotationMatrix, currentCondition->LocalFetchCoordinates * _voxelSize);
-					// Then transforming to world coordinates by multiplying by the world mattrix of the father.
+					Vector3 voxelUnrotatedCoords = currentCondition->LocalFetchCoordinates * _voxelSize;
+					Vector3 localDomainFetchCoordinates = Vector3();
+					switch (rotationCount)
+					{
+					case 0:
+						localDomainFetchCoordinates = voxelUnrotatedCoords;
+						break;
+					case 1:
+						localDomainFetchCoordinates.X(voxelUnrotatedCoords.Z());
+						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+						localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.X());
+						break;
+					case 2:
+						localDomainFetchCoordinates.X(-voxelUnrotatedCoords.X());
+						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+						localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.Z());
+						break;
+					case 3:
+						localDomainFetchCoordinates.X(-voxelUnrotatedCoords.Z());
+						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+						localDomainFetchCoordinates.Z(voxelUnrotatedCoords.X());
+					default:
+						break;
+					}
+
+					// Then transform to world coordinates by multiplying by the world mattrix of the father.
 					Vector3 worldFetchCoordinates = Matrix4::Multiply(*worldMatrix, localDomainFetchCoordinates);
 
 					bool fetchResult;
