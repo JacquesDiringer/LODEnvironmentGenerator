@@ -16,6 +16,7 @@
 #include "BooleanOperatorDataModel.h"
 
 #include <iostream>
+#include <filesystem>
 
 using namespace Math;
 

@@ -46,8 +46,23 @@ namespace DataModel
 
 		// Then read the rules to be added to the factory.
 
-		// Get the line that should state the rules adding phase beginning.
+		// Read the eventual default block rule.
+		// If there is no default block, this line should state the rules adding phase beginning. 
 		getline(*stream, currentLine);
+		if (currentLine == "Default")
+		{
+			// Reads the name of the factory.
+			getline(*stream, currentLine);
+			// Get the corresponding factory.
+			LevelFactory* defaultFactory = GetFactoryByName(currentLine, previousFactories);
+
+			// Set the default block in the result factory.
+			result->SetDefaultFactory(defaultFactory);
+
+			// Go to the next line, which should state the rules adding phase beginning.
+			getline(*stream, currentLine);
+		}
+
 		if (currentLine != "Begin AddRules")
 		{
 			throw new std::invalid_argument("Wrong format.");
@@ -91,7 +106,7 @@ namespace DataModel
 
 		if (ruleFactory == NULL)
 		{
-			throw new std::invalid_argument("Cannot have a null factory as a rule.");
+			//throw new std::invalid_argument("Cannot have a null factory as a rule.");
 		}
 
 		// Read the 8 conditions and store them into a list.
@@ -115,7 +130,7 @@ namespace DataModel
 
 		if (ruleFactory == NULL)
 		{
-			throw new std::invalid_argument("Cannot have a null factory as a rule.");
+			//throw new std::invalid_argument("Cannot have a null factory as a rule.");
 		}
 
 		// Rule to be added.

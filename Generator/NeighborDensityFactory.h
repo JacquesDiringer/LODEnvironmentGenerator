@@ -54,6 +54,7 @@ namespace Generator
 		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
 		void AddRule(vector<bool>conditions, LevelFactory* factory);
 		void AddRule(Rule* newRule);
+		void SetDefaultFactory(LevelFactory* default) { _defaultFactory = default; }
 
 	private:
 		// Dimension of one voxel block.
@@ -67,6 +68,9 @@ namespace Generator
 		vector<Rule*> _rules;
 		// Density mathematical expression.
 		FloatExpression* _densityExpression;
+
+		// Factory used by default when no rule matches.
+		LevelFactory* _defaultFactory;
 
 	private:
 		vector<Item*> ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);

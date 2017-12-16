@@ -20,6 +20,7 @@ namespace Generator
 		}
 
 		_rules = vector<Rule*>();
+		_defaultFactory = nullptr;
 	}
 
 
@@ -86,13 +87,11 @@ namespace Generator
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
 
-		vector<Item*> newItems = vector<Item*>();
-
 		Matrix4 currentRotationMatrix = Matrix4::Identity();
 		Matrix4 quarterRotationMatrix = Matrix4::CreateRotationY(90);
 		// Calculations have to be done 4 times, rotating the fetching coordinates in the 4 cardinal directions to reduce the combination possibilities.
 		// The calculations can stop as spoon as a result is found. We don't want symetric conditions on the Y axis to spawn 4 objects at the same spot.
-		for (int rotationCount = 0; rotationCount < 4 && newItems.size() == 0; ++rotationCount)
+		for (int rotationCount = 0; rotationCount < 4; ++rotationCount)
 		{
 			// Fetch the density values at the right coordinates in the world.
 			for each(Rule* currentRule in _rules)
@@ -158,7 +157,15 @@ namespace Generator
 					LevelFactory* associatedFactory = currentRule->GetFactory();
 
 					// Then instanciate new items with this factory.
-					vector<Item*> generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
+					vector<Item*> generatedItems;
+					if (associatedFactory != nullptr)
+					{
+						generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
+					}
+					else
+					{
+						generatedItems = vector<Item*>();
+					}
 
 					int idCounter = 0;
 					for each (Item* currentItem in generatedItems)
@@ -176,7 +183,17 @@ namespace Generator
 			currentRotationMatrix = quarterRotationMatrix*currentRotationMatrix;
 		}
 
-		return newItems;
+		// If no rule has been validated, check if the a default factory has been set.
+		if (_defaultFactory != nullptr)
+		{
+			// If there is a default factory, return the factory's items.
+			return _defaultFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
+		}
+		else
+		{
+			// When there is no default factory, return an empty vector.
+			return vector<Item*>();
+		}
 	}
 
 	float NeighborDensityFactory::DensityFunction(const Vector3 fetchCoordinates)
