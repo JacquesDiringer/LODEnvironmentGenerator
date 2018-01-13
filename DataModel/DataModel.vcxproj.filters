@@ -81,6 +81,9 @@
     <ClInclude Include="BooleanOperatorDataModel.h">
       <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
     </ClInclude>
+    <ClInclude Include="YCylinderDataModel.h">
+      <Filter>Fichiers d%27en-tête\MathsDataModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stdafx.cpp">
@@ -132,6 +135,9 @@
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
     <ClCompile Include="BooleanOperatorDataModel.cpp">
+      <Filter>Fichiers sources\MathsDataModel</Filter>
+    </ClCompile>
+    <ClCompile Include="YCylinderDataModel.cpp">
       <Filter>Fichiers sources\MathsDataModel</Filter>
     </ClCompile>
   </ItemGroup>

@@ -167,6 +167,7 @@
     <ClInclude Include="TransformationFactory.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="NeighborDensityFactory.h" />
+    <ClInclude Include="YCylinderExpression.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABExpression.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="TransformationFactory.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="NeighborDensityFactory.cpp" />
+    <ClCompile Include="YCylinderExpression.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
