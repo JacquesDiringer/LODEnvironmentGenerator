@@ -38,6 +38,7 @@ namespace DataModel
 
 		static FloatExpression* GetFloatExpressionByName(string name, unordered_map<string, FloatExpression*>* previousExpressions);
 
+	private:
 		// Instance name of the float expression.
 		string _name;
 		// The float expression itself.

@@ -20,7 +20,6 @@ namespace DataModel
 
 	FloatExpression * LinearCombinationDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
-		_expression = NULL;
 		string currentLine;
 
 		// Get the first ratio.

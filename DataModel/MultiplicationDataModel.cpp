@@ -19,7 +19,6 @@ namespace DataModel
 
 	FloatExpression * MultiplicationDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
-		_expression = NULL;
 		string currentLine;
 
 		// Get the ratio.
