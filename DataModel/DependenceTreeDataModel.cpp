@@ -16,6 +16,7 @@
 #include "BooleanOperatorDataModel.h"
 #include "YCylinderDataModel.h"
 #include "CoordinatesWarpDataModel.h"
+#include "ModuloDataModel.h"
 
 #include <iostream>
 #include <filesystem>
@@ -44,7 +45,8 @@ namespace DataModel
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("BooleanOperatorExpression", new BooleanOperatorDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("YCylinderExpression", new YCylinderDataModel()));
 		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("CoordinatesWarpExpression", new CoordinatesWarpDataModel()));
-
+		_floatExpressionsDataModelMap.insert(std::pair<string, FloatExpressionDataModel*>("ModuloExpression", new ModuloDataModel()));
+		
 		//_visitedFiles = unordered_set<string>();
 		//_previousFactories = unordered_map<string, LevelFactory*>();
 	}

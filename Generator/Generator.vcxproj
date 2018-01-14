@@ -157,6 +157,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="LevelFactory.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="ModuloExpression.h" />
     <ClInclude Include="MultiplicationExpression.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RandomObjectFactory.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="ModuloExpression.cpp" />
     <ClCompile Include="MultiplicationExpression.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RandomObjectFactory.cpp" />

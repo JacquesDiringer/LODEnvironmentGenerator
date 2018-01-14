@@ -120,6 +120,9 @@
     <ClInclude Include="CoordinatesWarpExpression.h">
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
+    <ClInclude Include="ModuloExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="CoordinatesWarpExpression.cpp">
       <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuloExpression.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
