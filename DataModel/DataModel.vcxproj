@@ -141,6 +141,7 @@
     <ClInclude Include="ArrayFactoryDataModel.h" />
     <ClInclude Include="BooleanOperatorDataModel.h" />
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
+    <ClInclude Include="CoordinatesTranslationDataModel.h" />
     <ClInclude Include="CoordinatesWarpDataModel.h" />
     <ClInclude Include="CosDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="ArrayFactoryDataModel.cpp" />
     <ClCompile Include="BooleanOperatorDataModel.cpp" />
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
+    <ClCompile Include="CoordinatesTranslationDataModel.cpp" />
     <ClCompile Include="CoordinatesWarpDataModel.cpp" />
     <ClCompile Include="CosDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />

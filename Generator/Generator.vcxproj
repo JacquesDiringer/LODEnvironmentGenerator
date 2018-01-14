@@ -147,6 +147,7 @@
     <ClInclude Include="ArrayFactory.h" />
     <ClInclude Include="BooleanOperatorExpression.h" />
     <ClInclude Include="ComplexObjectFactory.h" />
+    <ClInclude Include="CoordinatesTranslationExpression.h" />
     <ClInclude Include="CoordinatesWarpExpression.h" />
     <ClInclude Include="CosExpression.h" />
     <ClInclude Include="LinearCombinationExpression.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="ArrayFactory.cpp" />
     <ClCompile Include="BooleanOperatorExpression.cpp" />
     <ClCompile Include="ComplexObjectFactory.cpp" />
+    <ClCompile Include="CoordinatesTranslationExpression.cpp" />
     <ClCompile Include="CoordinatesWarpExpression.cpp" />
     <ClCompile Include="CosExpression.cpp" />
     <ClCompile Include="LinearCombinationExpression.cpp" />

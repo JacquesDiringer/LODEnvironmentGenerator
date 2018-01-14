@@ -123,6 +123,9 @@
     <ClInclude Include="ModuloExpression.h">
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
+    <ClInclude Include="CoordinatesTranslationExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -204,6 +207,9 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="ModuloExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinatesTranslationExpression.cpp">
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>
