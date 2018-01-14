@@ -13,7 +13,7 @@ namespace Math
 	ModuloExpression::~ModuloExpression()
 	{
 	}
-
+	
 	float ModuloExpression::Evaluate(Vector3 coordinates)
 	{
 		return (int)_childExpression->Evaluate(coordinates) % _divider;

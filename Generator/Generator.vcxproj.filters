@@ -121,7 +121,7 @@
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
     <ClInclude Include="ModuloExpression.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +204,7 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="ModuloExpression.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
