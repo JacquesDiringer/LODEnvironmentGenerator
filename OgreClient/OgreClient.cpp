@@ -582,11 +582,12 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
 {
 	DataModel::DependenceTreeDataModel dependenceTree = DataModel::DependenceTreeDataModel();
-	LevelFactory* rootFactory = dependenceTree.Read("testFile.txt");
+	LevelFactory* rootFactory = dependenceTree.Read("C:/Utils/GeneratorScenes/demo0/main.txt");
+	//LevelFactory* rootFactory = dependenceTree.Read("C:/Utils/GeneratorScenes/test0/mainScene.txt");
 	//LevelFactory* rootFactory = dependenceTree.Read("simpleScene.txt");
 
 	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
-
+	
 	SimpleObjectDisplayable* object0 = new SimpleObjectDisplayable("A_Brick.mesh", "debug_texture.png");
 	Item* item0 = new Item(Matrix4(Vector3(0, 0, 0)), NULL, 100000.0f, object0, rootFactory);
 	item0->SetId(10);

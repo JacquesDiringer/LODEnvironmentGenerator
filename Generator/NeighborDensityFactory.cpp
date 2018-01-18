@@ -99,9 +99,13 @@ namespace Generator
 				// Stays true if every condition reveals true.
 				bool ruleValidated = true;
 
-				// TODO: This for should be exited when ruleValidated becomes false.
-				for each(Condition* currentCondition in currentRule->GetConditions())
+				// This for should be exited when ruleValidated becomes false.
+				// Otherwise, continue until there are no more rules to check.
+				vector<Condition*> conditions = currentRule->GetConditions();
+				for(int i = 0; i < conditions.size() && ruleValidated; ++i)
 				{
+					Condition* currentCondition = conditions[i];
+
 					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
 					Vector3 voxelUnrotatedCoords = currentCondition->LocalFetchCoordinates * _voxelSize;
 					Vector3 localDomainFetchCoordinates = Vector3();

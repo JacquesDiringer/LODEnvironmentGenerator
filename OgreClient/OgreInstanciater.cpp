@@ -235,6 +235,9 @@ bool OgreInstanciater::RemoveDisplayable(Displayable* displayableToRemove)
 	// Remove the element from the Displayable SceneNode map
 	_sceneDisplayablesNodes.erase(findIterator);
 
+	// Finally, delete the displayable.
+	//delete(displayableToRemove);
+
 	//std::cout << "Removed : " << ((SimpleObjectDisplayable*)displayableToRemove)->GetTextureName() << std::endl;
 
 	return true;

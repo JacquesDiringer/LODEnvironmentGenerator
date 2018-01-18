@@ -917,9 +917,9 @@ buildings_bridges_arrays
 ArrayFactory
 ArrayFactoryTest
 neighborDensityTest_metal_building_level1
-40
-40
-40
+300
+2
+2
 32
 32
 32
