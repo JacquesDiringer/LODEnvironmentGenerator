@@ -25,6 +25,6 @@ namespace Generator
 		~LevelFactory();
 
 		// Generates children for the parent
-		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix) = 0;
+		virtual void GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector) = 0;
 	};
 }

@@ -27,10 +27,8 @@ namespace Generator
 		_totalProbability += probability;
 	}
 
-	vector<Item*> RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	void RandomObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
 	{
-		vector<Item*> result = vector<Item*>();
-
 		// TODO: Find a better way to a generate random number.
 		std::srand(std::hash<Matrix4>()(*worldMatrix));
 
@@ -45,14 +43,16 @@ namespace Generator
 			if (probabilityCounter > randomNumber)
 			{
 				LevelFactory* currentFactory = std::get<1>(currentTuple);
-				return currentFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
+				currentFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
+
+				// In case we got ourselves a non null object to display, return here because we don't want to also add the null object.
+				return;
 			}
 		}
 
 		// In this case, the "empty" object was chosen, we return an Item containing no displayable nor sub level factory
 		// The reason to do this instead of simply returning an empty list is that we want to keep the link with the father, otherwise the father won't be recreated  when the Item is "upped"
 		Item* simpleObject = new Item(Matrix4::Identity(), parent, 0.0f, NULL, NULL);
-		result.push_back(simpleObject);
-		return result;
+		itemVector->push_back(simpleObject);
 	}
 }

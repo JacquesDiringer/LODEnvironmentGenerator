@@ -21,7 +21,7 @@ namespace Generator
 		void AddComposerFactory(LevelFactory* composerFactory);
 
 		// Generates children for the parent
-		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		virtual void GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector);
 
 	private:
 		vector<LevelFactory*> _itemOccurrences;

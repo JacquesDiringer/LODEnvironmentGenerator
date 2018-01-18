@@ -95,7 +95,13 @@ namespace Generator
 
 		if (_subLevelFactory != NULL)
 		{
-			_children = _subLevelFactory->GenerateLevel(this, 1, &Matrix4::Identity(), &_worldMatrix);
+
+			// If the children have already been calculated, don't do it again.
+			if (_children.size() == 0)
+			{
+				// Fill the children vector with the potential sub levels.
+				_subLevelFactory->GenerateLevel(this, 1, &Matrix4::Identity(), &_worldMatrix, &_children);
+			}
 
 			for each (Item* child in _children)
 			{

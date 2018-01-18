@@ -16,7 +16,7 @@ namespace Generator
 	{
 	public:
 		Displayable();
-		~Displayable();
+		virtual ~Displayable();
 
 		Matrix4 GetWorldMatrix() const { return _worldMatrix; }
 		void SetWorldMatrix(Matrix4 value) { _worldMatrix = value; }

@@ -28,9 +28,9 @@ namespace Generator
 	{
 	}
 
-	vector<Item*> NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	void NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
 	{
-		return ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix);
+		ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 	}
 
 	void NeighborDensityFactory::AddRule(vector<bool>conditions, LevelFactory * factory)
@@ -82,7 +82,7 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	vector<Item*> NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	void NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
@@ -99,6 +99,7 @@ namespace Generator
 				// Stays true if every condition reveals true.
 				bool ruleValidated = true;
 
+				// TODO: This for should be exited when ruleValidated becomes false.
 				for each(Condition* currentCondition in currentRule->GetConditions())
 				{
 					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
@@ -157,26 +158,26 @@ namespace Generator
 					LevelFactory* associatedFactory = currentRule->GetFactory();
 
 					// Then instanciate new items with this factory.
-					vector<Item*> generatedItems;
 					if (associatedFactory != nullptr)
 					{
-						generatedItems = associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
-					}
-					else
-					{
-						generatedItems = vector<Item*>();
+						int previousSize = itemVector->size();
+						// TODO: multiply the currentRotationMatrix to worldMatrix and futureTransformation
+						associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
+
+						// Compute the number of new elements (that should be at the end of the vector), so that we can adjust their matrices.
+						int newElementsCount = itemVector->size() - previousSize;
+
+						for(; newElementsCount > 0; --newElementsCount)
+						{
+							// Select the last elements that have just been added on the lines "GenerateLevel" above.
+							Item* itemToCorrect = (*itemVector)[itemVector->size() - newElementsCount];
+
+							// Correct the rotation of the item.
+							itemToCorrect->SetRelativeMatrix(itemToCorrect->GetRelativeMatrix() * currentRotationMatrix);
+						}
 					}
 
-					int idCounter = 0;
-					for each (Item* currentItem in generatedItems)
-					{
-						// Correct the rotation of the items.
-						currentItem->SetRelativeMatrix(currentItem->GetRelativeMatrix() * currentRotationMatrix);
-						Vector3 position = currentItem->GetWorldMatrix().Position();
-						++idCounter;
-					}
-
-					return generatedItems;
+					return;
 				}
 			}
 
@@ -187,12 +188,7 @@ namespace Generator
 		if (_defaultFactory != nullptr)
 		{
 			// If there is a default factory, return the factory's items.
-			return _defaultFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix);
-		}
-		else
-		{
-			// When there is no default factory, return an empty vector.
-			return vector<Item*>();
+			_defaultFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 		}
 	}
 
