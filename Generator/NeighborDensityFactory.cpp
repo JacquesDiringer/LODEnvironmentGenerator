@@ -28,7 +28,7 @@ namespace Generator
 	{
 	}
 
-	void NeighborDensityFactory::GenerateLevel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
+	void NeighborDensityFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 	}
@@ -82,7 +82,7 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	void NeighborDensityFactory::ComputeVoxel(Item * parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
+	void NeighborDensityFactory::ComputeVoxel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
@@ -174,7 +174,7 @@ namespace Generator
 						for(; newElementsCount > 0; --newElementsCount)
 						{
 							// Select the last elements that have just been added on the lines "GenerateLevel" above.
-							Item* itemToCorrect = (*itemVector)[itemVector->size() - newElementsCount];
+							shared_ptr<Item> itemToCorrect = (*itemVector)[itemVector->size() - newElementsCount];
 
 							// Correct the rotation of the item.
 							itemToCorrect->SetRelativeMatrix(itemToCorrect->GetRelativeMatrix() * currentRotationMatrix);

@@ -11,17 +11,17 @@ namespace Generator
 {
 	SceneGraphManager::SceneGraphManager()
 	{
-		_sceneCurrentItems = unordered_set<Item*>();
-		_toAdd = vector<Item*>();
-		_toRemove = vector<Item*>();
+		_sceneCurrentItems = unordered_set<shared_ptr<Item>>();
+		_toAdd = vector<shared_ptr<Item>>();
+		_toRemove = vector<shared_ptr<Item>>();
 	}
 
 	SceneGraphManager::SceneGraphManager(Instanciater* instanciater)
 		: _instanciater(instanciater)
 	{
-		_sceneCurrentItems = unordered_set<Item*>();
-		_toAdd = vector<Item*>();
-		_toRemove = vector<Item*>();
+		_sceneCurrentItems = unordered_set<shared_ptr<Item>>();
+		_toAdd = vector<shared_ptr<Item>>();
+		_toRemove = vector<shared_ptr<Item>>();
 	}
 
 
@@ -30,7 +30,7 @@ namespace Generator
 	}
 
 
-	bool SceneGraphManager::QueueAddItem(Item* newItem)
+	bool SceneGraphManager::QueueAddItem(shared_ptr<Item> newItem)
 	{
 		_toAdd.push_back(newItem);
 
@@ -38,9 +38,9 @@ namespace Generator
 	}
 
 
-	bool SceneGraphManager::QueueRemoveItem(Item* itemToRemove)
+	bool SceneGraphManager::QueueRemoveItem(shared_ptr<Item> itemToRemove)
 	{
-		unordered_set<Item*>::iterator findIterator = _sceneCurrentItems.find(itemToRemove);
+		unordered_set<shared_ptr<Item>>::iterator findIterator = _sceneCurrentItems.find(itemToRemove);
 		if (findIterator != _sceneCurrentItems.end())
 		{
 			// The item has been found, add it to the items to add vector
@@ -58,7 +58,7 @@ namespace Generator
 		vector<Displayable*> displayableToRemove = vector<Displayable*>();
 		vector<Displayable*> displayableToAdd = vector<Displayable*>();
 
-		for each(Item* itemToRemoveIt in _toRemove)
+		for each(shared_ptr<Item> itemToRemoveIt in _toRemove)
 		{
 			// Fill the diplayable remove vector, for the instanciater
 			Displayable* displayable = itemToRemoveIt->GetDisplayableContent();
@@ -74,7 +74,7 @@ namespace Generator
 		// Empty the vector after it has been used to fill the displayable vector and update scene's currents items
 		_toRemove.clear();
 
-		for each (Item* newItem in _toAdd)
+		for each (shared_ptr<Item> newItem in _toAdd)
 		{
 			// Fill the diplayable add vector, for the instanciater
 			Displayable* displayable = newItem->GetDisplayableContent();
@@ -97,7 +97,7 @@ namespace Generator
 	void SceneGraphManager::Update(Vector3 cameraPosition, Vector3 cameraSpeed)
 	{
 		// The _updateChecked boolean of all items is set to false, it will be set to true at the retracting step for all items having a parent that is retracting
-		for each (Item* currentItem in _sceneCurrentItems)
+		for each (shared_ptr<Item> currentItem in _sceneCurrentItems)
 		{
 			currentItem->SetUpdateChecked(false);
 		}
@@ -105,20 +105,20 @@ namespace Generator
 		// This is the retraction pass, it handles items that need to show less details
 		{
 			// First, we browse all existing items to fill a vector of parents that need to be retracted, and the vector of their children who will be removed
-			vector<Item*>* parentsToRetract = new vector<Item*>();
-			vector<Item*>* childrenToRemove = new vector<Item*>();
+			vector<shared_ptr<Item>> parentsToRetract = vector<shared_ptr<Item>>();
+			vector<shared_ptr<Item>> childrenToRemove = vector<shared_ptr<Item>>();
 
-			for each (Item* item in _sceneCurrentItems)
+			for each (shared_ptr<Item> item in _sceneCurrentItems)
 			{
 				// We don't want to check an item that we know has already been checked and is to be removed because it's father is to be retracted
 				if (!item->GetUpdateChecked())
 				{
-					Item* parent = item->GetParent();
-					if (parent != NULL)
+					shared_ptr<Item> parent = item->GetParent().lock();
+					if (parent != nullptr)
 					{
 						if (!parent->NeedExpansion(cameraPosition, cameraSpeed))
 						{
-							parent->UpdateParentToRetract(cameraPosition, cameraSpeed, parentsToRetract, childrenToRemove);
+							parent->UpdateParentToRetract(cameraPosition, cameraSpeed, &parentsToRetract, &childrenToRemove);
 						}
 					}
 				}
@@ -126,13 +126,13 @@ namespace Generator
 
 			// We now know which items have to be (re)created (as retracting parents) and which items have to be removed (as children of a retracting parent)
 			// First the children are removed
-			for each (Item* childToRemove in *childrenToRemove)
+			for each (shared_ptr<Item> childToRemove in childrenToRemove)
 			{
 				QueueRemoveItem(childToRemove);
 			}
 
 			// The retracted parents will then need to be added to the scene
-			for each (Item* parentToAdd in *parentsToRetract)
+			for each (shared_ptr<Item> parentToAdd in parentsToRetract)
 			{
 				QueueAddItem(parentToAdd);
 			}
@@ -140,8 +140,8 @@ namespace Generator
 
 		// This is the expansion pass, it handles items that need to show more details
 		{
-			vector<Item*>* childrenToAdd = new vector<Item*>();
-			for each (Item* item in _sceneCurrentItems)
+			vector<shared_ptr<Item>> childrenToAdd = vector<shared_ptr<Item>>();
+			for each (shared_ptr<Item> item in _sceneCurrentItems)
 			{
 				// We don't want to check an item that we know has already been checked and is to be removed because it's father is to be retracted
 				if (!item->GetUpdateChecked())
@@ -155,14 +155,14 @@ namespace Generator
 
 						// And add it's direct or indirect children to the scene
 						// We first need to find them recursively
-						item->UpdateChildrenToAdd(cameraPosition, cameraSpeed, childrenToAdd);
+						item->UpdateChildrenToAdd(cameraPosition, cameraSpeed, &childrenToAdd);
 					}
 					item->SetUpdateChecked(true);
 				}
 			}
 
 			// Add the items resulting from the expansions
-			for each (Item* itemToAdd in *childrenToAdd)
+			for each (shared_ptr<Item> itemToAdd in childrenToAdd)
 			{
 				QueueAddItem(itemToAdd);
 			}

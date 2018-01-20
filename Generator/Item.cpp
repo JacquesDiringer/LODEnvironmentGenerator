@@ -12,19 +12,21 @@ namespace Generator
 	{
 	}
 
-	Item::Item(Matrix4 relativeMatrix, Item* parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory)
+	Item::Item(Matrix4 relativeMatrix, weak_ptr<Item> parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory)
 		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
-		_children = vector<Item*>();
+		_children = vector<shared_ptr<Item>>();
 
 		SetRelativeMatrix(relativeMatrix);
 		Vector3 position = _worldMatrix.Position();
 		SetId(std::hash<Matrix4>()(_worldMatrix));
 
+		shared_ptr<Item> sharedParent = parent.lock();
+
 		// Validity testing
-		if (parent != NULL)
+		if (sharedParent != nullptr)
 		{
-			if (_expansionDistance >= parent->GetExpansionDistance())
+			if (_expansionDistance >= sharedParent->GetExpansionDistance())
 			{
 				throw new exception("The created item expansion distance should be strictly inferior to the expansion distance of it's parent");
 			}
@@ -36,18 +38,21 @@ namespace Generator
 	{
 	}
 
-	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* parentsToRetract, vector<Item*>* childrenToRemove)
+	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
 
-		if (_parent != NULL)
+		// Get a shared pointer to the parent.
+		shared_ptr<Item> sharedParent = _parent.lock();
+
+		if (sharedParent != nullptr)
 		{
-			if (_parent->NeedExpansion(cameraPosition, cameraSpeed))
+			if (sharedParent->NeedExpansion(cameraPosition, cameraSpeed))
 			{
 				// In this case, the current Item does not need expansion but his father does
 				// Therefore, it is the item we need to retract, we add it on the list
-				parentsToRetract->push_back(this);
+				parentsToRetract->push_back(shared_ptr<Item>(this));
 
 				// Then we recursively browse it's children to register which Items will have to be removed in the childrenToRemove list
 				UpdateChildrenToRemove(childrenToRemove);
@@ -56,30 +61,30 @@ namespace Generator
 			{
 				// In this case, the parent needs to be retracted also
 				// Therefore, recursively go up in the tree
-				_parent->UpdateParentToRetract(cameraPosition, cameraSpeed, parentsToRetract, childrenToRemove);
+				sharedParent->UpdateParentToRetract(cameraPosition, cameraSpeed, parentsToRetract, childrenToRemove);
 			}
 		}
 		else
 		{
 			// In this case, the current Item does not need expansion and does not have a father (root node)
 			// Therefore, add it on the list
-			parentsToRetract->push_back(this);
+			parentsToRetract->push_back(shared_ptr<Item>(this));
 			UpdateChildrenToRemove(childrenToRemove);
 		}
 	}
 
 
-	void Item::UpdateChildrenToRemove(vector<Item*>* childrenToRemove)
+	void Item::UpdateChildrenToRemove(vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		if (_children.empty())
 		{
 			// This Item doesn't have any children, therefore is not an extended Item, it exists in the scene and needs to be removed
-			childrenToRemove->push_back(this);
+			childrenToRemove->push_back(shared_ptr<Item>(this));
 			_updateChecked = true;
 		}
 		else
 		{
-			for each (Item* child in _children)
+			for each (auto child in _children)
 			{
 				child->UpdateChildrenToRemove(childrenToRemove);
 			}
@@ -90,7 +95,7 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* childrenToAdd)
+	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
 	{
 
 		if (_subLevelFactory != NULL)
@@ -100,10 +105,10 @@ namespace Generator
 			if (_children.size() == 0)
 			{
 				// Fill the children vector with the potential sub levels.
-				_subLevelFactory->GenerateLevel(this, 1, &Matrix4::Identity(), &_worldMatrix, &_children);
+				_subLevelFactory->GenerateLevel(shared_from_this(), 1, &Matrix4::Identity(), &_worldMatrix, &_children);
 			}
 
-			for each (Item* child in _children)
+			for each (auto child in _children)
 			{
 				if (child->NeedExpansion(cameraPosition, cameraSpeed))
 				{
@@ -122,7 +127,7 @@ namespace Generator
 		else
 		{
 			// If the item has no sub level factory, then it is a leaf, and if we got here it has been chosen to be added
-			childrenToAdd->push_back(this);
+			childrenToAdd->push_back(shared_from_this());
 		}
 	}
 
@@ -140,9 +145,12 @@ namespace Generator
 	{
 		_relativeMatrix = relativeMatrix;
 
-		if (_parent != NULL)
+		// Get a shared pointer to the parent.
+		shared_ptr<Item> sharedParent = _parent.lock();
+
+		if (sharedParent != nullptr)
 		{
-			_worldMatrix = Matrix4::Multiply(_parent->GetWorldMatrix(), relativeMatrix);
+			_worldMatrix = Matrix4::Multiply(sharedParent->GetWorldMatrix(), relativeMatrix);
 		}
 		else
 		{

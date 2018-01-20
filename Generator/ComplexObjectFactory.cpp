@@ -19,7 +19,7 @@ namespace Generator
 		_itemOccurrences.push_back(composerFactory);
 	}
 
-	void ComplexObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<Item*>* itemVector)
+	void ComplexObjectFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		int currentFactoryId = 0;
 		for each (LevelFactory* currentFactory in _itemOccurrences)

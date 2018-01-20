@@ -24,7 +24,7 @@ namespace Generator
 		~ArrayFactory();
 
 		// Generates children for the parent
-		virtual void GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformationm, const Matrix4* worldMatrix, vector<Item*>* itemVector);
+		virtual void GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformationm, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
 		ComplexObjectFactory _arrayFactory;

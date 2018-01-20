@@ -27,8 +27,8 @@ namespace Generator
 		SceneGraphManager(Instanciater* instanciater);
 		~SceneGraphManager();
 
-		bool QueueAddItem(Item* newItem);
-		bool QueueRemoveItem(Item* itemToRemove);
+		bool QueueAddItem(shared_ptr<Item> newItem);
+		bool QueueRemoveItem(shared_ptr<Item> itemToRemove);
 
 		// Gathers the Displayables content and sends them to the instanciater
 		void Flush(void);
@@ -37,10 +37,10 @@ namespace Generator
 		void Update(Vector3 cameraPosition, Vector3 cameraSpeed);
 
 	private:
-		unordered_set<Item*> _sceneCurrentItems;
+		unordered_set<shared_ptr<Item>> _sceneCurrentItems;
 
-		vector<Item*> _toAdd;
-		vector<Item*> _toRemove;
+		vector<shared_ptr<Item>> _toAdd;
+		vector<shared_ptr<Item>> _toRemove;
 
 		Instanciater* _instanciater;
 	};
