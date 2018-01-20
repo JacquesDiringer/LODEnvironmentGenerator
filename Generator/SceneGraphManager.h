@@ -34,7 +34,7 @@ namespace Generator
 		void Flush(void);
 
 		// Browses the items and sees which need to be upped (go back to the parent level) or downed (create the children of the item)
-		void Update(Vector3 cameraPosition, Vector3 cameraSpeed);
+		void Update(const Vector3& cameraPosition, const Vector3& cameraSpeed);
 
 	private:
 		unordered_set<shared_ptr<Item>> _sceneCurrentItems;

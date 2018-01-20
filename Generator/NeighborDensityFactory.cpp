@@ -28,7 +28,7 @@ namespace Generator
 	{
 	}
 
-	void NeighborDensityFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void NeighborDensityFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 	}
@@ -82,7 +82,7 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	void NeighborDensityFactory::ComputeVoxel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void NeighborDensityFactory::ComputeVoxel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
@@ -133,7 +133,7 @@ namespace Generator
 					}
 
 					// Then transform to world coordinates by multiplying by the world mattrix of the father.
-					Vector3 worldFetchCoordinates = Matrix4::Multiply(*worldMatrix, localDomainFetchCoordinates);
+					Vector3 worldFetchCoordinates = Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
 
 					bool fetchResult;
 

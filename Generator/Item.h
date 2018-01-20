@@ -30,16 +30,16 @@ namespace Generator
 		Item(Matrix4 relativeMatrix, weak_ptr<Item> parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory);
 		~Item();
 
-		void UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
+		void UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
 		void UpdateChildrenToRemove(vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to add, has to be called from an expanding parent
-		void UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
+		void UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
 
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...
-		bool NeedExpansion(Vector3 cameraPosition, Vector3 cameraSpeed);
+		bool NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed);
 
 		// Overrides
 		inline bool operator == (const Item &b)

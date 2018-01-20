@@ -38,7 +38,7 @@ namespace Generator
 	{
 	}
 
-	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
+	void Item::UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
@@ -95,7 +95,7 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
+	void Item::UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
 	{
 
 		if (_subLevelFactory != NULL)
@@ -105,7 +105,7 @@ namespace Generator
 			if (_children.size() == 0)
 			{
 				// Fill the children vector with the potential sub levels.
-				_subLevelFactory->GenerateLevel(shared_from_this(), 1, &Matrix4::Identity(), &_worldMatrix, &_children);
+				_subLevelFactory->GenerateLevel(shared_from_this(), 1, Matrix4::Identity(), _worldMatrix, &_children);
 			}
 
 			for each (auto child in _children)
@@ -132,7 +132,7 @@ namespace Generator
 	}
 
 
-	bool Item::NeedExpansion(Vector3 cameraPosition, Vector3 cameraSpeed)
+	bool Item::NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed)
 	{
 		float distanceToCamera = Vector3::Distance(_worldMatrix.Position(), cameraPosition);
 

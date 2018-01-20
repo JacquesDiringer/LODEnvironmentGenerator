@@ -20,11 +20,11 @@ namespace Generator
 	{
 	}
 
-	void SimpleObjectFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void SimpleObjectFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		SimpleObjectDisplayable* displayable = new SimpleObjectDisplayable(_modelName, _textureName);
 
-		shared_ptr<Item> simpleObject = std::make_shared<Item>(*futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
+		shared_ptr<Item> simpleObject = std::make_shared<Item>(futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
 
 		itemVector->push_back(simpleObject);
 	}

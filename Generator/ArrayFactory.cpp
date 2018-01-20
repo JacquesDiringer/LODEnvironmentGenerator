@@ -47,7 +47,7 @@ namespace Generator
 	{
 	}
 
-	void ArrayFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void ArrayFactory::GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		_arrayFactory.GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 	}
