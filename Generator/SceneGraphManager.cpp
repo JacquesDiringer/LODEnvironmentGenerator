@@ -55,15 +55,15 @@ namespace Generator
 
 	void SceneGraphManager::Flush(void)
 	{
-		vector<Displayable*> displayableToRemove = vector<Displayable*>();
-		vector<Displayable*> displayableToAdd = vector<Displayable*>();
+		vector<shared_ptr<Displayable>> displayableToRemove = vector<shared_ptr<Displayable>>();
+		vector<shared_ptr<Displayable>> displayableToAdd = vector<shared_ptr<Displayable>>();
 
 		for each(shared_ptr<Item> itemToRemoveIt in _toRemove)
 		{
 			// Fill the diplayable remove vector, for the instanciater
-			Displayable* displayable = itemToRemoveIt->GetDisplayableContent();
+			shared_ptr<Displayable> displayable = itemToRemoveIt->GetDisplayableContent();
 
-			if (displayable != NULL)
+			if (displayable != nullptr)
 			{
 				displayableToRemove.push_back(displayable);
 			}
@@ -77,9 +77,9 @@ namespace Generator
 		for each (shared_ptr<Item> newItem in _toAdd)
 		{
 			// Fill the diplayable add vector, for the instanciater
-			Displayable* displayable = newItem->GetDisplayableContent();
+			shared_ptr<Displayable> displayable = newItem->GetDisplayableContent();
 
-			if (displayable != NULL)
+			if (displayable != nullptr)
 			{
 				displayableToAdd.push_back(displayable);
 			}
@@ -113,7 +113,7 @@ namespace Generator
 				// We don't want to check an item that we know has already been checked and is to be removed because it's father is to be retracted
 				if (!item->GetUpdateChecked())
 				{
-					shared_ptr<Item> parent = item->GetParent().lock();
+					shared_ptr<Item> parent = item->GetParent();
 					if (parent != nullptr)
 					{
 						if (!parent->NeedExpansion(cameraPosition, cameraSpeed))

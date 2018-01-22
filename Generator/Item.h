@@ -27,7 +27,7 @@ namespace Generator
 	{
 	public:
 		Item();
-		Item(Matrix4 relativeMatrix, weak_ptr<Item> parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory);
+		Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
 		~Item();
 
 		void UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
@@ -49,8 +49,8 @@ namespace Generator
 		}
 
 		// Getters and setters
-		Displayable* GetDisplayableContent(void) const {return _displayableContent;}
-		weak_ptr<Item> GetParent() const { return _parent; }
+		shared_ptr<Displayable> GetDisplayableContent(void) const {return _displayableContent;}
+		shared_ptr<Item> GetParent() const { return _parent; }
 		float GetExpansionDistance() const { return _expansionDistance; }
 
 		bool GetUpdateChecked() const { return _updateChecked; }
@@ -71,8 +71,8 @@ namespace Generator
 	private:
 		unsigned int _id;
 		float _expansionDistance;
-		Displayable* _displayableContent;
-		weak_ptr<Item> _parent;
+		shared_ptr<Displayable> _displayableContent;
+		shared_ptr<Item> _parent;
 		vector<shared_ptr<Item>> _children;
 		LevelFactory* _subLevelFactory;
 		Matrix4 _worldMatrix;

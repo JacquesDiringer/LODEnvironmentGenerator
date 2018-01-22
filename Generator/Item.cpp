@@ -12,7 +12,7 @@ namespace Generator
 	{
 	}
 
-	Item::Item(Matrix4 relativeMatrix, weak_ptr<Item> parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory)
+	Item::Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
 		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
 		_children = vector<shared_ptr<Item>>();
@@ -21,12 +21,10 @@ namespace Generator
 		Vector3 position = _worldMatrix.Position();
 		SetId(std::hash<Matrix4>()(_worldMatrix));
 
-		shared_ptr<Item> sharedParent = parent.lock();
-
 		// Validity testing
-		if (sharedParent != nullptr)
+		if (parent != nullptr)
 		{
-			if (_expansionDistance >= sharedParent->GetExpansionDistance())
+			if (_expansionDistance >= parent->GetExpansionDistance())
 			{
 				throw new exception("The created item expansion distance should be strictly inferior to the expansion distance of it's parent");
 			}
@@ -43,16 +41,13 @@ namespace Generator
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
 
-		// Get a shared pointer to the parent.
-		shared_ptr<Item> sharedParent = _parent.lock();
-
-		if (sharedParent != nullptr)
+		if (_parent != nullptr)
 		{
-			if (sharedParent->NeedExpansion(cameraPosition, cameraSpeed))
+			if (_parent->NeedExpansion(cameraPosition, cameraSpeed))
 			{
 				// In this case, the current Item does not need expansion but his father does
 				// Therefore, it is the item we need to retract, we add it on the list
-				parentsToRetract->push_back(shared_ptr<Item>(this));
+				parentsToRetract->push_back(shared_from_this());
 
 				// Then we recursively browse it's children to register which Items will have to be removed in the childrenToRemove list
 				UpdateChildrenToRemove(childrenToRemove);
@@ -61,14 +56,14 @@ namespace Generator
 			{
 				// In this case, the parent needs to be retracted also
 				// Therefore, recursively go up in the tree
-				sharedParent->UpdateParentToRetract(cameraPosition, cameraSpeed, parentsToRetract, childrenToRemove);
+				_parent->UpdateParentToRetract(cameraPosition, cameraSpeed, parentsToRetract, childrenToRemove);
 			}
 		}
 		else
 		{
 			// In this case, the current Item does not need expansion and does not have a father (root node)
 			// Therefore, add it on the list
-			parentsToRetract->push_back(shared_ptr<Item>(this));
+			parentsToRetract->push_back(shared_from_this());
 			UpdateChildrenToRemove(childrenToRemove);
 		}
 	}
@@ -79,7 +74,7 @@ namespace Generator
 		if (_children.empty())
 		{
 			// This Item doesn't have any children, therefore is not an extended Item, it exists in the scene and needs to be removed
-			childrenToRemove->push_back(shared_ptr<Item>(this));
+			childrenToRemove->push_back(shared_from_this());
 			_updateChecked = true;
 		}
 		else
@@ -145,19 +140,16 @@ namespace Generator
 	{
 		_relativeMatrix = relativeMatrix;
 
-		// Get a shared pointer to the parent.
-		shared_ptr<Item> sharedParent = _parent.lock();
-
-		if (sharedParent != nullptr)
+		if (_parent != nullptr)
 		{
-			_worldMatrix = Matrix4::Multiply(sharedParent->GetWorldMatrix(), relativeMatrix);
+			_worldMatrix = Matrix4::Multiply(_parent->GetWorldMatrix(), relativeMatrix);
 		}
 		else
 		{
 			_worldMatrix = Matrix4::Multiply(Matrix4::Identity(), relativeMatrix);
 		}
 		// Update the displayable content's matrix
-		if (_displayableContent != NULL)
+		if (_displayableContent != nullptr)
 		{
 			_displayableContent->SetWorldMatrix(_worldMatrix);
 		}

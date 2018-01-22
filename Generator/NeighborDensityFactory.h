@@ -51,7 +51,7 @@ namespace Generator
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
-		virtual void GenerateLevel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 		void AddRule(vector<bool>conditions, LevelFactory* factory);
 		void AddRule(Rule* newRule);
 		void SetDefaultFactory(LevelFactory* default) { _defaultFactory = default; }
@@ -73,7 +73,7 @@ namespace Generator
 		LevelFactory* _defaultFactory;
 
 	private:
-		void ComputeVoxel(weak_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		void ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 		float DensityFunction(const Vector3 fetchCoordinates);
 	};
 }
