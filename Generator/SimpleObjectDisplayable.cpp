@@ -21,12 +21,12 @@ namespace Generator
 	{
 	}
 
-	string SimpleObjectDisplayable::GetModelName() const
+	const string& SimpleObjectDisplayable::GetModelName() const
 	{
 		return _successor != nullptr ? _successor->GetModelName() : _modelName;
 	}
 
-	string SimpleObjectDisplayable::GetTextureName() const
+	const string& SimpleObjectDisplayable::GetTextureName() const
 	{
 		return _successor != nullptr ? _successor->GetTextureName() : _textureName;
 	}

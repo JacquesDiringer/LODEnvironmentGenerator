@@ -26,8 +26,8 @@ namespace Generator
 
 
 		// Getters and setters
-		string GetModelName() const;
-		string GetTextureName() const;
+		const string& GetModelName() const;
+		const string& GetTextureName() const;
 
 		// Operators
 		bool operator==(const SimpleObjectDisplayable &other) const;
