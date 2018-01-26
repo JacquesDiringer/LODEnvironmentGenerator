@@ -20,7 +20,7 @@ namespace Generator
 		public Displayable
 	{
 	public:
-		SimpleObjectDisplayable();
+		SimpleObjectDisplayable(const SimpleObjectDisplayable* successor);
 		SimpleObjectDisplayable(string modelName, string textureName);
 		~SimpleObjectDisplayable();
 
@@ -33,6 +33,9 @@ namespace Generator
 		bool operator==(const SimpleObjectDisplayable &other) const;
 
 	private:
+		// Successor used for the chain of responsibility pattern.
+		const SimpleObjectDisplayable* _successor;
+
 		string _modelName;
 		string _textureName;
 	};

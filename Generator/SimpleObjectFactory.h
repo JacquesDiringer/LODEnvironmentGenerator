@@ -1,6 +1,7 @@
 #pragma once
 #include "LevelFactory.h"
 #include "Item.h"
+#include "SimpleObjectDisplayable.h"
 
 #include <string>
 
@@ -26,8 +27,7 @@ namespace Generator
 		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
-		string _modelName;
-		string _textureName;
+		SimpleObjectDisplayable * _modelSimpleDisplayable;
 		float _expansionDistance;
 		LevelFactory* _subLevelFactory;
 	};

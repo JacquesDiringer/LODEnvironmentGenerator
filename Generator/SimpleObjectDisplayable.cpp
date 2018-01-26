@@ -4,14 +4,14 @@
 
 namespace Generator
 {
-	SimpleObjectDisplayable::SimpleObjectDisplayable()
+	SimpleObjectDisplayable::SimpleObjectDisplayable(const SimpleObjectDisplayable * successor)
+		: _successor(successor)
 	{
 		_worldMatrix = Matrix4::Identity();
 	}
 
-
 	SimpleObjectDisplayable::SimpleObjectDisplayable(string modelName, string textureName)
-		: _modelName(modelName), _textureName(textureName)
+		: _successor(nullptr), _modelName(modelName), _textureName(textureName)
 	{
 		_worldMatrix = Matrix4::Identity();
 	}
@@ -23,20 +23,20 @@ namespace Generator
 
 	string SimpleObjectDisplayable::GetModelName() const
 	{
-		return _modelName;
+		return _successor != nullptr ? _successor->GetModelName() : _modelName;
 	}
 
 	string SimpleObjectDisplayable::GetTextureName() const
 	{
-		return _textureName;
+		return _successor != nullptr ? _successor->GetTextureName() : _textureName;
 	}
 
 	bool SimpleObjectDisplayable::operator==(SimpleObjectDisplayable const &other) const
 	{
 		return (
-		_modelName == other.GetModelName() &&
-		_textureName == other.GetTextureName() &&
-		_worldMatrix == other.GetWorldMatrix()
+		this->GetModelName() == other.GetModelName() &&
+		this->GetTextureName() == other.GetTextureName() &&
+		this->GetWorldMatrix() == other.GetWorldMatrix()
 		);
 	}
 

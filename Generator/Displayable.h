@@ -15,7 +15,6 @@ namespace Generator
 	class GENERATOR_API Displayable
 	{
 	public:
-		Displayable();
 		virtual ~Displayable();
 
 		Matrix4 GetWorldMatrix() const { return _worldMatrix; }
