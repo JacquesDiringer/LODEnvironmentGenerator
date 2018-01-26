@@ -20,17 +20,13 @@ namespace Generator
 	{
 	}
 
-	vector<Item*> SimpleObjectFactory::GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix)
+	void SimpleObjectFactory::GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
-		vector<Item*> result = vector<Item*>();
+		shared_ptr<SimpleObjectDisplayable> displayable = make_shared<SimpleObjectDisplayable>(_modelName, _textureName);
 
-		SimpleObjectDisplayable* displayable = new SimpleObjectDisplayable(_modelName, _textureName);
+		shared_ptr<Item> simpleObject = std::make_shared<Item>(futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
 
-		Item* simpleObject = new Item(*futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
-
-		result.push_back(simpleObject);
-
-		return result;
+		itemVector->push_back(simpleObject);
 	}
 
 }

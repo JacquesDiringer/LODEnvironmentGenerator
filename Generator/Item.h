@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "Displayable.h"
 #include "LevelFactory.h"
@@ -8,6 +9,9 @@
 #include "Matrix4.h"
 
 using std::vector;
+using std::shared_ptr;
+using std::weak_ptr;
+
 using namespace Math;
 
 
@@ -19,23 +23,23 @@ using namespace Math;
 
 namespace Generator
 {
-	class GENERATOR_API Item
+	class GENERATOR_API Item : public std::enable_shared_from_this<Item>
 	{
 	public:
 		Item();
-		Item(Matrix4 relativeMatrix, Item* parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory);
+		Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
 		~Item();
 
-		void UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* parentsToRetract, vector<Item*>* childrenToRemove);
+		void UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
-		void UpdateChildrenToRemove(vector<Item*>* childrenToRemove);
+		void UpdateChildrenToRemove(vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to add, has to be called from an expanding parent
-		void UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* childrenToAdd);
+		void UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
 
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...
-		bool NeedExpansion(Vector3 cameraPosition, Vector3 cameraSpeed);
+		bool NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed);
 
 		// Overrides
 		inline bool operator == (const Item &b)
@@ -45,8 +49,8 @@ namespace Generator
 		}
 
 		// Getters and setters
-		Displayable* GetDisplayableContent(void) const {return _displayableContent;}
-		Item* GetParent() const { return _parent; }
+		shared_ptr<Displayable> GetDisplayableContent(void) const {return _displayableContent;}
+		shared_ptr<Item> GetParent() const { return _parent; }
 		float GetExpansionDistance() const { return _expansionDistance; }
 
 		bool GetUpdateChecked() const { return _updateChecked; }
@@ -67,9 +71,9 @@ namespace Generator
 	private:
 		unsigned int _id;
 		float _expansionDistance;
-		Displayable* _displayableContent;
-		Item* _parent;
-		vector<Item*> _children;
+		shared_ptr<Displayable> _displayableContent;
+		shared_ptr<Item> _parent;
+		vector<shared_ptr<Item>> _children;
 		LevelFactory* _subLevelFactory;
 		Matrix4 _worldMatrix;
 		Matrix4 _relativeMatrix;

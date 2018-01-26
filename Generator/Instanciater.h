@@ -1,10 +1,12 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "Displayable.h"
 
 using std::vector;
+using std::shared_ptr;
 
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
@@ -20,6 +22,6 @@ namespace Generator
 		Instanciater();
 		~Instanciater();
 
-		virtual void UpdateDisplayables(vector<Displayable*> toAdd, vector<Displayable*> toRemove) = 0;
+		virtual void UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove) = 0;
 	};
 }

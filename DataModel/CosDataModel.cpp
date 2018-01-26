@@ -17,7 +17,6 @@ namespace DataModel
 
 	FloatExpression * CosDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
-		_expression = NULL;
 		string currentLine;
 
 		// Get the expression name.

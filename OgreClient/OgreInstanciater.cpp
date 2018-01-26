@@ -8,11 +8,11 @@
 OgreInstanciater::OgreInstanciater(Ogre::ResourceGroupManager& ressourceGroupManager, Ogre::SceneManager* sceneMgr, Ogre::MaterialManager& materialManager)
 	: _ressourceGroupManager(ressourceGroupManager), _sceneMgr(sceneMgr), _materialManager(materialManager)
 {
-	_sceneDisplayablesNodes = unordered_map<Displayable*, Ogre::SceneNode*>();
+	_sceneDisplayablesNodes = unordered_map<shared_ptr<Displayable>, Ogre::SceneNode*>();
 	_instanceManagers = unordered_map<string, Ogre::InstanceManager*>();
 
-	_pendingToAddList = vector<Displayable *>();
-	_pendingToRemoveList = vector<Displayable *>();
+	_pendingToAddList = vector<shared_ptr<Displayable>>();
+	_pendingToRemoveList = vector<shared_ptr<Displayable>>();
 }
 
 
@@ -45,7 +45,7 @@ OgreInstanciater::~OgreInstanciater()
 //	}
 //}
 
-void OgreInstanciater::UpdateDisplayables(vector<Displayable*> toAdd, vector<Displayable*> toRemove)
+void OgreInstanciater::UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove)
 {
 	// Pending items optimization
 	//{
@@ -134,14 +134,14 @@ void OgreInstanciater::UpdateDisplayables(vector<Displayable*> toAdd, vector<Dis
 
 
 	int iteratorId = 0;
-	for each (Displayable* currentDisplayable in toAdd)
+	for each (shared_ptr<Displayable> currentDisplayable in toAdd)
 	{
 		++iteratorId;
 		_pendingToAddList.push_back(currentDisplayable);
 	}
 
 	iteratorId = 0;
-	for each (Displayable* currentDisplayable in toRemove)
+	for each (shared_ptr<Displayable> currentDisplayable in toRemove)
 	{
 		++iteratorId;
 		_pendingToRemoveList.push_back(currentDisplayable);
@@ -150,7 +150,7 @@ void OgreInstanciater::UpdateDisplayables(vector<Displayable*> toAdd, vector<Dis
 
 void OgreInstanciater::Flush(int addCount, int removeCount)
 {
-	vector<Displayable*>::iterator displayableIterator;
+	vector<shared_ptr<Displayable>>::iterator displayableIterator;
 
 	// Old elements are removed
 	if (!_pendingToRemoveList.empty())
@@ -198,24 +198,25 @@ bool OgreInstanciater::IsFlushCompleted()
 }
 
 
-bool OgreInstanciater::AddDisplayable(Displayable* newDisplayable)
+bool OgreInstanciater::AddDisplayable(shared_ptr<Displayable> newDisplayable)
 {
-	SimpleObjectDisplayable* simpleObject = (SimpleObjectDisplayable*)newDisplayable;
-	if (simpleObject != NULL)
+	shared_ptr<SimpleObjectDisplayable> simpleObject = std::dynamic_pointer_cast<SimpleObjectDisplayable>(newDisplayable);
+
+	if (simpleObject != nullptr)
 	{
 		return AddSimpleObjectDisplayable(simpleObject);
 	}
 	return false;
 }
 
-bool OgreInstanciater::RemoveDisplayable(Displayable* displayableToRemove)
+bool OgreInstanciater::RemoveDisplayable(shared_ptr<Displayable> displayableToRemove)
 {
 	auto findIterator = _sceneDisplayablesNodes.find(displayableToRemove);
 
 	if (findIterator == _sceneDisplayablesNodes.end())
 	{
-		SimpleObjectDisplayable* simpleObject = (SimpleObjectDisplayable*)displayableToRemove;
-		if (simpleObject != NULL)
+		shared_ptr<SimpleObjectDisplayable> simpleObject = std::dynamic_pointer_cast<SimpleObjectDisplayable>(displayableToRemove);
+		if (simpleObject != nullptr)
 		{
 			std::cout << "The displayable to remove could not be found, modelName : " << simpleObject->GetModelName() << std::endl;
 		}
@@ -240,7 +241,7 @@ bool OgreInstanciater::RemoveDisplayable(Displayable* displayableToRemove)
 	return true;
 }
 
-bool OgreInstanciater::AddSimpleObjectDisplayable(SimpleObjectDisplayable* newSimpleObjectDisplayable)
+bool OgreInstanciater::AddSimpleObjectDisplayable(shared_ptr<SimpleObjectDisplayable> newSimpleObjectDisplayable)
 {
 	// Non instanciated version
 
@@ -265,7 +266,7 @@ bool OgreInstanciater::AddSimpleObjectDisplayable(SimpleObjectDisplayable* newSi
 	lEntity->setMaterialName(lNameOfTheTexture);
 
 	// Remember the associated ogre node, to be able to remove it later
-	_sceneDisplayablesNodes.insert(std::pair<Displayable*, Ogre::SceneNode*>(newSimpleObjectDisplayable, lNode));
+	_sceneDisplayablesNodes.insert(std::pair<shared_ptr<Displayable>, Ogre::SceneNode*>(newSimpleObjectDisplayable, lNode));
 
 	//std::cout << "Added : " << newSimpleObjectDisplayable->GetTextureName() << std::endl;
 

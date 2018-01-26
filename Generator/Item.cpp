@@ -12,17 +12,17 @@ namespace Generator
 	{
 	}
 
-	Item::Item(Matrix4 relativeMatrix, Item* parent, float expansionDistance, Displayable* displayable, LevelFactory* subLevelFactory)
+	Item::Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
 		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
-		_children = vector<Item*>();
+		_children = vector<shared_ptr<Item>>();
 
 		SetRelativeMatrix(relativeMatrix);
 		Vector3 position = _worldMatrix.Position();
 		SetId(std::hash<Matrix4>()(_worldMatrix));
 
 		// Validity testing
-		if (parent != NULL)
+		if (parent != nullptr)
 		{
 			if (_expansionDistance >= parent->GetExpansionDistance())
 			{
@@ -36,18 +36,18 @@ namespace Generator
 	{
 	}
 
-	void Item::UpdateParentToRetract(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* parentsToRetract, vector<Item*>* childrenToRemove)
+	void Item::UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
 
-		if (_parent != NULL)
+		if (_parent != nullptr)
 		{
 			if (_parent->NeedExpansion(cameraPosition, cameraSpeed))
 			{
 				// In this case, the current Item does not need expansion but his father does
 				// Therefore, it is the item we need to retract, we add it on the list
-				parentsToRetract->push_back(this);
+				parentsToRetract->push_back(shared_from_this());
 
 				// Then we recursively browse it's children to register which Items will have to be removed in the childrenToRemove list
 				UpdateChildrenToRemove(childrenToRemove);
@@ -63,23 +63,23 @@ namespace Generator
 		{
 			// In this case, the current Item does not need expansion and does not have a father (root node)
 			// Therefore, add it on the list
-			parentsToRetract->push_back(this);
+			parentsToRetract->push_back(shared_from_this());
 			UpdateChildrenToRemove(childrenToRemove);
 		}
 	}
 
 
-	void Item::UpdateChildrenToRemove(vector<Item*>* childrenToRemove)
+	void Item::UpdateChildrenToRemove(vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		if (_children.empty())
 		{
 			// This Item doesn't have any children, therefore is not an extended Item, it exists in the scene and needs to be removed
-			childrenToRemove->push_back(this);
+			childrenToRemove->push_back(shared_from_this());
 			_updateChecked = true;
 		}
 		else
 		{
-			for each (Item* child in _children)
+			for each (auto child in _children)
 			{
 				child->UpdateChildrenToRemove(childrenToRemove);
 			}
@@ -90,14 +90,20 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToAdd(Vector3 cameraPosition, Vector3 cameraSpeed, vector<Item*>* childrenToAdd)
+	void Item::UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
 	{
 
 		if (_subLevelFactory != NULL)
 		{
-			_children = _subLevelFactory->GenerateLevel(this, 1, &Matrix4::Identity(), &_worldMatrix);
 
-			for each (Item* child in _children)
+			// If the children have already been calculated, don't do it again.
+			if (_children.size() == 0)
+			{
+				// Fill the children vector with the potential sub levels.
+				_subLevelFactory->GenerateLevel(shared_from_this(), 1, Matrix4::Identity(), _worldMatrix, &_children);
+			}
+
+			for each (auto child in _children)
 			{
 				if (child->NeedExpansion(cameraPosition, cameraSpeed))
 				{
@@ -116,12 +122,12 @@ namespace Generator
 		else
 		{
 			// If the item has no sub level factory, then it is a leaf, and if we got here it has been chosen to be added
-			childrenToAdd->push_back(this);
+			childrenToAdd->push_back(shared_from_this());
 		}
 	}
 
 
-	bool Item::NeedExpansion(Vector3 cameraPosition, Vector3 cameraSpeed)
+	bool Item::NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed)
 	{
 		float distanceToCamera = Vector3::Distance(_worldMatrix.Position(), cameraPosition);
 
@@ -134,7 +140,7 @@ namespace Generator
 	{
 		_relativeMatrix = relativeMatrix;
 
-		if (_parent != NULL)
+		if (_parent != nullptr)
 		{
 			_worldMatrix = Matrix4::Multiply(_parent->GetWorldMatrix(), relativeMatrix);
 		}
@@ -143,7 +149,7 @@ namespace Generator
 			_worldMatrix = Matrix4::Multiply(Matrix4::Identity(), relativeMatrix);
 		}
 		// Update the displayable content's matrix
-		if (_displayableContent != NULL)
+		if (_displayableContent != nullptr)
 		{
 			_displayableContent->SetWorldMatrix(_worldMatrix);
 		}

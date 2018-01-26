@@ -114,6 +114,18 @@
     <ClInclude Include="BooleanOperatorExpression.h">
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
+    <ClInclude Include="YCylinderExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinatesWarpExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuloExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinatesTranslationExpression.h">
+      <Filter>Header Files\Math\Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -186,6 +198,18 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="BooleanOperatorExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="YCylinderExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinatesWarpExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuloExpression.cpp">
+      <Filter>Source Files\Math\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinatesTranslationExpression.cpp">
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
   </ItemGroup>

@@ -29,14 +29,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CLRSupport>false</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -141,12 +141,15 @@
     <ClInclude Include="ArrayFactoryDataModel.h" />
     <ClInclude Include="BooleanOperatorDataModel.h" />
     <ClInclude Include="ComplexObjectFactoryDataModel.h" />
+    <ClInclude Include="CoordinatesTranslationDataModel.h" />
+    <ClInclude Include="CoordinatesWarpDataModel.h" />
     <ClInclude Include="CosDataModel.h" />
     <ClInclude Include="DependenceTreeDataModel.h" />
     <ClInclude Include="FloatExpressionDataModel.h" />
     <ClInclude Include="LevelFactoryDataModel.h" />
     <ClInclude Include="LinearCombinationDataModel.h" />
     <ClInclude Include="LinearFunctionDataModel.h" />
+    <ClInclude Include="ModuloDataModel.h" />
     <ClInclude Include="MultiplicationDataModel.h" />
     <ClInclude Include="RandomObjectFactoryDataModel.h" />
     <ClInclude Include="resource.h" />
@@ -155,18 +158,22 @@
     <ClInclude Include="TransformationFactoryDataModel.h" />
     <ClInclude Include="UtilityReaderWriter.h" />
     <ClInclude Include="NeighborDensityFactoryDataModel.h" />
+    <ClInclude Include="YCylinderDataModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABDataModel.cpp" />
     <ClCompile Include="ArrayFactoryDataModel.cpp" />
     <ClCompile Include="BooleanOperatorDataModel.cpp" />
     <ClCompile Include="ComplexObjectFactoryDataModel.cpp" />
+    <ClCompile Include="CoordinatesTranslationDataModel.cpp" />
+    <ClCompile Include="CoordinatesWarpDataModel.cpp" />
     <ClCompile Include="CosDataModel.cpp" />
     <ClCompile Include="DependenceTreeDataModel.cpp" />
     <ClCompile Include="FloatExpressionDataModel.cpp" />
     <ClCompile Include="LevelFactoryDataModel.cpp" />
     <ClCompile Include="LinearCombinationDataModel.cpp" />
     <ClCompile Include="LinearFunctionDataModel.cpp" />
+    <ClCompile Include="ModuloDataModel.cpp" />
     <ClCompile Include="MultiplicationDataModel.cpp" />
     <ClCompile Include="RandomObjectFactoryDataModel.cpp" />
     <ClCompile Include="SimpleObjectFactoryDataModel.cpp" />
@@ -179,6 +186,7 @@
     <ClCompile Include="TransformationFactoryDataModel.cpp" />
     <ClCompile Include="UtilityReaderWriter.cpp" />
     <ClCompile Include="NeighborDensityFactoryDataModel.cpp" />
+    <ClCompile Include="YCylinderDataModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

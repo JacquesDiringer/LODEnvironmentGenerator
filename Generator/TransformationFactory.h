@@ -1,4 +1,7 @@
 #pragma once
+
+#include <memory>
+
 #include "LevelFactory.h"
 #include "Matrix4.h"
 
@@ -21,7 +24,7 @@ namespace Generator
 		~TransformationFactory();
 
 		// Generates children for the parent
-		virtual vector<Item*> GenerateLevel(Item* parent, int childrenNumber, const Matrix4* futureTransformation, const Matrix4* worldMatrix);
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
 		LevelFactory* _factory;
