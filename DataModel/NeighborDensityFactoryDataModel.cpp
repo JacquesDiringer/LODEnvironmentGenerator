@@ -23,7 +23,7 @@ namespace DataModel
 		string currentLine;
 		
 		// Read the voxel size.
-		Vector3 voxelSize = UtilityReaderWriter::ReadVector3(stream);
+		Math::Vector3 voxelSize = UtilityReaderWriter::ReadVector3(stream);
 
 		// Read the density expression name.
 		getline(*stream, currentLine);
@@ -141,7 +141,7 @@ namespace DataModel
 		// Fill the conditions of the Rule. Until the "End of Rule" marker is met.
 		while (currentLine != "End AddConditions")
 		{
-			Vector3 fetchCoordinates = UtilityReaderWriter::ReadVector3(stream);
+			Math::Vector3 fetchCoordinates = UtilityReaderWriter::ReadVector3(stream);
 			bool expectedValue = UtilityReaderWriter::ReadBool(stream);
 
 			// Add the new condition to the Rule.

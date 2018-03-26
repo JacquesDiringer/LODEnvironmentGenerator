@@ -22,9 +22,6 @@
 #include <iostream>
 #include <filesystem>
 
-using namespace Math;
-
-
 namespace DataModel
 {
 	DependenceTreeDataModel::DependenceTreeDataModel()

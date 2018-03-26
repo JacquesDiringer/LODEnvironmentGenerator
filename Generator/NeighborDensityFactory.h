@@ -5,8 +5,6 @@
 
 #include <vector>
 
-using namespace Math;
-
 using std::vector;
 
 #ifdef GENERATOR_EXPORTS
@@ -19,7 +17,7 @@ namespace Generator
 {
 	struct Condition
 	{
-		Vector3 LocalFetchCoordinates;
+		Math::Vector3 LocalFetchCoordinates;
 		bool ExpectedValue;
 	};
 
@@ -30,7 +28,7 @@ namespace Generator
 		Rule(LevelFactory* factory);
 		~Rule();
 
-		void AddCondition(Vector3 fetchCoordinates, bool expectedValue);
+		void AddCondition(Math::Vector3 fetchCoordinates, bool expectedValue);
 		bool operator==(const Rule &other);
 
 		const vector<Condition*>& GetConditions() const { return _conditionsList; }
@@ -47,11 +45,11 @@ namespace Generator
 
 	public:
 		NeighborDensityFactory();
-		NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, float minimalDensity);
+		NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity);
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
-		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 		void AddRule(vector<bool>conditions, LevelFactory* factory);
 		void AddRule(Rule* newRule);
 		void SetDefaultFactory(LevelFactory* default) { _defaultFactory = default; }
@@ -59,7 +57,7 @@ namespace Generator
 	private:
 		// Dimension of one voxel block.
 		// This will determine the density function fetch step as well as the children position.
-		Vector3 _voxelSize;
+		Math::Vector3 _voxelSize;
 		// Density at which a voxel is considered not empty.
 		float _minimalDensity;
 		// A map of a set of 8 rules, and a LevelFactory.
@@ -67,13 +65,13 @@ namespace Generator
 		// List of rules, each giving fetching coordinates and condition, and the corresponding Factory if all conditions are met.
 		vector<Rule*> _rules;
 		// Density mathematical expression.
-		FloatExpression* _densityExpression;
+		Math::FloatExpression* _densityExpression;
 
 		// Factory used by default when no rule matches.
 		LevelFactory* _defaultFactory;
 
 	private:
-		void ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
-		float DensityFunction(const Vector3 fetchCoordinates);
+		void ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		float DensityFunction(const Math::Vector3 fetchCoordinates);
 	};
 }

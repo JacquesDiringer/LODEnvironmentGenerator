@@ -12,9 +12,6 @@ using std::vector;
 using std::shared_ptr;
 using std::weak_ptr;
 
-using namespace Math;
-
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -27,19 +24,19 @@ namespace Generator
 	{
 	public:
 		Item();
-		Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
+		Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
 		~Item();
 
-		void UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
+		void UpdateParentToRetract(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to remove, has to be called from a retracting parent, basically recursively finds all the leaves from this parent
 		void UpdateChildrenToRemove(vector<shared_ptr<Item>>* childrenToRemove);
 
 		// Fills a vector of items to add, has to be called from an expanding parent
-		void UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
+		void UpdateChildrenToAdd(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
 
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...
-		bool NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed);
+		bool NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed);
 
 		// Overrides
 		inline bool operator == (const Item &b)
@@ -56,11 +53,11 @@ namespace Generator
 		bool GetUpdateChecked() const { return _updateChecked; }
 		void SetUpdateChecked(bool value) { _updateChecked = value; }
 
-		const Matrix4& GetWorldMatrix() const { return _worldMatrix; }
+		const Math::Matrix4& GetWorldMatrix() const { return _worldMatrix; }
 
 		// This will set the relative matrix but also update the world matrix using the parent
-		const Matrix4& GetRelativeMatrix() const { return _relativeMatrix; }
-		void SetRelativeMatrix(Matrix4 relativeMatrix);
+		const Math::Matrix4& GetRelativeMatrix() const { return _relativeMatrix; }
+		void SetRelativeMatrix(Math::Matrix4 relativeMatrix);
 
 		unsigned int GetId() const{ return _id; }
 
@@ -75,8 +72,8 @@ namespace Generator
 		shared_ptr<Item> _parent;
 		vector<shared_ptr<Item>> _children;
 		LevelFactory* _subLevelFactory;
-		Matrix4 _worldMatrix;
-		Matrix4 _relativeMatrix;
+		Math::Matrix4 _worldMatrix;
+		Math::Matrix4 _relativeMatrix;
 		bool _updateChecked;
 	};
 

@@ -7,13 +7,13 @@ namespace Generator
 	SimpleObjectDisplayable::SimpleObjectDisplayable(const SimpleObjectDisplayable * successor)
 		: _successor(successor)
 	{
-		_worldMatrix = Matrix4::Identity();
+		_worldMatrix = Math::Matrix4::Identity();
 	}
 
 	SimpleObjectDisplayable::SimpleObjectDisplayable(string modelName, string textureName)
 		: _successor(nullptr), _modelName(modelName), _textureName(textureName)
 	{
-		_worldMatrix = Matrix4::Identity();
+		_worldMatrix = Math::Matrix4::Identity();
 	}
 
 

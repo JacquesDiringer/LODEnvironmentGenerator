@@ -40,7 +40,7 @@ namespace DataModel
 		getline(*stream, matrixConstructor);
 
 		// Final transformation matrix.
-		Matrix4 transformation;
+		Math::Matrix4 transformation;
 
 		if (matrixConstructor == "Matrix")
 		{
@@ -77,7 +77,7 @@ namespace DataModel
 		}
 
 		// Create and return the matrix.
-		return Matrix4(matrixParameters[0], matrixParameters[1], matrixParameters[2], matrixParameters[3],
+		return Math::Matrix4(matrixParameters[0], matrixParameters[1], matrixParameters[2], matrixParameters[3],
 			matrixParameters[4], matrixParameters[5], matrixParameters[6], matrixParameters[7],
 			matrixParameters[8], matrixParameters[9], matrixParameters[10], matrixParameters[11],
 			matrixParameters[12], matrixParameters[13], matrixParameters[14], matrixParameters[15]);
@@ -88,7 +88,7 @@ namespace DataModel
 		float rotation = UtilityReaderWriter::ReadFloat(stream);
 
 		// Create and return the matrix.
-		return Matrix4::CreateRotationY(rotation);
+		return Math::Matrix4::CreateRotationY(rotation);
 	}
 	Math::Matrix4 TransformationFactoryDataModel::ReadTranslation(ifstream * stream)
 	{
@@ -105,7 +105,7 @@ namespace DataModel
 		}
 
 		// Create and return the matrix.
-		return Matrix4::CreateTranslation(Vector3(	translationParameters[0],
+		return Math::Matrix4::CreateTranslation(Math::Vector3(	translationParameters[0],
 													translationParameters[1],
 													translationParameters[2]));
 	}

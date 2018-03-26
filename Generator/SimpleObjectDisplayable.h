@@ -6,8 +6,6 @@
 
 using std::string;
 
-using namespace Math;
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else

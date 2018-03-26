@@ -45,7 +45,7 @@ namespace DataModel
 		}
 
 		// Spacing of the elements in the array.
-		Vector3 boxSize = Vector3(boxFloats[0],
+		Math::Vector3 boxSize = Math::Vector3(boxFloats[0],
 			boxFloats[1],
 			boxFloats[2]);
 
