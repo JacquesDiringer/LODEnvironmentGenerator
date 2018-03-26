@@ -66,7 +66,7 @@ namespace DataModel
 	{
 		throw std::exception("Not implemented");
 	}
-	Matrix4 TransformationFactoryDataModel::ReadMatrix4(ifstream * stream)
+	Math::Matrix4 TransformationFactoryDataModel::ReadMatrix4(ifstream * stream)
 	{
 		// Read the 16 matrix values.
 		float matrixParameters[16];
@@ -82,7 +82,7 @@ namespace DataModel
 			matrixParameters[8], matrixParameters[9], matrixParameters[10], matrixParameters[11],
 			matrixParameters[12], matrixParameters[13], matrixParameters[14], matrixParameters[15]);
 	}
-	Matrix4 TransformationFactoryDataModel::ReadYRotation(ifstream * stream)
+	Math::Matrix4 TransformationFactoryDataModel::ReadYRotation(ifstream * stream)
 	{
 		// Get the rotation value.
 		float rotation = UtilityReaderWriter::ReadFloat(stream);
@@ -90,7 +90,7 @@ namespace DataModel
 		// Create and return the matrix.
 		return Matrix4::CreateRotationY(rotation);
 	}
-	Matrix4 TransformationFactoryDataModel::ReadTranslation(ifstream * stream)
+	Math::Matrix4 TransformationFactoryDataModel::ReadTranslation(ifstream * stream)
 	{
 		// The 3 floats for the described translation.
 		float translationParameters[3];

@@ -4,7 +4,6 @@
 #include "Vector3.h"
 
 using Generator::NeighborDensityFactory;
-using Math::Vector3;
 
 namespace DataModel
 {

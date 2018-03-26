@@ -8,7 +8,6 @@ using std::fstream;
 using std::ifstream;
 using std::ofstream;
 using std::string;
-using Math::Vector3;
 
 namespace DataModel
 {
@@ -21,6 +20,6 @@ namespace DataModel
 		// Read a single line in the stream and interpret it as a float, stream will go the next line.
 		static float ReadFloat(ifstream* stream);
 		static bool ReadBool(ifstream* stream);
-		static Vector3 ReadVector3(ifstream* stream);
+		static Math::Vector3 ReadVector3(ifstream* stream);
 	};
 }

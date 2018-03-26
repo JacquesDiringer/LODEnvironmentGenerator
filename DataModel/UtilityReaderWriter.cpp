@@ -30,7 +30,7 @@ namespace DataModel
 		return currentLine == "true" || currentLine == "1";
 	}
 
-	Vector3 UtilityReaderWriter::ReadVector3(ifstream* stream)
+	Math::Vector3 UtilityReaderWriter::ReadVector3(ifstream* stream)
 	{
 		string currentLine;
 
@@ -44,6 +44,6 @@ namespace DataModel
 		float voxelSizeZ = UtilityReaderWriter::ReadFloat(stream);
 
 		// Combine them into the final Vector3.
-		return Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);
+		return Math::Vector3(voxelSizeX, voxelSizeY, voxelSizeZ);
 	}
 }

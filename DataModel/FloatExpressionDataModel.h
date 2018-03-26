@@ -13,7 +13,6 @@ using std::ofstream;
 using std::string;
 using std::unordered_map;
 using Math::FloatExpression;
-using Math::Vector3;
 
 namespace DataModel
 {

@@ -20,7 +20,7 @@ namespace DataModel
 	FloatExpression * CoordinatesTranslationDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// Read the translation first.
-		Vector3 translation = UtilityReaderWriter::ReadVector3(stream);
+		Math::Vector3 translation = UtilityReaderWriter::ReadVector3(stream);
 
 		string currentLine;
 		// Get the expression name.
