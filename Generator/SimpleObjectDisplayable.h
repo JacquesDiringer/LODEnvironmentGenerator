@@ -19,7 +19,7 @@ namespace Generator
 	{
 	public:
 		SimpleObjectDisplayable(const SimpleObjectDisplayable* successor);
-		SimpleObjectDisplayable(string modelName, string textureName);
+		SimpleObjectDisplayable(const string& modelName, const string& textureName);
 		~SimpleObjectDisplayable();
 
 

@@ -22,6 +22,6 @@ namespace Generator
 		Instanciater();
 		~Instanciater();
 
-		virtual void UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove) = 0;
+		virtual void UpdateDisplayables(const vector<shared_ptr<Displayable>>& toAdd, const vector<shared_ptr<Displayable>>& toRemove) = 0;
 	};
 }

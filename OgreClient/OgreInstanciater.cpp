@@ -45,7 +45,7 @@ OgreInstanciater::~OgreInstanciater()
 //	}
 //}
 
-void OgreInstanciater::UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove)
+void OgreInstanciater::UpdateDisplayables(const vector<shared_ptr<Displayable>>& toAdd, const vector<shared_ptr<Displayable>>& toRemove)
 {
 	// Pending items optimization
 	//{

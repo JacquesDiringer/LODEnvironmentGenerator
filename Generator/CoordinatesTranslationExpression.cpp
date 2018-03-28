@@ -4,7 +4,7 @@
 
 namespace Math
 {
-	CoordinatesTranslationExpression::CoordinatesTranslationExpression(FloatExpression * childExpression, Vector3 translation)
+	CoordinatesTranslationExpression::CoordinatesTranslationExpression(FloatExpression * childExpression, Math::Vector3 translation)
 		: _childExpression(childExpression), _translation(translation)
 	{
 	}
@@ -13,7 +13,7 @@ namespace Math
 	{
 	}
 
-	float CoordinatesTranslationExpression::Evaluate(Vector3 coordinates)
+	float CoordinatesTranslationExpression::Evaluate(Math::Vector3 coordinates)
 	{
 		return _childExpression->Evaluate(coordinates + _translation);
 	}

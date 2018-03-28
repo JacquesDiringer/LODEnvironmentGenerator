@@ -13,15 +13,15 @@ namespace Math
 		public FloatExpression
 	{
 	public:
-		CoordinatesTranslationExpression(FloatExpression* childExpression, Vector3 translation);
+		CoordinatesTranslationExpression(FloatExpression* childExpression, Math::Vector3 translation);
 		~CoordinatesTranslationExpression();
 
 		/// Recursively evaluates the value of it's concrete FloatExpression implementations.
-		float Evaluate(Vector3 coordinates);
+		float Evaluate(Math::Vector3 coordinates);
 
 	private:
 		FloatExpression* _childExpression;
-		Vector3 _translation;
+		Math::Vector3 _translation;
 	};
 
 }

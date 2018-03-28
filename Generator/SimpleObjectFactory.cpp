@@ -9,7 +9,7 @@ namespace Generator
 	{
 	}
 
-	SimpleObjectFactory::SimpleObjectFactory(string modelName, string textureName, float expansionDistance, LevelFactory* subLevelFactory)
+	SimpleObjectFactory::SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, LevelFactory* subLevelFactory)
 		: _expansionDistance(expansionDistance), _subLevelFactory(subLevelFactory)
 	{
 		_modelSimpleDisplayable = new SimpleObjectDisplayable(modelName, textureName);

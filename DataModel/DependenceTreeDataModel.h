@@ -33,11 +33,11 @@ namespace DataModel
 		~DependenceTreeDataModel();
 
 		// Reads a dependence tree file and returns the root node factory.
-		LevelFactory* Read(string filePath);
+		LevelFactory* Read(const string& filePath);
 
 
 	private:
-		LevelFactory* ReadFile(string filePath, unordered_set<string>& visitedFiles, unordered_map<string, LevelFactory*>& previousFactories, unordered_map<string, FloatExpression*>* previousExpressions);
+		LevelFactory* ReadFile(const string& filePath, unordered_set<string>& visitedFiles, unordered_map<string, LevelFactory*>& previousFactories, unordered_map<string, FloatExpression*>* previousExpressions);
 		void ReadFloatExpression(std::ifstream &inputStream, unordered_map<string, FloatExpression*>* previousExpressions);
 		LevelFactory* ReadFactories(std::ifstream &inputStream, unordered_set<string>& visitedFiles, unordered_map<string, LevelFactory*>& previousFactories);
 
