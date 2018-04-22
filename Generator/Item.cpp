@@ -12,14 +12,14 @@ namespace Generator
 	{
 	}
 
-	Item::Item(Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
+	Item::Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
 		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
 		_children = vector<shared_ptr<Item>>();
 
 		SetRelativeMatrix(relativeMatrix);
-		Vector3 position = _worldMatrix.Position();
-		SetId(std::hash<Matrix4>()(_worldMatrix));
+		Math::Vector3 position = _worldMatrix.Position();
+		SetId(std::hash<Math::Matrix4>()(_worldMatrix));
 
 		// Validity testing
 		if (parent != nullptr)
@@ -36,7 +36,7 @@ namespace Generator
 	{
 	}
 
-	void Item::UpdateParentToRetract(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
+	void Item::UpdateParentToRetract(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
 	{
 		bool addToList = false;
 		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
@@ -90,7 +90,7 @@ namespace Generator
 	}
 
 
-	void Item::UpdateChildrenToAdd(const Vector3& cameraPosition, const Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
+	void Item::UpdateChildrenToAdd(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd)
 	{
 
 		if (_subLevelFactory != NULL)
@@ -100,7 +100,7 @@ namespace Generator
 			if (_children.size() == 0)
 			{
 				// Fill the children vector with the potential sub levels.
-				_subLevelFactory->GenerateLevel(shared_from_this(), 1, Matrix4::Identity(), _worldMatrix, &_children);
+				_subLevelFactory->GenerateLevel(shared_from_this(), 1, Math::Matrix4::Identity(), _worldMatrix, &_children);
 			}
 
 			for each (auto child in _children)
@@ -127,26 +127,26 @@ namespace Generator
 	}
 
 
-	bool Item::NeedExpansion(const Vector3& cameraPosition, const Vector3& cameraSpeed)
+	bool Item::NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed)
 	{
-		float distanceToCamera = Vector3::Distance(_worldMatrix.Position(), cameraPosition);
+		float distanceToCamera = Math::Vector3::Distance(_worldMatrix.Position(), cameraPosition);
 
 		// If the item is closer than the limit, it needs expansion
 		return distanceToCamera < _expansionDistance;
 	}
 
 
-	void Item::SetRelativeMatrix(Matrix4 relativeMatrix)
+	void Item::SetRelativeMatrix(Math::Matrix4 relativeMatrix)
 	{
 		_relativeMatrix = relativeMatrix;
 
 		if (_parent != nullptr)
 		{
-			_worldMatrix = Matrix4::Multiply(_parent->GetWorldMatrix(), relativeMatrix);
+			_worldMatrix = Math::Matrix4::Multiply(_parent->GetWorldMatrix(), relativeMatrix);
 		}
 		else
 		{
-			_worldMatrix = Matrix4::Multiply(Matrix4::Identity(), relativeMatrix);
+			_worldMatrix = Math::Matrix4::Multiply(Math::Matrix4::Identity(), relativeMatrix);
 		}
 		// Update the displayable content's matrix
 		if (_displayableContent != nullptr)

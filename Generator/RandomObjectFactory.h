@@ -24,7 +24,7 @@ namespace Generator
 		void AddAlternativeFactory(float probability, LevelFactory* alternativeFactory);
 
 		// Generates children for the parent
-		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
 		float _totalProbability;

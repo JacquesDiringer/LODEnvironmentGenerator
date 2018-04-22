@@ -6,8 +6,6 @@
 
 using std::string;
 
-using namespace Math;
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -21,7 +19,7 @@ namespace Generator
 	{
 	public:
 		SimpleObjectDisplayable(const SimpleObjectDisplayable* successor);
-		SimpleObjectDisplayable(string modelName, string textureName);
+		SimpleObjectDisplayable(const string& modelName, const string& textureName);
 		~SimpleObjectDisplayable();
 
 

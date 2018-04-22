@@ -5,7 +5,6 @@
 #include "Vector3.h"
 
 using Math::LinearFunctionExpression;
-using Math::Vector3;
 
 namespace DataModel
 {
@@ -20,7 +19,7 @@ namespace DataModel
 	FloatExpression * LinearFunctionDataModel::InternalRead(ifstream * stream, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// Get the ratios Vector3.
-		Vector3 ratios = UtilityReaderWriter::ReadVector3(stream);
+		Math::Vector3 ratios = UtilityReaderWriter::ReadVector3(stream);
 
 		return new LinearFunctionExpression(ratios);
 	}

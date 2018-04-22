@@ -19,7 +19,7 @@ namespace Math
 		~CoordinatesWarpExpression();
 
 		/// Recursively evaluates the value of it's concrete FloatExpression implementations.
-		float Evaluate(Vector3 coordinates);
+		float Evaluate(Math::Vector3 coordinates);
 
 	private:
 		// Float expressions used to compute the new coordinates.

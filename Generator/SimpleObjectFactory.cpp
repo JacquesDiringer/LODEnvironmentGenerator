@@ -9,7 +9,7 @@ namespace Generator
 	{
 	}
 
-	SimpleObjectFactory::SimpleObjectFactory(string modelName, string textureName, float expansionDistance, LevelFactory* subLevelFactory)
+	SimpleObjectFactory::SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, LevelFactory* subLevelFactory)
 		: _expansionDistance(expansionDistance), _subLevelFactory(subLevelFactory)
 	{
 		_modelSimpleDisplayable = new SimpleObjectDisplayable(modelName, textureName);
@@ -20,7 +20,7 @@ namespace Generator
 	{
 	}
 
-	void SimpleObjectFactory::GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void SimpleObjectFactory::GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		shared_ptr<SimpleObjectDisplayable> displayable = make_shared<SimpleObjectDisplayable>(_modelSimpleDisplayable);
 

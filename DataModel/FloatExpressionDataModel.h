@@ -13,7 +13,6 @@ using std::ofstream;
 using std::string;
 using std::unordered_map;
 using Math::FloatExpression;
-using Math::Vector3;
 
 namespace DataModel
 {
@@ -23,7 +22,7 @@ namespace DataModel
 		FloatExpressionDataModel();
 		~FloatExpressionDataModel();
 
-		string GetName() { return _name; }
+		const string& GetName() { return _name; }
 		FloatExpression* GetFloatExpression() { return _expression; }
 
 		// Generic read, performs common duties like reading the float expression's instance name, and filling the previousExpressions map.
@@ -36,7 +35,7 @@ namespace DataModel
 		// Concrete write, has to be implemented by any class implementing FloatExpressionDataModel.
 		virtual void InternalWrite(ofstream* stream, FloatExpression* expressionToWrite) = 0;
 
-		static FloatExpression* GetFloatExpressionByName(string name, unordered_map<string, FloatExpression*>* previousExpressions);
+		static FloatExpression* GetFloatExpressionByName(const string& name, unordered_map<string, FloatExpression*>* previousExpressions);
 
 	private:
 		// Instance name of the float expression.

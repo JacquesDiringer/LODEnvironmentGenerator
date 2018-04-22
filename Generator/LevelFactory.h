@@ -5,8 +5,6 @@
 #include <vector>
 #include <memory>
 
-using Math::Matrix4;
-
 using std::vector;
 using std::shared_ptr;
 using std::weak_ptr;
@@ -29,6 +27,6 @@ namespace Generator
 		~LevelFactory();
 
 		// Generates children for the parent
-		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector) = 0;
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector) = 0;
 	};
 }

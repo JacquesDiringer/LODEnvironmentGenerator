@@ -50,7 +50,7 @@ namespace DataModel
 	{
 	}
 
-	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(string name, unordered_map<string, FloatExpression*>* previousExpressions)
+	FloatExpression * FloatExpressionDataModel::GetFloatExpressionByName(const string& name, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// If this factory is supposed to have a child.
 		if (name != "NULL")

@@ -32,7 +32,7 @@ namespace DataModel
 		void Write(ofstream* stream, LevelFactory* factoryToWrite);
 
 		// Add a float expression to the float expression map.
-		void AddFloatExpression(string name, FloatExpression* expression);
+		void AddFloatExpression(const string& name, FloatExpression* expression);
 		void AddFloatExpression(unordered_map<string, FloatExpression*>* additionalMap);
 
 	protected:
@@ -47,7 +47,7 @@ namespace DataModel
 		// Utility functions.
 
 		// Fetches a factory according to its instance name, in the previously loaded factories.
-		static LevelFactory* GetFactoryByName(string name, unordered_map<string, LevelFactory*>* previousFactories);
+		static LevelFactory* GetFactoryByName(const string& name, unordered_map<string, LevelFactory*>* previousFactories);
 
 
 		// Fields.

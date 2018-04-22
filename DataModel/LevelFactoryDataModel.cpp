@@ -51,7 +51,7 @@ namespace DataModel
 		InternalWrite(stream, factoryToWrite);
 	}
 
-	void LevelFactoryDataModel::AddFloatExpression(string name, FloatExpression* expression)
+	void LevelFactoryDataModel::AddFloatExpression(const string& name, FloatExpression* expression)
 	{
 		_floatExpressions->insert(std::pair<string, FloatExpression*>(name, expression));
 	}
@@ -61,7 +61,7 @@ namespace DataModel
 		_floatExpressions->insert(additionalMap->begin(), additionalMap->end());
 	}
 
-	LevelFactory * LevelFactoryDataModel::GetFactoryByName(string name, unordered_map<string, LevelFactory*>* previousFactories)
+	LevelFactory * LevelFactoryDataModel::GetFactoryByName(const string& name, unordered_map<string, LevelFactory*>* previousFactories)
 	{
 		// If this factory is supposed to have a child.
 		if (name != "NULL")

@@ -31,7 +31,7 @@ public:
 	OgreInstanciater(Ogre::ResourceGroupManager& ressourceGroupManager, Ogre::SceneManager* sceneMgr, Ogre::MaterialManager& materialManager);
 	~OgreInstanciater(void);
 
-	virtual void UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove);
+	virtual void UpdateDisplayables(const vector<shared_ptr<Displayable>>& toAdd, const vector<shared_ptr<Displayable>>& toRemove);
 
 	void Flush(int addCount, int removeCount);
 

@@ -3,8 +3,6 @@
 
 #include "Matrix4.h"
 
-using Math::Matrix4;
-
 #ifdef DATAMODEL_EXPORTS
 #define DATAMODEL_API __declspec(dllexport)
 #else
@@ -25,9 +23,9 @@ namespace DataModel
 		virtual void InternalWrite(ofstream* stream, LevelFactory* factoryToWrite);
 
 	private:
-		Matrix4 ReadMatrix4(ifstream* stream);
-		Matrix4 ReadYRotation(ifstream* stream);
-		Matrix4 ReadTranslation(ifstream* stream);
+		Math::Matrix4 ReadMatrix4(ifstream* stream);
+		Math::Matrix4 ReadYRotation(ifstream* stream);
+		Math::Matrix4 ReadTranslation(ifstream* stream);
 	};
 }
 

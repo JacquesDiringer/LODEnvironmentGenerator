@@ -36,8 +36,6 @@ using namespace std::chrono;
 
 using std::vector;
 
-using namespace Math;
-
 OgreClient::OgreClient(void)
 {
 	_timeSinceLastUpdate = 0;
@@ -63,16 +61,16 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 	SimpleObjectFactory* BBrickFactory = new SimpleObjectFactory("B_Brick.mesh", "debug_texture.png", 3.0f, subLevelFactory2);
 
 	ComplexObjectFactory* fourSplitFactory = new ComplexObjectFactory();
-	fourSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Matrix4(Vector3(0, 0, 0))));
-	fourSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Matrix4(Vector3(0, 1, 0))));
+	fourSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Math::Matrix4(Math::Vector3(0, 0, 0))));
+	fourSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Math::Matrix4(Math::Vector3(0, 1, 0))));
 
 
 	SimpleObjectFactory* ABrickFactory = new SimpleObjectFactory("A_Brick.mesh", "debug_texture.png", 5.0f, fourSplitFactory);
 
 	ComplexObjectFactory* eightSplitFactory = new ComplexObjectFactory();
-	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Matrix4(Vector3(0, 0, 0))));
-	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Matrix4(Vector3(0, 1, 0))));
-	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Matrix4::Multiply(Matrix4::CreateRotationY(90.0f), Matrix4(Vector3(0, 2, 0)))));
+	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Math::Matrix4(Math::Vector3(0, 0, 0))));
+	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Math::Matrix4(Math::Vector3(0, 1, 0))));
+	eightSplitFactory->AddComposerFactory(new TransformationFactory(subLevelFactory3, Math::Matrix4::Multiply(Math::Matrix4::CreateRotationY(90.0f), Math::Matrix4(Math::Vector3(0, 2, 0)))));
 
 	RandomObjectFactory* randomFactory = new RandomObjectFactory();
 	randomFactory->AddAlternativeFactory(0.3f, subLevelFactory2);
@@ -88,7 +86,7 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 			for (int k = 0; k < 5; k += 5)
 			{
 				shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("building0_topFloor.mesh", "building0_topEdge.PNG");
-				Item* item0 = new Item(Matrix4(Vector3(i, k, j)), shared_ptr<Item>(), 60.0f, object0, randomFactory);
+				Item* item0 = new Item(Math::Matrix4(Math::Vector3(i, k, j)), shared_ptr<Item>(), 60.0f, object0, randomFactory);
 				item0->SetId(10 * i + j);
 				itemsToAdd.push_back(item0);
 			}
@@ -96,7 +94,7 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 	}
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("building0_topFloor.mesh", "building0_topEdge.PNG");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Matrix4(Vector3(0, 0, 0)), shared_ptr<Item>(), 60.0f, object0, eightSplitFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 60.0f, object0, eightSplitFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -130,8 +128,8 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 
 	ComplexObjectFactory* level5_complex_climatiser = new ComplexObjectFactory();
 	level5_complex_climatiser->AddComposerFactory(randomClimatiser);
-	level5_complex_climatiser->AddComposerFactory(new TransformationFactory(random_sustainer, Matrix4(Vector3(-0.17123f, -0.19159f, 0.00415f))));
-	level5_complex_climatiser->AddComposerFactory(new TransformationFactory(random_sustainer, Matrix4(Vector3( 0.17123f, -0.19159f, 0.00415f))));
+	level5_complex_climatiser->AddComposerFactory(new TransformationFactory(random_sustainer, Math::Matrix4(Math::Vector3(-0.17123f, -0.19159f, 0.00415f))));
+	level5_complex_climatiser->AddComposerFactory(new TransformationFactory(random_sustainer, Math::Matrix4(Math::Vector3( 0.17123f, -0.19159f, 0.00415f))));
 
 
 	// Antena
@@ -139,14 +137,14 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	ComplexObjectFactory* level5_complex_antena = new ComplexObjectFactory();
 	level5_complex_antena->AddComposerFactory(level5_antena);
 	level5_complex_antena->AddComposerFactory(bool_sustainer1);
-	level5_complex_antena->AddComposerFactory(new TransformationFactory(random_sustainer, Matrix4(Vector3(0.0f, -0.36388f, -0.38716f))));
+	level5_complex_antena->AddComposerFactory(new TransformationFactory(random_sustainer, Math::Matrix4(Math::Vector3(0.0f, -0.36388f, -0.38716f))));
 
 	// Grid
 	SimpleObjectFactory* level5_grid = new SimpleObjectFactory("level5_grid.mesh", "metal_atlas.jpg", 0, NULL);
 	ComplexObjectFactory* level5_complex_grid = new ComplexObjectFactory();
 	level5_complex_grid->AddComposerFactory(level5_grid);
-	level5_complex_grid->AddComposerFactory(new TransformationFactory(random_sustainer, Matrix4(Vector3(-0.88259f, 0.0f, 0.0f))));
-	level5_complex_grid->AddComposerFactory(new TransformationFactory(random_sustainer, Matrix4(Vector3(0.88259f, 0.0f, 0.0f))));
+	level5_complex_grid->AddComposerFactory(new TransformationFactory(random_sustainer, Math::Matrix4(Math::Vector3(-0.88259f, 0.0f, 0.0f))));
+	level5_complex_grid->AddComposerFactory(new TransformationFactory(random_sustainer, Math::Matrix4(Math::Vector3(0.88259f, 0.0f, 0.0f))));
 
 
 	// Level 4 //
@@ -178,12 +176,12 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	random_window_filler->AddAlternativeFactory(30.0f, NULL);
 
 	ComplexObjectFactory* level4_single_complexWindow = new ComplexObjectFactory();
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(level4_single_window, Matrix4(Vector3(0, 0, 0))));
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Matrix4(Vector3(0.70094f, 0.06841f, 0.09186f))));
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Matrix4(Vector3(0.70094f, 0.5f, 0.09186f))));
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Matrix4(Vector3(0.70094f, 1.0f, 0.09186f))));
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Matrix4(Vector3(-0.6281f, 0.76699f, 0.36626f))));
-	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(bool_grid, Matrix4(Vector3(0.0f, -0.63684f, 0.12538f))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(level4_single_window, Math::Matrix4(Math::Vector3(0, 0, 0))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Math::Matrix4(Math::Vector3(0.70094f, 0.06841f, 0.09186f))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Math::Matrix4(Math::Vector3(0.70094f, 0.5f, 0.09186f))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Math::Matrix4(Math::Vector3(0.70094f, 1.0f, 0.09186f))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(random_window_filler, Math::Matrix4(Math::Vector3(-0.6281f, 0.76699f, 0.36626f))));
+	level4_single_complexWindow->AddComposerFactory(new TransformationFactory(bool_grid, Math::Matrix4(Math::Vector3(0.0f, -0.63684f, 0.12538f))));
 
 	// Corners
 	SimpleObjectFactory* level4_single_corner = new SimpleObjectFactory("level4_single_corner.mesh", "level4_single_corner2.png", 0, NULL);
@@ -199,7 +197,7 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			Matrix4 currentMat = Matrix4(Vector3((i - 2.0f)*width, (j - 2.0f)*height, 0));
+			Math::Matrix4 currentMat = Math::Matrix4(Math::Vector3((i - 2.0f)*width, (j - 2.0f)*height, 0));
 			level4_25_windows_batch->AddComposerFactory(new TransformationFactory(level4_single_complexWindow, currentMat));
 		}
 	}
@@ -213,15 +211,15 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	
 	for (int j = 0; j < 5; j++)
 	{
-		Matrix4 currentMat = Matrix4(Vector3(0, (j - 2.0f)*height, 0));
+		Math::Matrix4 currentMat = Math::Matrix4(Math::Vector3(0, (j - 2.0f)*height, 0));
 		level4_5_corners_batch->AddComposerFactory(new TransformationFactory(level4_single_corner, currentMat));
 	}
 
 	SimpleObjectFactory* level3_5_corners = new SimpleObjectFactory("level3_5_corners.mesh", "5_corners.png", 30, level4_5_corners_batch);
 
 	ComplexObjectFactory* level3_2_5_corners_batch = new ComplexObjectFactory();
-	level3_2_5_corners_batch->AddComposerFactory(new TransformationFactory(level3_5_corners, Matrix4(Vector3(0, -6.25f, 0))));
-	level3_2_5_corners_batch->AddComposerFactory(new TransformationFactory(level3_5_corners, Matrix4(Vector3(0, 6.25f, 0))));
+	level3_2_5_corners_batch->AddComposerFactory(new TransformationFactory(level3_5_corners, Math::Matrix4(Math::Vector3(0, -6.25f, 0))));
+	level3_2_5_corners_batch->AddComposerFactory(new TransformationFactory(level3_5_corners, Math::Matrix4(Math::Vector3(0, 6.25f, 0))));
 
 	// Level 2
 	ComplexObjectFactory* level3_25_25_windows_batch = new ComplexObjectFactory();
@@ -231,7 +229,7 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			Matrix4 currentMat = Matrix4(Vector3((i - 2.0f)*width, (j - 2.0f)*height, 0));
+			Math::Matrix4 currentMat = Math::Matrix4(Math::Vector3((i - 2.0f)*width, (j - 2.0f)*height, 0));
 			level3_25_25_windows_batch->AddComposerFactory(new TransformationFactory(level3_25_windows, currentMat));
 		}
 	}
@@ -243,30 +241,30 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	{
 		for (int j = 0; j < 2; j++)
 		{
-			Matrix4 currentMat = Matrix4(Vector3((i - 0.5f)*width, (j - 0.5f)*height, 0));
+			Math::Matrix4 currentMat = Math::Matrix4(Math::Vector3((i - 0.5f)*width, (j - 0.5f)*height, 0));
 			level3_4_25_windows_batch->AddComposerFactory(new TransformationFactory(level3_25_windows, currentMat));
 		}
 	}
 
 	
-	Matrix4 quarterRotation = Matrix4::CreateRotationY(90);
-	Matrix4 halfRotation = Matrix4::CreateRotationY(180);
-	Matrix4 threeQuarterRotation = Matrix4::CreateRotationY(270);
+	Math::Matrix4 quarterRotation = Math::Matrix4::CreateRotationY(90);
+	Math::Matrix4 halfRotation = Math::Matrix4::CreateRotationY(180);
+	Math::Matrix4 threeQuarterRotation = Math::Matrix4::CreateRotationY(270);
 
 	ComplexObjectFactory* level3_smallBuilding = new ComplexObjectFactory();
 	float floorHeight = 20.0f;
 	for (float floorLevel = 0; floorLevel < 3; floorLevel++)
 	{
 		// Add the walls to the small building
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Matrix4(Vector3(0, floorHeight * floorLevel, 12))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Matrix4::Multiply(quarterRotation, Matrix4(Vector3(0, floorHeight * floorLevel, 12)))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Matrix4::Multiply(halfRotation, Matrix4(Vector3(0, floorHeight * floorLevel, 12)))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Matrix4::Multiply(threeQuarterRotation, Matrix4(Vector3(0, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Math::Matrix4(Math::Vector3(0, floorHeight * floorLevel, 12))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Math::Matrix4::Multiply(quarterRotation, Math::Matrix4(Math::Vector3(0, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Math::Matrix4::Multiply(halfRotation, Math::Matrix4(Math::Vector3(0, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_4_25_windows_batch, Math::Matrix4::Multiply(threeQuarterRotation, Math::Matrix4(Math::Vector3(0, floorHeight * floorLevel, 12)))));
 		// Add the corners to the small building
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Matrix4(Vector3(12, floorHeight * floorLevel, 12))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Matrix4::Multiply(quarterRotation, Matrix4(Vector3(12, floorHeight * floorLevel, 12)))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Matrix4::Multiply(halfRotation, Matrix4(Vector3(12, floorHeight * floorLevel, 12)))));
-		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Matrix4::Multiply(threeQuarterRotation, Matrix4(Vector3(12, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Math::Matrix4(Math::Vector3(12, floorHeight * floorLevel, 12))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Math::Matrix4::Multiply(quarterRotation, Math::Matrix4(Math::Vector3(12, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Math::Matrix4::Multiply(halfRotation, Math::Matrix4(Math::Vector3(12, floorHeight * floorLevel, 12)))));
+		level3_smallBuilding->AddComposerFactory(new TransformationFactory(level3_2_5_corners_batch, Math::Matrix4::Multiply(threeQuarterRotation, Math::Matrix4(Math::Vector3(12, floorHeight * floorLevel, 12)))));
 	}
 
 
@@ -279,12 +277,12 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			buildingsBlock->AddComposerFactory(new TransformationFactory(level3_smallBuilding, Matrix4(Vector3((i - 5) * width, 0, (j - 5) * height))));
+			buildingsBlock->AddComposerFactory(new TransformationFactory(level3_smallBuilding, Math::Matrix4(Math::Vector3((i - 5) * width, 0, (j - 5) * height))));
 		}
 	}
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("building0_topFloor.mesh", "building0_topEdge.PNG");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Matrix4(Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, buildingsBlock);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, buildingsBlock);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 
@@ -297,10 +295,10 @@ void InitializerArrayVoxelTestScene(SceneGraphManager* sceneManager)
 {
 	SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 
-	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Vector3(1.1f, 2, 1.1f), true, testCubeA);
+	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Math::Vector3(1.1f, 2, 1.1f), true, testCubeA);
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Matrix4(Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, arrayFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, arrayFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -343,19 +341,19 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	SimpleObjectFactory* single_window = new SimpleObjectFactory("level4_single_window.mesh", "level4_single_window2.PNG", 0, NULL);
 #pragma region Rules declaration
 
-	LinearFunctionExpression* xExpression = new LinearFunctionExpression(Vector3(0.1f, 0.05f, 0));
-	LinearFunctionExpression* yExpression = new LinearFunctionExpression(Vector3(0.0f, 1, 0.4f));
-	CosExpression* cosExpression = new CosExpression(xExpression);
-	LinearCombinationExpression* combinationExpression = new LinearCombinationExpression(yExpression, cosExpression, -1, 10);
+	Math::LinearFunctionExpression* xExpression = new Math::LinearFunctionExpression(Math::Vector3(0.1f, 0.05f, 0));
+	Math::LinearFunctionExpression* yExpression = new Math::LinearFunctionExpression(Math::Vector3(0.0f, 1, 0.4f));
+	Math::CosExpression* cosExpression = new Math::CosExpression(xExpression);
+	Math::LinearCombinationExpression* combinationExpression = new Math::LinearCombinationExpression(yExpression, cosExpression, -1, 10);
 
-	AABExpression* boxExpression = new AABExpression(Vector3(0, 0, 0), Vector3(8, 15, 16), true);
-	AABExpression* boxExpression2 = new AABExpression(Vector3(0, 0, 0), Vector3(40, 5, 3), true);
+	Math::AABExpression* boxExpression = new Math::AABExpression(Math::Vector3(0, 0, 0), Math::Vector3(8, 15, 16), true);
+	Math::AABExpression* boxExpression2 = new Math::AABExpression(Math::Vector3(0, 0, 0), Math::Vector3(40, 5, 3), true);
 
-	BooleanOperatorExpression* boolExpression0 = new BooleanOperatorExpression(boxExpression, boxExpression2, BooleanOperatorType::Xor);
+	Math::BooleanOperatorExpression* boolExpression0 = new Math::BooleanOperatorExpression(boxExpression, boxExpression2, Math::BooleanOperatorType::Xor);
 
-	LinearCombinationExpression* boxCombinationExpression = new LinearCombinationExpression(boxExpression, boxExpression2, 1, -1);
+	Math::LinearCombinationExpression* boxCombinationExpression = new Math::LinearCombinationExpression(boxExpression, boxExpression2, 1, -1);
 
-	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Vector3(1.0f, 1.0f, 1.0f), boolExpression0, 0.5f);
+	NeighborDensityFactory* testVoxelFactory = new NeighborDensityFactory(Math::Vector3(1.0f, 1.0f, 1.0f), boolExpression0, 0.5f);
 	vector<bool> conditionsWall = vector<bool>();
 	conditionsWall.push_back(true);			 //(-0.5f, -0.5f, -0.5f),
 	conditionsWall.push_back(true);			 //(-0.5f, 0.5f, -0.5f),
@@ -564,17 +562,17 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 
 #pragma endregion
 
-	Vector3 voxelFactorySize = Vector3(5, 5, 5);
+	Math::Vector3 voxelFactorySize = Math::Vector3(5, 5, 5);
 	int multiplicator = 1;
 	//SimpleObjectFactory* object1 = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 20, testVoxelFactory);
 
-	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Vector3(1, 1, 1), true, testVoxelFactory);
+	ArrayFactory* smallArray = new ArrayFactory(voxelFactorySize.X() * multiplicator, voxelFactorySize.Y() * multiplicator, voxelFactorySize.Z() * multiplicator, Math::Vector3(1, 1, 1), true, testVoxelFactory);
 	SimpleObjectFactory* voxelCube = new SimpleObjectFactory("B_Brick.mesh", "1d_debug.png", 30, smallArray);
 
-	ArrayFactory* worldArray = new ArrayFactory(10, 10, 10, voxelFactorySize * multiplicator + Vector3(0, 0, 0), true, voxelCube);
+	ArrayFactory* worldArray = new ArrayFactory(10, 10, 10, voxelFactorySize * multiplicator + Math::Vector3(0, 0, 0), true, voxelCube);
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Matrix4(Vector3(0, -10, 0)), shared_ptr<Item>(), 1000.0f, object0, worldArray);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, -10, 0)), shared_ptr<Item>(), 1000.0f, object0, worldArray);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -589,7 +587,7 @@ void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
 	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 	
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Matrix4(Vector3(0, 0, 0)), shared_ptr<Item>(), 100000.0f, object0, rootFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 100000.0f, object0, rootFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -661,9 +659,9 @@ void OgreClient::createScene(void)
 }
 
 
-void RefreshGenerator(Generator::SceneGraphManager* sceneManager, Vector3 cameraPos)
+void RefreshGenerator(Generator::SceneGraphManager* sceneManager, Math::Vector3 cameraPos)
 {
-	sceneManager->Update(cameraPos, Vector3(0, 0, 0));
+	sceneManager->Update(cameraPos, Math::Vector3(0, 0, 0));
 	//sceneManager->Flush();
 }
 
@@ -676,7 +674,7 @@ bool OgreClient::frameStarted(const Ogre::FrameEvent& evt)
 	//if (_timeSinceLastUpdate > 0.5 && _ogreInstanciater->IsFlushCompleted())
 	{
 		Ogre::Vector3 cameraPosition = mCamera->getPosition();
-		Vector3 cameraPos = Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+		Math::Vector3 cameraPos = Math::Vector3(cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
 		if (_threadInitialized)
 		{

@@ -10,8 +10,6 @@
 using std::vector;
 using std::unordered_set;
 
-using namespace Math;
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -34,7 +32,7 @@ namespace Generator
 		void Flush(void);
 
 		// Browses the items and sees which need to be upped (go back to the parent level) or downed (create the children of the item)
-		void Update(const Vector3& cameraPosition, const Vector3& cameraSpeed);
+		void Update(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed);
 
 	private:
 		unordered_set<shared_ptr<Item>> _sceneCurrentItems;

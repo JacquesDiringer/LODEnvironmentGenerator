@@ -94,7 +94,7 @@ namespace Generator
 	}
 
 
-	void SceneGraphManager::Update(const Vector3& cameraPosition, const Vector3& cameraSpeed)
+	void SceneGraphManager::Update(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed)
 	{
 		// The _updateChecked boolean of all items is set to false, it will be set to true at the retracting step for all items having a parent that is retracting
 		for each (shared_ptr<Item> currentItem in _sceneCurrentItems)

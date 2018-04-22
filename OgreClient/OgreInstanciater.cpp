@@ -45,7 +45,7 @@ OgreInstanciater::~OgreInstanciater()
 //	}
 //}
 
-void OgreInstanciater::UpdateDisplayables(vector<shared_ptr<Displayable>> toAdd, vector<shared_ptr<Displayable>> toRemove)
+void OgreInstanciater::UpdateDisplayables(const vector<shared_ptr<Displayable>>& toAdd, const vector<shared_ptr<Displayable>>& toRemove)
 {
 	// Pending items optimization
 	//{
@@ -256,10 +256,10 @@ bool OgreInstanciater::AddSimpleObjectDisplayable(shared_ptr<SimpleObjectDisplay
 	Ogre::SceneNode* lNode = lRootSceneNode->createChildSceneNode();
 	lNode->attachObject(lEntity);
 
-	Quaternion entityQuaternion = newSimpleObjectDisplayable->GetWorldMatrix().ComputeQuaternion();
+	Math::Quaternion entityQuaternion = newSimpleObjectDisplayable->GetWorldMatrix().ComputeQuaternion();
 	Ogre::Quaternion ogreQuat = Ogre::Quaternion(entityQuaternion.GetW(), entityQuaternion.GetX(), entityQuaternion.GetY(), entityQuaternion.GetZ());
 	lNode->rotate(ogreQuat);
-	Vector3 entityPosition = newSimpleObjectDisplayable->GetWorldMatrix().Position();
+	Math::Vector3 entityPosition = newSimpleObjectDisplayable->GetWorldMatrix().Position();
 	lNode->translate(entityPosition.X(), entityPosition.Y(), entityPosition.Z());
 
 	// Material

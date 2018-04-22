@@ -22,9 +22,6 @@
 #include <iostream>
 #include <filesystem>
 
-using namespace Math;
-
-
 namespace DataModel
 {
 	DependenceTreeDataModel::DependenceTreeDataModel()
@@ -55,7 +52,7 @@ namespace DataModel
 	{
 	}
 
-	LevelFactory* DependenceTreeDataModel::Read(string filePath)
+	LevelFactory* DependenceTreeDataModel::Read(const string& filePath)
 	{
 		unordered_set<string> visitedFiles = unordered_set<string>();
 		unordered_map<string, LevelFactory*> previousFactories = unordered_map<string, LevelFactory*>();
@@ -66,7 +63,7 @@ namespace DataModel
 		return ReadFile(filePath, visitedFiles, previousFactories, floatExpressions);
 	}
 
-	LevelFactory * DependenceTreeDataModel::ReadFile(string filePath, unordered_set<string>& visitedFiles, unordered_map<string, LevelFactory*>& previousFactories, unordered_map<string, FloatExpression*>* previousExpressions)
+	LevelFactory * DependenceTreeDataModel::ReadFile(const string& filePath, unordered_set<string>& visitedFiles, unordered_map<string, LevelFactory*>& previousFactories, unordered_map<string, FloatExpression*>* previousExpressions)
 	{
 		// Last factory that has been read, it will be returned to define the root factory.
 		LevelFactory* lastFactory = nullptr;

@@ -17,7 +17,7 @@ namespace Math
 		~ModuloExpression();
 
 		/// Recursively evaluates the value of it's concrete FloatExpression implementations.
-		float Evaluate(Vector3 coordinates);
+		float Evaluate(Math::Vector3 coordinates);
 
 	private:
 		FloatExpression* _childExpression;

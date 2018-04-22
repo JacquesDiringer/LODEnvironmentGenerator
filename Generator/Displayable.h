@@ -2,8 +2,6 @@
 
 #include "Matrix4.h"
 
-using namespace Math;
-
 #ifdef GENERATOR_EXPORTS
 #define GENERATOR_API __declspec(dllexport)
 #else
@@ -17,14 +15,14 @@ namespace Generator
 	public:
 		virtual ~Displayable();
 
-		Matrix4 GetWorldMatrix() const { return _worldMatrix; }
-		void SetWorldMatrix(Matrix4 value) { _worldMatrix = value; }
+		Math::Matrix4 GetWorldMatrix() const { return _worldMatrix; }
+		void SetWorldMatrix(Math::Matrix4 value) { _worldMatrix = value; }
 
 		inline bool operator==(const Displayable& right) { return this->GetWorldMatrix() == right.GetWorldMatrix(); }
 		inline bool operator==(const Displayable* right) { return this->GetWorldMatrix() == right->GetWorldMatrix(); }
 
 
 	protected:
-		Matrix4 _worldMatrix;
+		Math::Matrix4 _worldMatrix;
 	};
 }

@@ -14,7 +14,7 @@ namespace Math
 	{
 	}
 	
-	float ModuloExpression::Evaluate(Vector3 coordinates)
+	float ModuloExpression::Evaluate(Math::Vector3 coordinates)
 	{
 		return std::abs((int)_childExpression->Evaluate(coordinates)) % _divider;
 	}

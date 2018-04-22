@@ -14,10 +14,10 @@ namespace Math
 	{
 	}
 
-	float CoordinatesWarpExpression::Evaluate(Vector3 coordinates)
+	float CoordinatesWarpExpression::Evaluate(Math::Vector3 coordinates)
 	{
 		// Compute the new coordinates.
-		Vector3 newCoordinates = Vector3(_xExpression->Evaluate(coordinates), _yExpression->Evaluate(coordinates), _zExpression->Evaluate(coordinates));
+		Math::Vector3 newCoordinates = Math::Vector3(_xExpression->Evaluate(coordinates), _yExpression->Evaluate(coordinates), _zExpression->Evaluate(coordinates));
 		// Use them to calculate the child expression.
 		return _childExpression->Evaluate(newCoordinates);
 	}

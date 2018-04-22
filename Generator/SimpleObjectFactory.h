@@ -20,11 +20,11 @@ namespace Generator
 	{
 	public:
 		SimpleObjectFactory();
-		SimpleObjectFactory(string modelName, string textureName, float expansionDistance, LevelFactory* subLevelFactory);
+		SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, LevelFactory* subLevelFactory);
 		~SimpleObjectFactory();
 
 		// Generates children for the parent
-		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
+		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
 		SimpleObjectDisplayable * _modelSimpleDisplayable;

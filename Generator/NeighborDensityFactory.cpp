@@ -11,7 +11,7 @@ namespace Generator
 	{
 	}
 
-	NeighborDensityFactory::NeighborDensityFactory(Vector3 voxelSize, FloatExpression* densityExpression, float minimalDensity = 0.5f)
+	NeighborDensityFactory::NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity = 0.5f)
 		: _voxelSize(voxelSize), _densityExpression(densityExpression), _minimalDensity(minimalDensity)
 	{
 		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0)
@@ -28,7 +28,7 @@ namespace Generator
 	{
 	}
 
-	void NeighborDensityFactory::GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void NeighborDensityFactory::GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		ComputeVoxel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
 	}
@@ -42,17 +42,17 @@ namespace Generator
 
 		// New 8 values system
 		// One value for each vertex of the cube that contains the current "voxel".
-		Vector3 fetchCoordinates[8] =
+		Math::Vector3 fetchCoordinates[8] =
 		{
-			Vector3(-0.5f, -0.5f, -0.5f),
-			Vector3(-0.5f, 0.5f, -0.5f),
-			Vector3(0.5f, -0.5f, -0.5f),
-			Vector3(0.5f, 0.5f, -0.5f),
+			Math::Vector3(-0.5f, -0.5f, -0.5f),
+			Math::Vector3(-0.5f, 0.5f, -0.5f),
+			Math::Vector3(0.5f, -0.5f, -0.5f),
+			Math::Vector3(0.5f, 0.5f, -0.5f),
 
-			Vector3(-0.5f, -0.5f, 0.5f),
-			Vector3(-0.5f, 0.5f, 0.5f),
-			Vector3(0.5f, -0.5f, 0.5f),
-			Vector3(0.5f, 0.5f, 0.5f),
+			Math::Vector3(-0.5f, -0.5f, 0.5f),
+			Math::Vector3(-0.5f, 0.5f, 0.5f),
+			Math::Vector3(0.5f, -0.5f, 0.5f),
+			Math::Vector3(0.5f, 0.5f, 0.5f),
 		};
 
 		// Declare the new rule.
@@ -82,13 +82,13 @@ namespace Generator
 		_rules.push_back(newRule);
 	}
 
-	void NeighborDensityFactory::ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Matrix4& futureTransformation, const Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
+	void NeighborDensityFactory::ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
-		unordered_map<Vector3, bool> fetchedValuesWorldCoordinates;
+		unordered_map<Math::Vector3, bool> fetchedValuesWorldCoordinates;
 
-		Matrix4 currentRotationMatrix = Matrix4::Identity();
-		Matrix4 quarterRotationMatrix = Matrix4::CreateRotationY(90);
+		Math::Matrix4 currentRotationMatrix = Math::Matrix4::Identity();
+		Math::Matrix4 quarterRotationMatrix = Math::Matrix4::CreateRotationY(90);
 		// Calculations have to be done 4 times, rotating the fetching coordinates in the 4 cardinal directions to reduce the combination possibilities.
 		// The calculations can stop as spoon as a result is found. We don't want symetric conditions on the Y axis to spawn 4 objects at the same spot.
 		for (int rotationCount = 0; rotationCount < 4; ++rotationCount)
@@ -107,8 +107,8 @@ namespace Generator
 					Condition* currentCondition = conditions[i];
 
 					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
-					Vector3 voxelUnrotatedCoords = currentCondition->LocalFetchCoordinates * _voxelSize;
-					Vector3 localDomainFetchCoordinates = Vector3();
+					Math::Vector3 voxelUnrotatedCoords = currentCondition->LocalFetchCoordinates * _voxelSize;
+					Math::Vector3 localDomainFetchCoordinates = Math::Vector3();
 					switch (rotationCount)
 					{
 					case 0:
@@ -133,12 +133,12 @@ namespace Generator
 					}
 
 					// Then transform to world coordinates by multiplying by the world mattrix of the father.
-					Vector3 worldFetchCoordinates = Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
+					Math::Vector3 worldFetchCoordinates = Math::Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
 
 					bool fetchResult;
 
 					// If these coordinates have already been fetched, retrieve the resulting value from the map.
-					unordered_map<Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
+					unordered_map<Math::Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
 					if (worldCoordinatesFetchIterator != fetchedValuesWorldCoordinates.end())
 					{
 						fetchResult = (*worldCoordinatesFetchIterator).second;
@@ -149,7 +149,7 @@ namespace Generator
 						fetchResult = DensityFunction(worldFetchCoordinates) > _minimalDensity;
 
 						// Store the value in a map for optimization purposes. Don't fetch twice at the same world coordinates.
-						fetchedValuesWorldCoordinates.insert(std::pair<Vector3, bool>(worldFetchCoordinates, fetchResult));
+						fetchedValuesWorldCoordinates.insert(std::pair<Math::Vector3, bool>(worldFetchCoordinates, fetchResult));
 					}
 
 					// Invalidate the rule if one of the conditions is false.
@@ -196,7 +196,7 @@ namespace Generator
 		}
 	}
 
-	float NeighborDensityFactory::DensityFunction(const Vector3 fetchCoordinates)
+	float NeighborDensityFactory::DensityFunction(const Math::Vector3 fetchCoordinates)
 	{
 		return _densityExpression->Evaluate(fetchCoordinates);
 	}
@@ -215,7 +215,7 @@ namespace Generator
 	{
 	}
 
-	void Rule::AddCondition(Vector3 fetchCoordinates, bool expectedValue)
+	void Rule::AddCondition(Math::Vector3 fetchCoordinates, bool expectedValue)
 	{
 		Condition* newCondition = new Condition();
 		newCondition->LocalFetchCoordinates = fetchCoordinates;
