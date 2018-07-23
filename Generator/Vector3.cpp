@@ -23,6 +23,17 @@ namespace Math
 	{
 	}
 
+	Vector3& Vector3::Normalize()
+	{
+		float length = Length();
+
+		_x /= length;
+		_y /= length;
+		_z /= length;
+
+		return *this;
+	}
+
 	float Vector3::Distance(const Vector3& a, const Vector3& b)
 	{
 		return sqrtf(
@@ -39,17 +50,34 @@ namespace Math
 			a.Z() + b.Z());
 	}
 
+	float Vector3::Dot(const Vector3 & a, const Vector3 & b)
+	{
+		return a.X() * b.X() + a.Y() * b.Y() + a.Z() * b.Z();
+	}
+
+	Vector3 Vector3::Cross(const Vector3& left, const Vector3& right)
+	{
+		return Vector3(left.Y() * right.Z() - left.Z() * right.Y(),
+			left.Z() * right.X() - left.X() * right.Z(),
+			left.X() * right.Y() - left.Y() * right.X());
+	}
+
 	float Vector3::Length() const
 	{
 		return Vector3::Distance(*this, Vector3());
 	}
 
-	Vector3 Vector3::operator+(const Vector3& b)
+	Vector3 Vector3::operator+(const Vector3& b) const
 	{
 		return Vector3(
 			X() + b.X(),
 			Y() + b.Y(),
 			Z() + b.Z());
+	}
+
+	Vector3 Vector3::operator-(const Vector3& right) const
+	{
+		return Vector3(X() - right.X(), Y() - right.Y(), Z() - right.Z());
 	}
 
 	Vector3 Vector3::Multiply(const Vector3& a, const Vector3& b)
@@ -60,7 +88,7 @@ namespace Math
 			a.Z() * b.Z());
 	}
 
-	Vector3 Vector3::operator*(const Vector3& b)
+	Vector3 Vector3::operator*(const Vector3& b) const
 	{
 		return Vector3(
 			X() * b.X(),
@@ -68,7 +96,7 @@ namespace Math
 			Z() * b.Z());
 	}
 
-	Vector3 Vector3::operator*(const float multiplier)
+	Vector3 Vector3::operator*(const float multiplier) const
 	{
 		return Vector3(
 			X() * multiplier,
