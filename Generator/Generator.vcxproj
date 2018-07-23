@@ -160,6 +160,7 @@
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="ModuloExpression.h" />
     <ClInclude Include="MultiplicationExpression.h" />
+    <ClInclude Include="ParametricPlane.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RandomObjectFactory.h" />
     <ClInclude Include="SceneGraphManager.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="ModuloExpression.cpp" />
     <ClCompile Include="MultiplicationExpression.cpp" />
+    <ClCompile Include="ParametricPlane.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RandomObjectFactory.cpp" />
     <ClCompile Include="SceneGraphManager.cpp" />
