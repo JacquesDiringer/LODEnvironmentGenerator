@@ -7,6 +7,7 @@
 #include "LevelFactory.h"
 #include "Vector3.h"
 #include "Matrix4.h"
+#include "ParametricPlane.h"
 
 using std::vector;
 using std::shared_ptr;
@@ -24,7 +25,7 @@ namespace Generator
 	{
 	public:
 		Item();
-		Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
+		Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, const vector<Math::ParametricPlane*>& visibilityPlanes, bool andCondition, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory);
 		~Item();
 
 		void UpdateParentToRetract(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove);
@@ -35,8 +36,11 @@ namespace Generator
 		// Fills a vector of items to add, has to be called from an expanding parent
 		void UpdateChildrenToAdd(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* childrenToAdd);
 
+		// True if the cameraPosition vector satisfies the visibilty planes condition.
+		bool VisibiltyPlanesSatisfied(const Math::Vector3 & cameraPosition) const;
+
 		// True if the Item need to be expanded (generate children), according to the camera position and speed, bounding boxe, etc...
-		bool NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed);
+		bool NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed) const;
 
 		// Overrides
 		inline bool operator == (const Item &b)
@@ -68,6 +72,12 @@ namespace Generator
 	private:
 		unsigned int _id;
 		float _expansionDistance;
+		// A vector of parametric planes that count as an additionnal condition to determine whether the sub level should be expanded or not.
+		// These planes will contain parametrization in world space.
+		vector<Math::ParametricPlane> _visibilityPlanes;
+		// When true all visibility planes have to return true, when false only one visibility plane true is enough.
+		// This allows to differentiate when we should be inside a volume or outside of it.
+		bool _visibilityPlanesAndCondition;
 		shared_ptr<Displayable> _displayableContent;
 		shared_ptr<Item> _parent;
 		vector<shared_ptr<Item>> _children;

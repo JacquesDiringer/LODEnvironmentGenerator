@@ -163,6 +163,11 @@ namespace Math
 		return Quaternion(x, y, z, w);
 	}
 
+	Matrix4 Matrix4::Rotation() const
+	{
+		return Matrix4(_m00, _m01, _m02, 0, _m10, _m11, _m12, 0, _m20, _m21, _m22, 0, _m30, _m31, _m32, 1);
+	}
+
 	bool Matrix4::operator== (const Matrix4 &other) const
 	{
 		return (

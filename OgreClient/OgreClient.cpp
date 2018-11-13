@@ -94,7 +94,7 @@ void InitializeQuaternionTestScene(SceneGraphManager* sceneManager)
 	}
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("building0_topFloor.mesh", "building0_topEdge.PNG");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 60.0f, object0, eightSplitFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 60.0f, vector<Math::ParametricPlane*>(), false, object0, eightSplitFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -282,7 +282,7 @@ void InitializeAsianBuildingsTestScene(SceneGraphManager* sceneManager)
 	}
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("building0_topFloor.mesh", "building0_topEdge.PNG");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, buildingsBlock);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, vector<Math::ParametricPlane*>(), false, object0, buildingsBlock);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 
@@ -298,7 +298,7 @@ void InitializerArrayVoxelTestScene(SceneGraphManager* sceneManager)
 	ArrayFactory* arrayFactory = new ArrayFactory(10, 4, 10, Math::Vector3(1.1f, 2, 1.1f), true, testCubeA);
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, object0, arrayFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 1000.0f, vector<Math::ParametricPlane*>(), false, object0, arrayFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -572,7 +572,7 @@ void InitializerVoxelTestScene(SceneGraphManager* sceneManager)
 	ArrayFactory* worldArray = new ArrayFactory(10, 10, 10, voxelFactorySize * multiplicator + Math::Vector3(0, 0, 0), true, voxelCube);
 
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, -10, 0)), shared_ptr<Item>(), 1000.0f, object0, worldArray);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, -10, 0)), shared_ptr<Item>(), 1000.0f, vector<Math::ParametricPlane*>(), false, object0, worldArray);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }
@@ -587,7 +587,7 @@ void InitializeFileReadingTestScene(SceneGraphManager* sceneManager)
 	//SimpleObjectFactory* testCubeA = new SimpleObjectFactory("A_Brick.mesh", "1d_debug.png", 0, NULL);
 	
 	shared_ptr<SimpleObjectDisplayable> object0 = make_shared<SimpleObjectDisplayable>("A_Brick.mesh", "debug_texture.png");
-	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 100000.0f, object0, rootFactory);
+	shared_ptr<Item> item0 = std::make_shared<Item>(Math::Matrix4(Math::Vector3(0, 0, 0)), shared_ptr<Item>(), 100000.0f, vector<Math::ParametricPlane*>(), false, object0, rootFactory);
 	item0->SetId(10);
 	sceneManager->QueueAddItem(item0);
 }

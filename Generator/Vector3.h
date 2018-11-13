@@ -29,18 +29,18 @@ namespace Math
 		Vector3 operator*(const Vector3& b) const;
 		Vector3 operator*(const float multiplier) const;
 		bool operator==(const Vector3& other) const;
-		bool operator<(const Vector3& other) const; // Necessary operator to be able to but Vector3 in a map structure.
+		bool operator<(const Vector3& other) const; // Necessary operator to be able to put Vector3 in a map structure.
 
 
 		// Properties
 		float X() const { return _x; }
-		void X(float value) { _x = value; }
+		void X(const float value) { _x = value; }
 
 		float Y() const { return _y; }
-		void Y(float value) { _y = value; }
+		void Y(const float value) { _y = value; }
 
 		float Z() const { return _z; }
-		void Z(float value) { _z = value; }
+		void Z(const float value) { _z = value; }
 
 	private:
 		float _x, _y, _z;

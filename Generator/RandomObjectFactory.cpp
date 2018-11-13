@@ -52,7 +52,7 @@ namespace Generator
 
 		// In this case, the "empty" object was chosen, we return an Item containing no displayable nor sub level factory
 		// The reason to do this instead of simply returning an empty list is that we want to keep the link with the father, otherwise the father won't be recreated  when the Item is "upped"
-		shared_ptr<Item> simpleObject = std::make_shared<Item>(Math::Matrix4::Identity(), parent, 0.0f, shared_ptr<Displayable>(), nullptr);
+		shared_ptr<Item> simpleObject = std::make_shared<Item>(Math::Matrix4::Identity(), parent, 0.0f, vector<Math::ParametricPlane*>(), false, shared_ptr<Displayable>(), nullptr);
 		itemVector->push_back(simpleObject);
 	}
 }

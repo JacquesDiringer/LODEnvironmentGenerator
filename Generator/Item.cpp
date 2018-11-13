@@ -12,11 +12,12 @@ namespace Generator
 	{
 	}
 
-	Item::Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
-		: _parent(parent), _expansionDistance(expansionDistance), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
+	Item::Item(Math::Matrix4 relativeMatrix, shared_ptr<Item> parent, float expansionDistance, const vector<Math::ParametricPlane*>& visibilityPlanes, bool andCondition, shared_ptr<Displayable> displayable, LevelFactory* subLevelFactory)
+		: _parent(parent), _expansionDistance(expansionDistance), _visibilityPlanesAndCondition(andCondition), _displayableContent(displayable), _subLevelFactory(subLevelFactory)
 	{
 		_children = vector<shared_ptr<Item>>();
 
+		// Set the relative matrix, which triggers world matrix computation.
 		SetRelativeMatrix(relativeMatrix);
 		Math::Vector3 position = _worldMatrix.Position();
 		SetId(std::hash<Math::Matrix4>()(_worldMatrix));
@@ -29,8 +30,22 @@ namespace Generator
 				throw new exception("The created item expansion distance should be strictly inferior to the expansion distance of it's parent");
 			}
 		}
-	}
 
+		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
+		_visibilityPlanes = vector<Math::ParametricPlane>();
+		_visibilityPlanes.reserve(visibilityPlanes.size());
+		for (Math::ParametricPlane* localSpacePlane : visibilityPlanes)
+		{
+			Math::Vector3 worldNormal = (_worldMatrix.Rotation() * localSpacePlane->GetNormal()).Position(); // TODO: normalize this ? Result shoud be normalized already.
+			Math::Vector3 worldPoint = (_worldMatrix * (localSpacePlane->GetNormal() * localSpacePlane->GetD())).Position();
+			//float worldD = worldPoint.X() / worldNormal.X();
+			// Distance from worldPoint to the plane of normal worldNormal and d = 0. Can be negative.
+			float worldD = worldNormal.X() * worldPoint.X() + worldNormal.Y() * worldPoint.Y() + worldNormal.Z() * worldPoint.Z();
+
+			Math::ParametricPlane worldSpacePlane = Math::ParametricPlane(worldNormal, worldD);
+			_visibilityPlanes.push_back(worldSpacePlane);
+		}
+	}
 
 	Item::~Item()
 	{
@@ -38,9 +53,6 @@ namespace Generator
 
 	void Item::UpdateParentToRetract(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed, vector<shared_ptr<Item>>* parentsToRetract, vector<shared_ptr<Item>>* childrenToRemove)
 	{
-		bool addToList = false;
-		bool needExpansion = NeedExpansion(cameraPosition, cameraSpeed);
-
 		if (_parent != nullptr)
 		{
 			if (_parent->NeedExpansion(cameraPosition, cameraSpeed))
@@ -126,13 +138,69 @@ namespace Generator
 		}
 	}
 
-
-	bool Item::NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed)
+	bool Item::VisibiltyPlanesSatisfied(const Math::Vector3& cameraPosition) const
 	{
+		if (_visibilityPlanes.size() > 0)
+		{
+			// If the point needs to be on the "positive" side of all parametric planes.
+			if (_visibilityPlanesAndCondition)
+			{
+				for each (const Math::ParametricPlane& currentPlane in _visibilityPlanes)
+				{
+					// If the point is on the "negative" side of one plane we can already return false.
+					if (!currentPlane.PointOnNormalSide(cameraPosition))
+					{
+						return false;
+					}
+				}
+
+				// If no plane returned false, return true.
+				return true;
+			}
+			// If only one parametric plane is enough.
+			else
+			{
+				for each (const Math::ParametricPlane& currentPlane in _visibilityPlanes)
+				{
+					// If the point is on the "positive" side of one plane we can already return true.
+					if (currentPlane.PointOnNormalSide(cameraPosition))
+					{
+						return true;
+					}
+				}
+
+				// If no plane returned true, return false.
+				return false;
+			}
+		}
+		else
+		{
+			// If there is no visibility plane condition, we can return true.
+			return true;
+		}
+	}
+
+
+	bool Item::NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed) const
+	{
+		// Test recursively if the parents needs expansion.
+		// If a parent needs to retract, this child needs to retract also.
+		// This makes sure that the children inherit the visivility planes of their parents.
+		// But also that their expansion distance is always inferior to the one of their parents.
+		if (_parent != nullptr && !_parent->NeedExpansion(cameraPosition, cameraSpeed))
+		{
+			return false;
+		}
+
 		float distanceToCamera = Math::Vector3::Distance(_worldMatrix.Position(), cameraPosition);
 
 		// If the item is closer than the limit, it needs expansion
-		return distanceToCamera < _expansionDistance;
+		if (distanceToCamera < _expansionDistance)
+		{
+			return VisibiltyPlanesSatisfied(cameraPosition);
+		}
+
+		return false;
 	}
 
 

@@ -9,8 +9,8 @@ namespace Generator
 	{
 	}
 
-	SimpleObjectFactory::SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, LevelFactory* subLevelFactory)
-		: _expansionDistance(expansionDistance), _subLevelFactory(subLevelFactory)
+	SimpleObjectFactory::SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, const vector<Math::ParametricPlane*>& visibilityPlanes, bool andCondition, LevelFactory* subLevelFactory)
+		: _expansionDistance(expansionDistance), _visibilityPlanes(visibilityPlanes), _visibilityPlanesAndCondition(andCondition), _subLevelFactory(subLevelFactory)
 	{
 		_modelSimpleDisplayable = new SimpleObjectDisplayable(modelName, textureName);
 	}
@@ -24,7 +24,7 @@ namespace Generator
 	{
 		shared_ptr<SimpleObjectDisplayable> displayable = make_shared<SimpleObjectDisplayable>(_modelSimpleDisplayable);
 
-		shared_ptr<Item> simpleObject = std::make_shared<Item>(futureTransformation, parent, _expansionDistance, displayable, _subLevelFactory);
+		shared_ptr<Item> simpleObject = std::make_shared<Item>(futureTransformation, parent, _expansionDistance, _visibilityPlanes, _visibilityPlanesAndCondition, displayable, _subLevelFactory);
 
 		itemVector->push_back(simpleObject);
 	}

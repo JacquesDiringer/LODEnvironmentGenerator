@@ -127,7 +127,7 @@
       <Filter>Header Files\Math\Expressions</Filter>
     </ClInclude>
     <ClInclude Include="ParametricPlane.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,7 +216,7 @@
       <Filter>Source Files\Math\Expressions</Filter>
     </ClCompile>
     <ClCompile Include="ParametricPlane.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

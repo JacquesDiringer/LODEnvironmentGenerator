@@ -34,6 +34,7 @@ namespace Math
 		// Interface
 		Vector3 Position() const;
 		Quaternion ComputeQuaternion();
+		Matrix4 Rotation() const;
 
 		// Operators
 		bool operator== (const Matrix4 &other) const;

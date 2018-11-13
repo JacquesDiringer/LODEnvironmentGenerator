@@ -2,6 +2,7 @@
 #include "LevelFactory.h"
 #include "Item.h"
 #include "SimpleObjectDisplayable.h"
+#include "ParametricPlane.h"
 
 #include <string>
 
@@ -20,7 +21,7 @@ namespace Generator
 	{
 	public:
 		SimpleObjectFactory();
-		SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, LevelFactory* subLevelFactory);
+		SimpleObjectFactory(const string& modelName, const string& textureName, float expansionDistance, const vector<Math::ParametricPlane*>& visibilityPlanes, bool andCondition, LevelFactory* subLevelFactory);
 		~SimpleObjectFactory();
 
 		// Generates children for the parent
@@ -29,6 +30,11 @@ namespace Generator
 	private:
 		SimpleObjectDisplayable * _modelSimpleDisplayable;
 		float _expansionDistance;
+		// A vector of parametric planes that count as an additionnal condition to determine whether the sub level should be expanded or not.
+		// These planes will contain parametrization in local object space.
+		vector<Math::ParametricPlane*> _visibilityPlanes;
+		// When true all visibility planes have to return true, when false only one visibility plane true is enough.
+		bool _visibilityPlanesAndCondition;
 		LevelFactory* _subLevelFactory;
 	};
 
