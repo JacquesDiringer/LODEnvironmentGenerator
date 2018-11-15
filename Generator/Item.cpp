@@ -17,9 +17,21 @@ namespace Generator
 	{
 		_children = vector<shared_ptr<Item>>();
 
+		// Create visibility planes with parametrization in space relative to the item. This is equal to the planes in the contructor's arguments.
+		_relavtiveVisibilityPlanes = vector<Math::ParametricPlane>();
+		_relavtiveVisibilityPlanes.reserve(visibilityPlanes.size());
+
+		for (Math::ParametricPlane* localSpacePlane : visibilityPlanes)
+		{
+			_relavtiveVisibilityPlanes.push_back(Math::ParametricPlane(*localSpacePlane));
+		}
+
+		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
+		_worldVisibilityPlanes = vector<Math::ParametricPlane>();
+		_worldVisibilityPlanes.reserve(visibilityPlanes.size());
+
 		// Set the relative matrix, which triggers world matrix computation.
 		SetRelativeMatrix(relativeMatrix);
-		Math::Vector3 position = _worldMatrix.Position();
 		SetId(std::hash<Math::Matrix4>()(_worldMatrix));
 
 		// Validity testing
@@ -29,21 +41,6 @@ namespace Generator
 			{
 				throw new exception("The created item expansion distance should be strictly inferior to the expansion distance of it's parent");
 			}
-		}
-
-		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
-		_visibilityPlanes = vector<Math::ParametricPlane>();
-		_visibilityPlanes.reserve(visibilityPlanes.size());
-		for (Math::ParametricPlane* localSpacePlane : visibilityPlanes)
-		{
-			Math::Vector3 worldNormal = (_worldMatrix.Rotation() * localSpacePlane->GetNormal()).Position(); // TODO: normalize this ? Result shoud be normalized already.
-			Math::Vector3 worldPoint = (_worldMatrix * (localSpacePlane->GetNormal() * localSpacePlane->GetD())).Position();
-			//float worldD = worldPoint.X() / worldNormal.X();
-			// Distance from worldPoint to the plane of normal worldNormal and d = 0. Can be negative.
-			float worldD = worldNormal.X() * worldPoint.X() + worldNormal.Y() * worldPoint.Y() + worldNormal.Z() * worldPoint.Z();
-
-			Math::ParametricPlane worldSpacePlane = Math::ParametricPlane(worldNormal, worldD);
-			_visibilityPlanes.push_back(worldSpacePlane);
 		}
 	}
 
@@ -140,12 +137,12 @@ namespace Generator
 
 	bool Item::VisibiltyPlanesSatisfied(const Math::Vector3& cameraPosition) const
 	{
-		if (_visibilityPlanes.size() > 0)
+		if (_worldVisibilityPlanes.size() > 0)
 		{
 			// If the point needs to be on the "positive" side of all parametric planes.
 			if (_visibilityPlanesAndCondition)
 			{
-				for each (const Math::ParametricPlane& currentPlane in _visibilityPlanes)
+				for each (const Math::ParametricPlane& currentPlane in _worldVisibilityPlanes)
 				{
 					// If the point is on the "negative" side of one plane we can already return false.
 					if (!currentPlane.PointOnNormalSide(cameraPosition))
@@ -160,7 +157,7 @@ namespace Generator
 			// If only one parametric plane is enough.
 			else
 			{
-				for each (const Math::ParametricPlane& currentPlane in _visibilityPlanes)
+				for each (const Math::ParametricPlane& currentPlane in _worldVisibilityPlanes)
 				{
 					// If the point is on the "positive" side of one plane we can already return true.
 					if (currentPlane.PointOnNormalSide(cameraPosition))
@@ -221,10 +218,32 @@ namespace Generator
 		{
 			_displayableContent->SetWorldMatrix(_worldMatrix);
 		}
+
+		// The parametric planes need to be recomputed.
+		ComputeWorldParametricPlanes();
 	}
 
 	void Item::SetId(unsigned int id)
 	{
 		_id = id;
+	}
+
+	void Item::ComputeWorldParametricPlanes()
+	{
+		_worldVisibilityPlanes.clear();
+
+		for (Math::ParametricPlane localSpacePlane : _relavtiveVisibilityPlanes)
+		{
+			//Math::Vector3 worldNormal = (_worldMatrix.Rotation() * localSpacePlane->GetNormal()).Position(); // TODO: normalize this ? Result shoud be normalized already.
+			Math::Vector3 worldNormal = (_worldMatrix.Rotation() * Math::Matrix4::CreateTranslation(localSpacePlane.GetNormal())).Position(); // TODO: normalize this ? Result shoud be normalized already.
+			Math::Vector3 worldPoint = (_worldMatrix * (localSpacePlane.GetNormal() * localSpacePlane.GetD())).Position();
+
+			//float worldD = worldPoint.X() / worldNormal.X();
+			// Distance from worldPoint to the plane of normal worldNormal and d = 0. Can be negative.
+			float worldD = worldNormal.X() * worldPoint.X() + worldNormal.Y() * worldPoint.Y() + worldNormal.Z() * worldPoint.Z();
+
+			Math::ParametricPlane worldSpacePlane = Math::ParametricPlane(worldNormal, worldD);
+			_worldVisibilityPlanes.push_back(worldSpacePlane);
+		}
 	}
 }

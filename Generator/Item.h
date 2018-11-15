@@ -70,11 +70,18 @@ namespace Generator
 		void SetId(unsigned int id);
 
 	private:
+		// This function updates the list of parametric planes in world space.
+		// It needs the Item's _worldMatrix to be up to date, as well as _relavtiveVisibilityPlanes.
+		void ComputeWorldParametricPlanes();
+
+	private:
 		unsigned int _id;
 		float _expansionDistance;
 		// A vector of parametric planes that count as an additionnal condition to determine whether the sub level should be expanded or not.
 		// These planes will contain parametrization in world space.
-		vector<Math::ParametricPlane> _visibilityPlanes;
+		vector<Math::ParametricPlane> _worldVisibilityPlanes;
+		// These planes will contain parametrization in space relative to the Item.
+		vector<Math::ParametricPlane> _relavtiveVisibilityPlanes;
 		// When true all visibility planes have to return true, when false only one visibility plane true is enough.
 		// This allows to differentiate when we should be inside a volume or outside of it.
 		bool _visibilityPlanesAndCondition;
