@@ -180,12 +180,18 @@ namespace Generator
 
 	bool Item::NeedExpansion(const Math::Vector3& cameraPosition, const Math::Vector3& cameraSpeed) const
 	{
+		// If this Item has already been tested for expansion, don't do the work again. Especially as this is pretty expensive.
+		if (_expansionStatus != Unchecked)
+		{
+			return _expansionStatus == ExpansionNeeded;
+		}
 		// Test recursively if the parents needs expansion.
 		// If a parent needs to retract, this child needs to retract also.
 		// This makes sure that the children inherit the visivility planes of their parents.
 		// But also that their expansion distance is always inferior to the one of their parents.
 		if (_parent != nullptr && !_parent->NeedExpansion(cameraPosition, cameraSpeed))
 		{
+			_expansionStatus = NoExpansionNeeded;
 			return false;
 		}
 
@@ -194,12 +200,25 @@ namespace Generator
 		// If the item is closer than the limit, it needs expansion
 		if (distanceToCamera < _expansionDistance)
 		{
-			return VisibiltyPlanesSatisfied(cameraPosition);
+			bool result = VisibiltyPlanesSatisfied(cameraPosition);
+			_expansionStatus = result ? ExpansionNeeded : NoExpansionNeeded;
+			return result;
 		}
 
+		_expansionStatus = NoExpansionNeeded;
 		return false;
 	}
 
+
+	void Item::SetUpdateChecked(bool value)
+	{
+		_updateChecked = value;
+
+		if (!value)
+		{
+			_expansionStatus = Unchecked;
+		}
+	}
 
 	void Item::SetRelativeMatrix(Math::Matrix4 relativeMatrix)
 	{

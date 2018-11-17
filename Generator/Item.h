@@ -55,7 +55,7 @@ namespace Generator
 		float GetExpansionDistance() const { return _expansionDistance; }
 
 		bool GetUpdateChecked() const { return _updateChecked; }
-		void SetUpdateChecked(bool value) { _updateChecked = value; }
+		void SetUpdateChecked(bool value);
 
 		const Math::Matrix4& GetWorldMatrix() const { return _worldMatrix; }
 
@@ -68,6 +68,14 @@ namespace Generator
 		int GetChildrenCount() const { return _children.size(); }
 
 		void SetId(unsigned int id);
+
+	private:
+		enum NeedExpansionStatus
+		{
+			Unchecked,
+			ExpansionNeeded,
+			NoExpansionNeeded
+		};
 
 	private:
 		// This function updates the list of parametric planes in world space.
@@ -92,6 +100,7 @@ namespace Generator
 		Math::Matrix4 _worldMatrix;
 		Math::Matrix4 _relativeMatrix;
 		bool _updateChecked;
+		mutable NeedExpansionStatus _expansionStatus;
 	};
 
 
