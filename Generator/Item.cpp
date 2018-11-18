@@ -18,17 +18,18 @@ namespace Generator
 		_children = vector<shared_ptr<Item>>();
 
 		// Create visibility planes with parametrization in space relative to the item. This is equal to the planes in the contructor's arguments.
-		_relavtiveVisibilityPlanes = vector<Math::ParametricPlane>();
-		_relavtiveVisibilityPlanes.reserve(visibilityPlanes.size());
+		_relativeVisibilityPlanes = vector<Math::ParametricPlane*>();
+		_relativeVisibilityPlanes.reserve(visibilityPlanes.size());
+
+		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
+		_worldVisibilityPlanes = new vector<Math::ParametricPlane*>();
+		_worldVisibilityPlanes->reserve(visibilityPlanes.size());
 
 		for (Math::ParametricPlane* localSpacePlane : visibilityPlanes)
 		{
-			_relavtiveVisibilityPlanes.push_back(Math::ParametricPlane(*localSpacePlane));
+			_relativeVisibilityPlanes.push_back(new Math::ParametricPlane(*localSpacePlane));
+			_worldVisibilityPlanes->push_back(new Math::ParametricPlane(*localSpacePlane));
 		}
-
-		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
-		_worldVisibilityPlanes = new vector<Math::ParametricPlane>();
-		_worldVisibilityPlanes->reserve(visibilityPlanes.size());
 
 		// Set the relative matrix, which triggers world matrix computation.
 		SetRelativeMatrix(relativeMatrix);
@@ -142,10 +143,10 @@ namespace Generator
 			// If the point needs to be on the "positive" side of all parametric planes.
 			if (_visibilityPlanesAndCondition)
 			{
-				for each (const Math::ParametricPlane& currentPlane in *_worldVisibilityPlanes)
+				for each (const Math::ParametricPlane * currentPlane in *_worldVisibilityPlanes)
 				{
 					// If the point is on the "negative" side of one plane we can already return false.
-					if (!currentPlane.PointOnNormalSide(cameraPosition))
+					if (!currentPlane->PointOnNormalSide(cameraPosition))
 					{
 						return false;
 					}
@@ -157,10 +158,10 @@ namespace Generator
 			// If only one parametric plane is enough.
 			else
 			{
-				for each (const Math::ParametricPlane& currentPlane in *_worldVisibilityPlanes)
+				for each (const Math::ParametricPlane * currentPlane in *_worldVisibilityPlanes)
 				{
 					// If the point is on the "positive" side of one plane we can already return true.
-					if (currentPlane.PointOnNormalSide(cameraPosition))
+					if (currentPlane->PointOnNormalSide(cameraPosition))
 					{
 						return true;
 					}
@@ -259,22 +260,22 @@ namespace Generator
 
 	void Item::ComputeWorldParametricPlanes()
 	{
-		_worldVisibilityPlanes->clear();
-		//int i = 0;
-		for (Math::ParametricPlane localSpacePlane : _relavtiveVisibilityPlanes)
+		int i = 0;
+		for (const Math::ParametricPlane * localSpacePlane : _relativeVisibilityPlanes)
 		{
-			//Math::Vector3 worldNormal = (_worldMatrix.Rotation() * localSpacePlane->GetNormal()).Position(); // TODO: normalize this ? Result shoud be normalized already.
-			Math::Vector3 worldNormal = (_worldMatrix.Rotation() * Math::Matrix4::CreateTranslation(localSpacePlane.GetNormal())).Position(); // TODO: normalize this ? Result shoud be normalized already.
-			Math::Vector3 worldPoint = (_worldMatrix * (localSpacePlane.GetNormal() * localSpacePlane.GetD())).Position();
+			Math::Vector3 worldNormal = (_worldMatrix.Rotation() * Math::Matrix4::CreateTranslation(localSpacePlane->GetNormal())).Position(); // TODO: normalize this ? Result shoud be normalized already.
+			Math::Vector3 worldPoint = (_worldMatrix * (localSpacePlane->GetNormal() * localSpacePlane->GetD())).Position();
 
 			//float worldD = worldPoint.X() / worldNormal.X();
 			// Distance from worldPoint to the plane of normal worldNormal and d = 0. Can be negative.
 			float worldD = worldNormal.X() * worldPoint.X() + worldNormal.Y() * worldPoint.Y() + worldNormal.Z() * worldPoint.Z();
 
-			Math::ParametricPlane worldSpacePlane = Math::ParametricPlane(worldNormal, worldD);
-			_worldVisibilityPlanes->push_back(worldSpacePlane);
-			//_worldVisibilityPlanes[i] = worldSpacePlane;
-			//i++;
+			// Delete the old ParametricPlane.
+			delete (*_worldVisibilityPlanes)[i];
+			// Instanciate the new one on the heap.
+			Math::ParametricPlane * worldSpacePlane = new Math::ParametricPlane(worldNormal, worldD);
+			(*_worldVisibilityPlanes)[i] = worldSpacePlane;
+			i++;
 		}
 	}
 }

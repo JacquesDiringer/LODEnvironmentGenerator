@@ -22,9 +22,9 @@ namespace Math
 		// Returns true if a point is on the same side of the plane than the normal, false otherwise.
 		bool PointOnNormalSide(const Vector3& point) const;
 
-		const Vector3& GetNormal() { return _normal; }
+		const Vector3& GetNormal() const { return _normal; }
 		
-		float GetD() { return _d; }
+		float GetD() const { return _d; }
 
 	private:
 		Vector3 _normal;
