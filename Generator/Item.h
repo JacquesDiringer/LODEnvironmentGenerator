@@ -87,7 +87,7 @@ namespace Generator
 		float _expansionDistance;
 		// A vector of parametric planes that count as an additionnal condition to determine whether the sub level should be expanded or not.
 		// These planes will contain parametrization in world space.
-		vector<Math::ParametricPlane> _worldVisibilityPlanes;
+		vector<Math::ParametricPlane> * _worldVisibilityPlanes;
 		// These planes will contain parametrization in space relative to the Item.
 		vector<Math::ParametricPlane> _relavtiveVisibilityPlanes;
 		// When true all visibility planes have to return true, when false only one visibility plane true is enough.

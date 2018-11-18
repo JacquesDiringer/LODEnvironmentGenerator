@@ -27,8 +27,8 @@ namespace Generator
 		}
 
 		// Create visibility planes with parametrization in world space, according to the Item's world matrix.
-		_worldVisibilityPlanes = vector<Math::ParametricPlane>();
-		_worldVisibilityPlanes.reserve(visibilityPlanes.size());
+		_worldVisibilityPlanes = new vector<Math::ParametricPlane>();
+		_worldVisibilityPlanes->reserve(visibilityPlanes.size());
 
 		// Set the relative matrix, which triggers world matrix computation.
 		SetRelativeMatrix(relativeMatrix);
@@ -137,12 +137,12 @@ namespace Generator
 
 	bool Item::VisibiltyPlanesSatisfied(const Math::Vector3& cameraPosition) const
 	{
-		if (_worldVisibilityPlanes.size() > 0)
+		if (_worldVisibilityPlanes->size() > 0)
 		{
 			// If the point needs to be on the "positive" side of all parametric planes.
 			if (_visibilityPlanesAndCondition)
 			{
-				for each (const Math::ParametricPlane& currentPlane in _worldVisibilityPlanes)
+				for each (const Math::ParametricPlane& currentPlane in *_worldVisibilityPlanes)
 				{
 					// If the point is on the "negative" side of one plane we can already return false.
 					if (!currentPlane.PointOnNormalSide(cameraPosition))
@@ -157,7 +157,7 @@ namespace Generator
 			// If only one parametric plane is enough.
 			else
 			{
-				for each (const Math::ParametricPlane& currentPlane in _worldVisibilityPlanes)
+				for each (const Math::ParametricPlane& currentPlane in *_worldVisibilityPlanes)
 				{
 					// If the point is on the "positive" side of one plane we can already return true.
 					if (currentPlane.PointOnNormalSide(cameraPosition))
@@ -216,7 +216,17 @@ namespace Generator
 
 		if (!value)
 		{
-			_expansionStatus = Unchecked;
+			// When we want to mark Items as unchecked, we also have to set the need for expansion cache to "Unchecked".
+			// Since this cache computation is propagated to the parents when evaluated, we also have to uncheck the parents recursively.
+			if (_expansionStatus != Unchecked) // Make sure that the parent gets unchecked only once, rather than once per children.
+			{
+				_expansionStatus = Unchecked;
+
+				if (_parent != nullptr)
+				{
+					_parent->SetUpdateChecked(false);
+				}
+			}
 		}
 	}
 
@@ -249,8 +259,8 @@ namespace Generator
 
 	void Item::ComputeWorldParametricPlanes()
 	{
-		_worldVisibilityPlanes.clear();
-
+		_worldVisibilityPlanes->clear();
+		//int i = 0;
 		for (Math::ParametricPlane localSpacePlane : _relavtiveVisibilityPlanes)
 		{
 			//Math::Vector3 worldNormal = (_worldMatrix.Rotation() * localSpacePlane->GetNormal()).Position(); // TODO: normalize this ? Result shoud be normalized already.
@@ -262,7 +272,9 @@ namespace Generator
 			float worldD = worldNormal.X() * worldPoint.X() + worldNormal.Y() * worldPoint.Y() + worldNormal.Z() * worldPoint.Z();
 
 			Math::ParametricPlane worldSpacePlane = Math::ParametricPlane(worldNormal, worldD);
-			_worldVisibilityPlanes.push_back(worldSpacePlane);
+			_worldVisibilityPlanes->push_back(worldSpacePlane);
+			//_worldVisibilityPlanes[i] = worldSpacePlane;
+			//i++;
 		}
 	}
 }
