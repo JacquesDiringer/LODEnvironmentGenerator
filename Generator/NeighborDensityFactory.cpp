@@ -13,8 +13,8 @@ namespace Generator
 	{
 	}
 
-	NeighborDensityFactory::NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity = 0.5f)
-		: _voxelSize(voxelSize), _densityExpression(densityExpression), _minimalDensity(minimalDensity)
+	NeighborDensityFactory::NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity, bool quarterRotation)
+		: _voxelSize(voxelSize), _densityExpression(densityExpression), _minimalDensity(minimalDensity), _quarterRotation(quarterRotation)
 	{
 		if (voxelSize.X() == 0 || voxelSize.Y() == 0 || voxelSize.Z() == 0)
 		{
@@ -82,9 +82,13 @@ namespace Generator
 		}
 
 		_rules.push_back(ComputeQuarterRotatedRue(newRule, 0));
-		_rules.push_back(ComputeQuarterRotatedRue(newRule, 1));
-		_rules.push_back(ComputeQuarterRotatedRue(newRule, 2));
-		_rules.push_back(ComputeQuarterRotatedRue(newRule, 3));
+		// Add the rotated rules only when they the corresponding boolean is true.
+		if (_quarterRotation)
+		{
+			_rules.push_back(ComputeQuarterRotatedRue(newRule, 1));
+			_rules.push_back(ComputeQuarterRotatedRue(newRule, 2));
+			_rules.push_back(ComputeQuarterRotatedRue(newRule, 3));
+		}
 	}
 
 	void NeighborDensityFactory::ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)

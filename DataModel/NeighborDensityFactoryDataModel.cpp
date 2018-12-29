@@ -41,8 +41,11 @@ namespace DataModel
 		// Read the minimal density float.
 		float minimalDensity = UtilityReaderWriter::ReadFloat(stream);
 
+		// Read the necessity of a quarter rotation try out.
+		bool quarterRotation = UtilityReaderWriter::ReadBool(stream);
+
 		// Initialize the factory with the read parameters.
-		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, expression, minimalDensity);
+		NeighborDensityFactory* result = new NeighborDensityFactory(voxelSize, expression, minimalDensity, quarterRotation);
 
 		// Then read the rules to be added to the factory.
 

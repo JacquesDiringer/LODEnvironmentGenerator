@@ -45,7 +45,7 @@ namespace Generator
 
 	public:
 		NeighborDensityFactory();
-		NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity);
+		NeighborDensityFactory(Math::Vector3 voxelSize, Math::FloatExpression* densityExpression, float minimalDensity = 0.5f, bool quarterRotation = true);
 		~NeighborDensityFactory();
 
 		// Generates children for the parent.
@@ -58,8 +58,13 @@ namespace Generator
 		// Dimension of one voxel block.
 		// This will determine the density function fetch step as well as the children position.
 		Math::Vector3 _voxelSize;
+
 		// Density at which a voxel is considered not empty.
 		float _minimalDensity;
+		
+		// Define if the factory should try to rotate the model rules for every 90 degrees possibilities.
+		bool _quarterRotation = true;
+
 		// A map of a set of 8 rules, and a LevelFactory.
 		// The boolean array corresponds to the density requirement at each vertex of the evaluated voxel, the LevelFactory will give the items to return in case the rule is fullfilled.
 		// List of rules, each giving fetching coordinates and condition, and the corresponding Factory if all conditions are met.
