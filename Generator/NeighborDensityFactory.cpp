@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "NeighborDensityFactory.h"
 #include "Item.h"
+#include "TransformationFactory.h"
+#include "Matrix4.h"
 
 #include <unordered_map>
 using std::unordered_map;
@@ -79,113 +81,72 @@ namespace Generator
 			}
 		}
 
-		_rules.push_back(newRule);
+		_rules.push_back(ComputeQuarterRotatedRue(newRule, 0));
+		_rules.push_back(ComputeQuarterRotatedRue(newRule, 1));
+		_rules.push_back(ComputeQuarterRotatedRue(newRule, 2));
+		_rules.push_back(ComputeQuarterRotatedRue(newRule, 3));
 	}
 
 	void NeighborDensityFactory::ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector)
 	{
 		// This is meant for optimization purposes, don't fetch twice at the same coordinates.
 		unordered_map<Math::Vector3, bool> fetchedValuesWorldCoordinates;
-
-		Math::Matrix4 currentRotationMatrix = Math::Matrix4::Identity();
-		Math::Matrix4 quarterRotationMatrix = Math::Matrix4::CreateRotationY(90);
-		// Calculations have to be done 4 times, rotating the fetching coordinates in the 4 cardinal directions to reduce the combination possibilities.
-		// The calculations can stop as spoon as a result is found. We don't want symetric conditions on the Y axis to spawn 4 objects at the same spot.
-		for (int rotationCount = 0; rotationCount < 4; ++rotationCount)
+		
+		// Fetch the density values at the right coordinates in the world.
+		for each(Rule* currentRule in _rules)
 		{
-			// Fetch the density values at the right coordinates in the world.
-			for each(Rule* currentRule in _rules)
+			// Stays true if every condition reveals true.
+			bool ruleValidated = true;
+
+			// This for should be exited when ruleValidated becomes false.
+			// Otherwise, continue until there are no more rules to check.
+			vector<Condition*> conditions = currentRule->GetConditions();
+			for(int i = 0; i < conditions.size() && ruleValidated; ++i)
 			{
-				// Stays true if every condition reveals true.
-				bool ruleValidated = true;
+				Condition* currentCondition = conditions[i];
 
-				// This for should be exited when ruleValidated becomes false.
-				// Otherwise, continue until there are no more rules to check.
-				vector<Condition*> conditions = currentRule->GetConditions();
-				for(int i = 0; i < conditions.size() && ruleValidated; ++i)
+				Math::Vector3 localDomainFetchCoordinates = currentCondition->LocalFetchCoordinates;
+
+				// Then transform to world coordinates by multiplying by the world mattrix of the father.
+				//Math::Vector3 worldFetchCoordinates = Math::Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
+				Math::Vector3 worldFetchCoordinates = Math::Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
+
+				bool fetchResult;
+
+				// If these coordinates have already been fetched, retrieve the resulting value from the map.
+				unordered_map<Math::Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
+				if (worldCoordinatesFetchIterator != fetchedValuesWorldCoordinates.end())
 				{
-					Condition* currentCondition = conditions[i];
+					fetchResult = (*worldCoordinatesFetchIterator).second;
+				}
+				else
+				{
+					// Actually performing the fetch thanks to the density function and comparing the value to the minimal density required.
+					fetchResult = DensityFunction(worldFetchCoordinates) > _minimalDensity;
 
-					// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
-					Math::Vector3 voxelUnrotatedCoords = currentCondition->LocalFetchCoordinates * _voxelSize;
-					Math::Vector3 localDomainFetchCoordinates = Math::Vector3();
-					switch (rotationCount)
-					{
-					case 0:
-						localDomainFetchCoordinates = voxelUnrotatedCoords;
-						break;
-					case 1:
-						localDomainFetchCoordinates.X(voxelUnrotatedCoords.Z());
-						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
-						localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.X());
-						break;
-					case 2:
-						localDomainFetchCoordinates.X(-voxelUnrotatedCoords.X());
-						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
-						localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.Z());
-						break;
-					case 3:
-						localDomainFetchCoordinates.X(-voxelUnrotatedCoords.Z());
-						localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
-						localDomainFetchCoordinates.Z(voxelUnrotatedCoords.X());
-					default:
-						break;
-					}
-
-					// Then transform to world coordinates by multiplying by the world mattrix of the father.
-					Math::Vector3 worldFetchCoordinates = Math::Matrix4::Multiply(worldMatrix, localDomainFetchCoordinates);
-
-					bool fetchResult;
-
-					// If these coordinates have already been fetched, retrieve the resulting value from the map.
-					unordered_map<Math::Vector3, bool>::iterator worldCoordinatesFetchIterator = fetchedValuesWorldCoordinates.find(worldFetchCoordinates);
-					if (worldCoordinatesFetchIterator != fetchedValuesWorldCoordinates.end())
-					{
-						fetchResult = (*worldCoordinatesFetchIterator).second;
-					}
-					else
-					{
-						// Actually performing the fetch thanks to the density function and comparing the value to the minimal density required.
-						fetchResult = DensityFunction(worldFetchCoordinates) > _minimalDensity;
-
-						// Store the value in a map for optimization purposes. Don't fetch twice at the same world coordinates.
-						fetchedValuesWorldCoordinates.insert(std::pair<Math::Vector3, bool>(worldFetchCoordinates, fetchResult));
-					}
-
-					// Invalidate the rule if one of the conditions is false.
-					ruleValidated &= fetchResult == currentCondition->ExpectedValue;
+					// Store the value in a map for optimization purposes. Don't fetch twice at the same world coordinates.
+					fetchedValuesWorldCoordinates.insert(std::pair<Math::Vector3, bool>(worldFetchCoordinates, fetchResult));
 				}
 
-				if (ruleValidated)
-				{
-					// If the fetched values correspond to a rule, retrieve the associated level factory.
-					LevelFactory* associatedFactory = currentRule->GetFactory();
-
-					// Then instanciate new items with this factory.
-					if (associatedFactory != nullptr)
-					{
-						int previousSize = itemVector->size();
-						// TODO: multiply the currentRotationMatrix to worldMatrix and futureTransformation
-						associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
-
-						// Compute the number of new elements (that should be at the end of the vector), so that we can adjust their matrices.
-						int newElementsCount = itemVector->size() - previousSize;
-
-						for(; newElementsCount > 0; --newElementsCount)
-						{
-							// Select the last elements that have just been added on the lines "GenerateLevel" above.
-							shared_ptr<Item> itemToCorrect = (*itemVector)[itemVector->size() - newElementsCount];
-
-							// Correct the rotation of the item.
-							itemToCorrect->SetRelativeMatrix(itemToCorrect->GetRelativeMatrix() * currentRotationMatrix);
-						}
-					}
-
-					return;
-				}
+				// Invalidate the rule if one of the conditions is false.
+				ruleValidated &= fetchResult == currentCondition->ExpectedValue;
 			}
 
-			currentRotationMatrix = quarterRotationMatrix*currentRotationMatrix;
+			if (ruleValidated)
+			{
+				// If the fetched values correspond to a rule, retrieve the associated level factory.
+				LevelFactory* associatedFactory = currentRule->GetFactory();
+
+				// Then instanciate new items with this factory.
+				if (associatedFactory != nullptr)
+				{
+					int previousSize = itemVector->size();
+					
+					associatedFactory->GenerateLevel(parent, childrenNumber, futureTransformation, worldMatrix, itemVector);
+				}
+
+				return;
+			}
 		}
 
 		// If no rule has been validated, check if the a default factory has been set.
@@ -199,6 +160,59 @@ namespace Generator
 	float NeighborDensityFactory::DensityFunction(const Math::Vector3 fetchCoordinates)
 	{
 		return _densityExpression->Evaluate(fetchCoordinates);
+	}
+
+	Rule * NeighborDensityFactory::ComputeQuarterRotatedRue(Rule * originalRule, int rotationCount)
+	{
+		// Create a transformation factory on top of the original rule factory (extraLayerFactory), to add the rotation.
+		// If the sub factory is NULL however, there is no need to put a rotation factory on top of it
+		LevelFactory* originalSubFactory = originalRule->GetFactory();
+		LevelFactory* extraLayerFactory;
+		if (originalSubFactory != nullptr)
+		{
+			extraLayerFactory = new TransformationFactory(originalSubFactory, Math::Matrix4::CreateRotationY(90.0f * (float)rotationCount));
+		}
+		else
+		{
+			extraLayerFactory = nullptr;
+		}
+
+		Rule* result = new Rule(extraLayerFactory);
+
+
+		// Copy the original conditions but only after rotating the local fecth coordinates.
+		for each (Condition* currentOriginalCondition in originalRule->GetConditions())
+		{
+			// Transform the block local coordinates to coordinates in the domain, thus scaling to the voxel size it and then adding the block's local coordinates inside the domain.
+			Math::Vector3 voxelUnrotatedCoords = currentOriginalCondition->LocalFetchCoordinates * _voxelSize;
+			Math::Vector3 localDomainFetchCoordinates = Math::Vector3();
+			switch (rotationCount)
+			{
+			case 0:
+				localDomainFetchCoordinates = voxelUnrotatedCoords;
+				break;
+			case 1:
+				localDomainFetchCoordinates.X(voxelUnrotatedCoords.Z());
+				localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+				localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.X());
+				break;
+			case 2:
+				localDomainFetchCoordinates.X(-voxelUnrotatedCoords.X());
+				localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+				localDomainFetchCoordinates.Z(-voxelUnrotatedCoords.Z());
+				break;
+			case 3:
+				localDomainFetchCoordinates.X(-voxelUnrotatedCoords.Z());
+				localDomainFetchCoordinates.Y(voxelUnrotatedCoords.Y());
+				localDomainFetchCoordinates.Z(voxelUnrotatedCoords.X());
+			default:
+				break;
+			}
+
+			result->AddCondition(localDomainFetchCoordinates, currentOriginalCondition->ExpectedValue);
+		}
+
+		return result;
 	}
 
 	Rule::Rule()

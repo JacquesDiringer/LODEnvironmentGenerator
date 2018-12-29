@@ -73,5 +73,6 @@ namespace Generator
 	private:
 		void ComputeVoxel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 		float DensityFunction(const Math::Vector3 fetchCoordinates);
+		Rule* ComputeQuarterRotatedRue(Rule* originalRule, int rotationCount);
 	};
 }
