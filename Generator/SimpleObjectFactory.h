@@ -28,7 +28,7 @@ namespace Generator
 		virtual void GenerateLevel(shared_ptr<Item> parent, int childrenNumber, const Math::Matrix4& futureTransformation, const Math::Matrix4& worldMatrix, vector<shared_ptr<Item>>* itemVector);
 
 	private:
-		SimpleObjectDisplayable * _modelSimpleDisplayable;
+		SimpleObjectDisplayable * _modelSimpleDisplayable = nullptr;
 		float _expansionDistance;
 		// A vector of parametric planes that count as an additionnal condition to determine whether the sub level should be expanded or not.
 		// These planes will contain parametrization in local object space.
@@ -36,6 +36,9 @@ namespace Generator
 		// When true all visibility planes have to return true, when false only one visibility plane true is enough.
 		bool _visibilityPlanesAndCondition;
 		LevelFactory* _subLevelFactory;
+
+		// This boolean is true when we want the factory to generate no object (helps adding step to trigger level of detail changes with distance).
+		bool _isPlaceHolder;
 	};
 
 
