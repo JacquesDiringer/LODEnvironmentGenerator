@@ -8,7 +8,7 @@ namespace DataModel
 	public:
 		AABDataModel();
 		~AABDataModel();
-
+		
 	protected:
 		// Concrete read, has to be implemented by any class implementing FloatExpressionDataModel.
 		virtual FloatExpression* InternalRead(ifstream* stream, unordered_map<string, FloatExpression*>* previousExpressions);

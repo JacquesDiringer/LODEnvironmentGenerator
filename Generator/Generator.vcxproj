@@ -92,8 +92,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OutDir)" "C:\Utils\LODGenerator\lib\$(Configuration)\"
+xcopy "$(ProjectDir)*.h" "C:\Utils\LODGenerator\include\" /Y /S</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,8 +126,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OutDir)" "C:\Utils\LODGenerator\lib\$(Configuration)\"
+xcopy "$(ProjectDir)*.h" "C:\Utils\LODGenerator\include\" /Y /S</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
